@@ -1,0 +1,61 @@
+name: Test result
+description: Report what you saw testing a claim from this lab in the actual Forever beta or live game.
+title: "[Test result] "
+labels: ["test-result"]
+body:
+  - type: input
+    id: which-test
+    attributes:
+      label: Which test
+      description: The test number or name from the page's "Help test these" list, or the claim you were checking.
+      placeholder: "e.g. Test 3, or Ice Lance spell power scaling"
+    validations:
+      required: true
+  - type: input
+    id: character-level
+    attributes:
+      label: Character level
+      placeholder: "e.g. 20"
+    validations:
+      required: false
+  - type: dropdown
+    id: race
+    attributes:
+      label: Race
+      options:
+        - Human
+        - Gnome
+        - Skyborne High Order
+        - Orc
+        - Undead
+        - Troll
+    validations:
+      required: false
+  - type: textarea
+    id: what-you-did
+    attributes:
+      label: What you did
+      description: The talents, gear, target and rotation you used.
+    validations:
+      required: false
+  - type: textarea
+    id: what-you-saw
+    attributes:
+      label: What you saw, with numbers
+      description: Combat log numbers, damage meter output, or anything else you can quote.
+    validations:
+      required: true
+  - type: input
+    id: screenshot-or-log
+    attributes:
+      label: Screenshot or log link
+      placeholder: "https://..."
+    validations:
+      required: false
+  - type: input
+    id: build
+    attributes:
+      label: Beta or live build
+      placeholder: "e.g. beta build 2026-09-28, or live"
+    validations:
+      required: false

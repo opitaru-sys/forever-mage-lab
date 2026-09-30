@@ -1,0 +1,1063 @@
+<title>Forever Mage Lab</title>
+<meta name="description" content="What to press, which talents and which race, at every level of a WoW: Forever Mage. Built on the beta's spell data, with live calculators.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Neutral tokens. Class tokens (accent, bar, tree0 to tree2) come from CLASS.colors at startup; the values here are
+   neutral fallbacks only. */
+:root{
+  --ground:#EFF1F5; --surface:#FFFFFF; --ink:#13161C; --muted:#535A67; --line:#D9DEE6;
+  --accent:#3F4654; --accent-ink:#FFFFFF; --accent-soft:#E6E9EE; --bar:#3F4654;
+  --ok:#2F6B10; --ok-soft:#E4F0DC; --amber:#8A5A00; --amber-soft:#FBF0DA; --blood:#9C2F29; --blood-soft:#F8E4E2;
+  --track:#E1E5EC;
+  --tree0:#3F4654; --tree0-soft:#E6E9EE; --tree1:#3F4654; --tree1-soft:#E6E9EE; --tree2:#3F4654; --tree2-soft:#E6E9EE;
+  --tt-bg:#0B1026; --tt-line:#6E7390; --tt-gold:#FFD100; --tt-green:#1EFF00; --tt-white:#FFFFFF; --tt-grey:#A3A3A3; --tt-link:#9DBBFF;
+  --display:"Cinzel", "Trajan Pro", Georgia, serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --nav-h:52px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C0E13; --surface:#161A21; --ink:#E9EDF3; --muted:#A1A9B7; --line:#28303B;
+    --accent:#C3CAD6; --accent-ink:#0C0E13; --accent-soft:#232A34; --bar:#C3CAD6;
+    --ok:#8FD14F; --ok-soft:#1B2713; --amber:#E3A83E; --amber-soft:#2C2312; --blood:#E7766F; --blood-soft:#331A19;
+    --track:#232A34; --tt-bg:#0F1633; --tt-line:#9AA0BE;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C0E13; --surface:#161A21; --ink:#E9EDF3; --muted:#A1A9B7; --line:#28303B;
+  --accent:#C3CAD6; --accent-ink:#0C0E13; --accent-soft:#232A34; --bar:#C3CAD6;
+  --ok:#8FD14F; --ok-soft:#1B2713; --amber:#E3A83E; --amber-soft:#2C2312; --blood:#E7766F; --blood-soft:#331A19;
+  --track:#232A34; --tt-bg:#0F1633; --tt-line:#9AA0BE;
+}
+
+/* race themes (race colors are class-neutral) */
+:root{--race:var(--accent);--race-soft:var(--accent-soft);--race-ink:var(--accent-ink);--faction:#5A5664;--faction-2:#C8A14B}
+:root[data-race="human"]{--race:#2F5DA8;--race-soft:#D3E0F5;--race-ink:#FFFFFF;--faction:#1E4C9A;--faction-2:#C8A14B}
+:root[data-race="gnome"]{--race:#177373;--race-soft:#CBEAE6;--race-ink:#FFFFFF;--faction:#1E4C9A;--faction-2:#C8A14B}
+:root[data-race="skyborne"]{--race:#5E48A8;--race-soft:#E3DDF3;--race-ink:#FFFFFF;--faction:#1E4C9A;--faction-2:#C8A14B}
+:root[data-race="orc"]{--race:#9A3B22;--race-soft:#F0D3C8;--race-ink:#FFFFFF;--faction:#8C1C13;--faction-2:#3A2A1A}
+:root[data-race="troll"]{--race:#2E7D5B;--race-soft:#CDE8D9;--race-ink:#FFFFFF;--faction:#8C1C13;--faction-2:#3A2A1A}
+:root[data-race="undead"]{--race:#5F6E2E;--race-soft:#DFE4C6;--race-ink:#FFFFFF;--faction:#8C1C13;--faction-2:#3A2A1A}
+@media (prefers-color-scheme: dark){
+:root[data-race="human"]:not([data-theme="light"]){--race:#8FB0EA;--race-soft:#17223A;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-race="gnome"]:not([data-theme="light"]){--race:#6FD1CF;--race-soft:#122B2B;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-race="skyborne"]:not([data-theme="light"]){--race:#B4A6EE;--race-soft:#211C38;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-race="orc"]:not([data-theme="light"]){--race:#E8866A;--race-soft:#35190F;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+:root[data-race="troll"]:not([data-theme="light"]){--race:#7FCFA6;--race-soft:#12281E;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+:root[data-race="undead"]:not([data-theme="light"]){--race:#B9C77A;--race-soft:#23271A;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+}
+:root[data-theme="dark"][data-race="human"]{--race:#8FB0EA;--race-soft:#17223A;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-theme="dark"][data-race="gnome"]{--race:#6FD1CF;--race-soft:#122B2B;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-theme="dark"][data-race="skyborne"]{--race:#B4A6EE;--race-soft:#211C38;--race-ink:#0E0D12;--faction:#5D86D6;--faction-2:#D8B866}
+:root[data-theme="dark"][data-race="orc"]{--race:#E8866A;--race-soft:#35190F;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+:root[data-theme="dark"][data-race="troll"]{--race:#7FCFA6;--race-soft:#12281E;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+:root[data-theme="dark"][data-race="undead"]{--race:#B9C77A;--race-soft:#23271A;--race-ink:#0E0D12;--faction:#D0584A;--faction-2:#8A6A4A}
+
+/* race tint across the whole page */
+:root[data-race="human"]{--ground:#E9EEF7}
+:root[data-race="gnome"]{--ground:#E8F2F1}
+:root[data-race="skyborne"]{--ground:#EEEBF6}
+:root[data-race="orc"]{--ground:#F4ECE8}
+:root[data-race="troll"]{--ground:#E8F1EC}
+:root[data-race="undead"]{--ground:#EEF0E5}
+@media (prefers-color-scheme: dark){
+:root[data-race="human"]:not([data-theme="light"]){--ground:#0C1019}
+:root[data-race="gnome"]:not([data-theme="light"]){--ground:#0A1414}
+:root[data-race="skyborne"]:not([data-theme="light"]){--ground:#100E18}
+:root[data-race="orc"]:not([data-theme="light"]){--ground:#150D0A}
+:root[data-race="troll"]:not([data-theme="light"]){--ground:#0B130F}
+:root[data-race="undead"]:not([data-theme="light"]){--ground:#111309}
+}
+:root[data-theme="dark"][data-race="human"]{--ground:#0C1019}
+:root[data-theme="dark"][data-race="gnome"]{--ground:#0A1414}
+:root[data-theme="dark"][data-race="skyborne"]{--ground:#100E18}
+:root[data-theme="dark"][data-race="orc"]{--ground:#150D0A}
+:root[data-theme="dark"][data-race="troll"]{--ground:#0B130F}
+:root[data-theme="dark"][data-race="undead"]{--ground:#111309}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;margin:0;padding-block:0 72px}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px}
+.wide{max-width:1120px}
+h1,h2{font-family:var(--display);font-weight:700;letter-spacing:.02em;text-wrap:balance;margin:0;line-height:1.15;color:var(--ink)}
+h1{font-size:46px}
+h2{font-size:28px}
+h3{font-family:var(--body);font-size:20px;font-weight:600;margin:0;line-height:1.3}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.label,.k,th,.lab,.chip,.tag,.when,.eyebrow,legend{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.note{color:var(--muted);font-size:14px}
+section{scroll-margin-top:calc(var(--nav-h) + 12px);display:flex;flex-direction:column;gap:18px;padding-block:32px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+
+/* content placeholders and the stub banner */
+.todo{background:var(--amber-soft);color:var(--amber);outline:1px dashed var(--amber);outline-offset:2px;border-radius:3px}
+.stubbar{margin-block:12px 0}
+.stubbar>p{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:10px 14px;font-size:15px;font-weight:600}
+
+/* header */
+.hero-band{border-top:4px solid var(--faction);background:linear-gradient(180deg,var(--race-soft) 0%,var(--ground) 100%);position:relative;overflow:hidden}
+.hero-band::after{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,transparent,var(--faction-2),transparent);opacity:.55}
+.hero{padding-block:36px 20px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.hero-band::before{content:attr(data-watermark);position:absolute;right:-12px;bottom:-34px;font-family:var(--display);font-size:170px;font-weight:700;line-height:1;letter-spacing:.04em;color:var(--race);opacity:.09;pointer-events:none;white-space:nowrap;z-index:0}
+@media (max-width:760px){.hero-band::before{font-size:84px;bottom:-14px}}
+.race-badge{align-self:flex-start;display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--race);border:1px solid var(--race);border-radius:999px;padding:3px 10px;background:var(--surface)}
+.race-badge i{width:8px;height:8px;border-radius:50%;background:var(--faction);display:inline-block}
+.eyebrow{color:var(--muted)}
+.lede{font-size:19px;max-width:62ch}
+.trust{font-size:14.5px;color:var(--muted)}
+
+/* sticky nav */
+.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ground);border-bottom:1px solid var(--line)}
+.toc .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;height:var(--nav-h);scrollbar-width:none;max-width:none;padding-left:max(16px,calc((100% - 760px) / 2 + 16px))}
+.toc .wrap::-webkit-scrollbar{display:none}
+.toc a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:15px;padding:6px 12px;border-radius:999px}
+.toc a:hover{background:var(--accent-soft)}
+.toc a[aria-current="true"]{background:var(--accent);color:var(--accent-ink)}
+.toc .sep{width:1px;height:20px;background:var(--line);flex:0 0 auto;margin-inline:4px}
+
+/* details */
+details{border-top:1px solid var(--line)}
+details>summary{cursor:pointer;list-style:none;padding:12px 0;display:flex;align-items:center;gap:12px;font-weight:600}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";width:8px;height:8px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg);transition:transform .15s;flex:0 0 auto;margin-left:2px}
+details[open]>summary::before{transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){details>summary::before{transition:none}}
+.dbody{padding:0 0 16px;display:flex;flex-direction:column;gap:12px}
+
+/* start */
+.onramp{display:flex;flex-direction:column;gap:10px}
+.onramp p{max-width:66ch}
+dl.gloss{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0;font-size:15.5px}
+dl.gloss dt{font-weight:700}
+dl.gloss dd{margin:0}
+@media (max-width:560px){dl.gloss{grid-template-columns:1fr;gap:2px}dl.gloss dd{margin-bottom:8px}}
+.verdict{list-style:none;margin:0;padding:0}
+.verdict li{display:grid;grid-template-columns:9.5em 1fr;gap:4px 18px;padding:14px 0;border-top:1px solid var(--line);scroll-margin-top:calc(var(--nav-h) + 12px)}
+.verdict li:first-child{border-top:0;padding-top:0}
+.verdict li:last-child{padding-bottom:0}
+.verdict .k{color:var(--accent);padding-top:4px}
+.verdict .go{font-size:15px;margin-top:4px;display:inline-block}
+@media (max-width:560px){.verdict li{grid-template-columns:1fr}}
+
+/* shared controls */
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{font:inherit;font-size:15px;min-height:40px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.seg button:hover{border-color:var(--accent)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.race-seg button[aria-pressed="true"]{background:var(--race);border-color:var(--race);color:var(--race-ink)}
+.seg .fac{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.seg.compact button{min-height:34px;padding:4px 11px;font-size:14px}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+legend{color:var(--muted);padding:0;margin-bottom:6px}
+.ctrl{display:grid;grid-template-columns:1fr 88px;gap:6px 12px;align-items:center}
+.ctrl label{grid-column:1/-1;font-size:15px;font-weight:600}
+.ctrl .hint{grid-column:1/-1;font-size:13.5px;color:var(--muted);margin-top:-4px}
+input[type=range]{width:100%;accent-color:var(--accent);height:28px;margin:0}
+input[type=number],select{font:inherit;font-size:16px;width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--ground);color:var(--ink);font-family:var(--mono)}
+select{font-family:var(--body)}
+.check{display:inline-flex;gap:10px;align-items:center;font-size:15px;min-height:40px}
+.check input{accent-color:var(--accent);width:20px;height:20px}
+.fightset .check{display:flex;min-height:36px}
+fieldset .hint,.toggle .hint{font-size:13.5px;color:var(--muted)}
+.toggle{display:flex;flex-direction:column}
+.chip.mini{font-size:9.5px;padding:1px 7px;vertical-align:1px;margin-left:4px}
+.bar-row.dead{opacity:.6}
+.bar-row.dead .bar-track{background:repeating-linear-gradient(135deg,var(--track) 0 6px,transparent 6px 12px)}
+@media (max-width:560px){.seg button{min-height:44px}.seg.compact button{min-height:40px}}
+
+/* your character: planner and race cards */
+.you-controls{display:grid;gap:18px}
+.lvlrow{display:grid;grid-template-columns:44px 1fr 44px 72px;gap:10px;align-items:center}
+.stepbtn{font:inherit;font-size:22px;line-height:1;height:44px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;cursor:pointer}
+.stepbtn:hover{border-color:var(--accent)}
+.lvlchips{display:flex;gap:6px;flex-wrap:wrap}
+.lvlchips button{font:inherit;font-family:var(--mono);font-size:13px;min-height:36px;min-width:44px;border:1px solid var(--line);background:none;color:var(--ink);border-radius:8px;cursor:pointer}
+.lvlchips button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.you-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.card{display:flex;flex-direction:column;gap:14px}
+.card-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.lvl-big{font-family:var(--display);font-size:40px;line-height:1;color:var(--race)}
+#raceCard{border-top:3px solid var(--race)}
+#raceCard h3{color:var(--race)}
+#planCard{border-top:3px solid var(--race)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px}
+.fact{display:flex;flex-direction:column;gap:2px}
+.fact .lab{color:var(--muted)}
+.fact .val{font-weight:700;font-size:17px;line-height:1.35}
+.fact .sub{font-size:14.5px;color:var(--muted)}
+.racials{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15.5px}
+.tlist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.tlist li{font-size:14px;background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.tlist li.fresh{border-color:var(--ok);color:var(--ok);font-weight:600}
+.dlist{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:15px}
+.dlist .far{color:var(--muted)}
+.tag{padding:1px 6px;border-radius:999px;background:var(--ok-soft);color:var(--ok);margin-left:6px;white-space:nowrap;font-size:10.5px}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.fact .go{font-size:14.5px;margin-top:4px}
+
+/* dungeons */
+.dng{display:flex;flex-direction:column;gap:12px}
+.dng-top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.dng-lvl{display:flex;align-items:center;gap:10px}
+.dng-lvl .stepbtn{width:44px}
+.dng-lvl .num{font-family:var(--display);font-size:30px;line-height:1;color:var(--race);min-width:2ch;text-align:center}
+.dng-lvl .lab{color:var(--muted)}
+.dng-sum{font-size:15.5px}
+.dng-chart{--lv:40%;list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.dng-axis,.dng-row{display:grid;grid-template-columns:minmax(200px,260px) 1fr;gap:4px 14px;align-items:center}
+.dng-axis{padding:0 8px 6px}
+.dng-axis .ticks{position:relative;height:22px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.dng-axis .ticks span{position:absolute;top:3px;transform:translateX(-50%)}
+.dng-axis .ticks span:first-child{transform:none}
+.dng-axis .ticks span:last-of-type{transform:translateX(-100%)}
+.dng-axis .you{position:absolute;top:0;left:var(--lv);transform:translateX(-50%);font-family:var(--mono);font-size:12px;font-weight:600;background:var(--race);color:var(--race-ink);border-radius:999px;padding:1px 8px;z-index:1;white-space:nowrap}
+.dng-row{font:inherit;color:var(--ink);text-align:left;background:none;border:0;border-radius:8px;padding:5px 8px;cursor:pointer;width:100%}
+.dng-row:hover{background:var(--ground)}
+.dng-name{font-size:15px;line-height:1.3}
+.dng-name small{display:block;color:var(--muted);font-size:12.5px;font-family:var(--mono);letter-spacing:.02em}
+.dng-track{position:relative;height:14px;background:var(--track);border-radius:4px}
+.dng-track::after{content:"";position:absolute;top:-6px;bottom:-6px;left:var(--lv);width:2px;margin-left:-1px;background:var(--race);opacity:.9}
+.dng-bar{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--muted);opacity:.4}
+.dng-row.fit{background:var(--race-soft)}
+.dng-row.fit .dng-name{font-weight:700}
+.dng-row.fit .dng-bar{background:var(--race);opacity:1}
+.dng-row.away .dng-name{color:var(--muted)}
+.dng-row.away .dng-bar{background:repeating-linear-gradient(135deg,var(--muted) 0 3px,transparent 3px 6px);opacity:.7}
+.dng-row.fit.away .dng-bar{background:repeating-linear-gradient(135deg,var(--race) 0 3px,transparent 3px 6px);opacity:1}
+@media (max-width:560px){
+  .dng-axis,.dng-row{grid-template-columns:1fr}
+  .dng-axis>span:first-child{display:none}
+  .dng-track{height:10px}
+}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{color:var(--muted);background:var(--ground)}
+tbody th{font-family:var(--body);font-size:15.5px;font-weight:600;letter-spacing:0;text-transform:none}
+tr:last-child>*{border-bottom:0}
+td.r,th.r{text-align:right;font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .na{font-family:var(--body);color:var(--muted)}
+td .insp{display:block;color:var(--muted);font-size:12.5px}
+tr.hl>*{background:var(--race-soft)}
+tr.top th{font-weight:700}
+.scrollx table{min-width:600px}
+.scrollx tbody th{position:sticky;left:0;background:var(--surface);z-index:1}
+.scrollx thead th:first-child{position:sticky;left:0;z-index:2}
+.swipe{display:none}
+@media (max-width:560px){
+  .swipe{display:block}
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.stack tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;padding:12px;border-bottom:1px solid var(--line)}
+  table.stack tr:last-child{border-bottom:0}
+  table.stack th,table.stack td{border:0;padding:0;text-align:left;white-space:normal;background:none}
+  table.stack tbody th{grid-column:1/-1;font-size:16px}
+  table.stack td.wide{grid-column:1/-1}
+  table.stack td::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  table.stack tr.hl{background:var(--accent-soft)}
+}
+
+/* tooltip cards: the one bold element */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.tt{background:var(--tt-bg);color:var(--tt-white);border:1px solid var(--tt-line);border-radius:6px;padding:16px 18px;box-shadow:0 0 0 1px #000 inset,0 10px 28px rgba(8,6,24,.28);font-size:15px;line-height:1.5;display:flex;flex-direction:column;gap:6px}
+.tt .name{font-family:var(--display);color:var(--tt-gold);font-size:20px;font-weight:700;letter-spacing:.02em}
+.tt .sub{color:var(--tt-grey);font-size:13.5px}
+.tt .use{color:var(--tt-green)}
+.tt .grey{color:var(--tt-grey);font-size:14px}
+.tt ul{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:2px}
+.tt .split{font-family:var(--mono);color:var(--tt-gold);font-size:13px}
+.tt a{color:var(--tt-link);font-size:14px}
+.tt .todo{color:var(--amber)}
+
+/* raid */
+.raid-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media (min-width:1000px){
+  .raid-grid{grid-template-columns:340px 1fr}
+  .raid-results{position:sticky;top:calc(var(--nav-h) + 16px)}
+}
+.intro{display:flex;flex-direction:column;gap:18px;width:100%}
+.raid-controls{display:flex;flex-direction:column;gap:16px}
+.raid-results{display:flex;flex-direction:column;gap:14px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:14px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.sw.t0{background:var(--tree0)} .sw.t1{background:var(--tree1)} .sw.t2{background:var(--tree2)}
+.bars{display:grid;gap:12px}
+.bar-row{display:grid;grid-template-columns:minmax(170px,230px) 1fr 76px 58px;gap:6px 12px;align-items:center;border-radius:6px}
+.bar-name{font-size:15px;line-height:1.3}
+.bar-name .cap{display:block;color:var(--muted);font-size:13px;font-weight:400}
+.bar-name .parts{font-family:var(--mono);font-size:11.5px}
+.bar-name strong{font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.bar-row.win .bar-name strong{font-weight:700}
+.bar-track{height:20px;background:var(--track);border-radius:4px;display:flex;overflow:hidden}
+.bar-row.t0{--tc:var(--tree0)} .bar-row.t1{--tc:var(--tree1)} .bar-row.t2{--tc:var(--tree2)}
+.bar-part{background:var(--tc,var(--bar));height:100%}
+.bar-part+.bar-part{border-left:2px solid var(--surface)}
+.bar-part.p1{opacity:.72} .bar-part.p2{opacity:.5} .bar-part.p3{opacity:.34}
+.bar-val{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:600;font-size:14.5px;white-space:nowrap}
+.bar-gap{font-family:var(--mono);font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+.bar-row.win .bar-gap{color:var(--ok);font-weight:600}
+.bar-row.moved{box-shadow:0 0 0 2px var(--accent)}
+@media (prefers-reduced-motion:no-preference){.bar-part{transition:width .25s ease}.bar-row{transition:box-shadow .6s}}
+@media (max-width:640px){.bar-row{grid-template-columns:1fr auto auto}.bar-name{grid-column:1/-1}}
+.verdict-line{font-size:17px;border-left:3px solid var(--accent);padding:2px 0 2px 14px}
+.tie{font-size:14.5px;color:var(--muted)}
+
+/* compare */
+.cmp{display:grid;grid-template-columns:120px repeat(2,minmax(0,1fr));gap:8px 10px;align-items:center}
+.cmp .h{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cmp .rowlab{font-weight:600;font-size:15px}
+.cmp-out{font-size:17px}
+.cmp-out b{font-family:var(--mono)}
+
+/* claims */
+.group-h{margin-top:10px;margin-bottom:2px}
+.chip{display:inline-block;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.c-proof{background:var(--ok-soft);color:var(--ok)}
+.c-test{background:var(--amber-soft);color:var(--amber)}
+.c-bust{background:var(--blood-soft);color:var(--blood)}
+.c-known{background:var(--accent-soft);color:var(--accent)}
+.claims details>summary{font-size:17px}
+.claims .dbody p{max-width:68ch}
+
+/* tests */
+.tests{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.tests li{background:var(--surface);border:1px solid var(--line);border-radius:12px;scroll-margin-top:calc(var(--nav-h) + 12px)}
+.tests li.empty{padding:14px 16px}
+.tests label{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:14px 16px;cursor:pointer}
+.tests input{width:22px;height:22px;margin-top:3px;accent-color:var(--ok)}
+.tests li.done{opacity:.6}
+.tests .when{color:var(--muted)}
+.callout{border-left:3px solid var(--accent);padding:4px 0 4px 14px}
+.src{font-size:14.5px;display:grid;gap:4px;margin:0;padding-left:18px}
+
+
+/* talent builder */
+.btop{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:900px){.btop{grid-template-columns:1.1fr 1fr}}
+.bcontrols{display:grid;gap:14px}
+.brow{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end}
+.brow .fld{display:flex;flex-direction:column;gap:4px;min-width:150px;flex:1}
+.brow .fld label{font-size:13.5px;font-weight:600}
+.blvl{display:flex;align-items:center;gap:8px}
+.blvl .num{font-family:var(--display);font-size:28px;min-width:2ch;text-align:center;color:var(--race)}
+.bscore{display:flex;flex-direction:column;gap:8px}
+.bspk{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bspk b{font-family:var(--display);font-size:38px;line-height:1}
+.bvs{font-weight:600}
+.bvs.up{color:var(--ok)} .bvs.down{color:var(--blood)}
+.bnotes{margin:0;padding-left:18px;font-size:14px;color:var(--muted);display:grid;gap:3px}
+.blink{display:flex;gap:8px}
+.blink input{font-family:var(--mono);font-size:13px}
+.blink button{font:inherit;font-size:14px;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
+.btabs{display:none}
+.btrees{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.btree{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.btree.t0{--tc:var(--tree0);--tcs:var(--tree0-soft)} .btree.t1{--tc:var(--tree1);--tcs:var(--tree1-soft)} .btree.t2{--tc:var(--tree2);--tcs:var(--tree2-soft)}
+.btree h3{font-family:var(--display);font-size:17px;letter-spacing:.03em;padding:10px 14px;background:linear-gradient(90deg,var(--tcs),var(--surface));border-bottom:2px solid var(--tc);color:var(--tc)}
+.bgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(7,auto);gap:6px;padding:10px}
+.tal{font:inherit;position:relative;min-height:58px;padding:5px 5px 16px;border:1px solid var(--line);border-radius:8px;background:var(--ground);color:var(--ink);cursor:pointer;text-align:left;display:flex;flex-direction:column;justify-content:flex-start}
+.tal .tn{font-size:11.5px;line-height:1.2;font-weight:600;padding-right:9px;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:break-word}
+.tal .tr{position:absolute;right:5px;bottom:3px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tal::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%}
+.tal.s-yes::after{background:var(--tc)}
+.tal.s-no::after{box-shadow:inset 0 0 0 1.5px var(--muted)}
+.tal.some{border-color:var(--tc);background:var(--tcs)}
+.tal.max{border-color:var(--tc);background:var(--tc);color:#fff}
+.tal.max .tr{color:rgba(255,255,255,.85)}
+.tal.max.s-yes::after{background:#fff}
+.tal.locked{opacity:.45}
+.tal.sel{outline:2px solid var(--ink);outline-offset:1px}
+.tal:hover{border-color:var(--tc)}
+.binfo{display:grid;gap:6px}
+.binfo .top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.binfo .btns{display:flex;gap:8px}
+.binfo .btns button{font:inherit;font-size:20px;width:44px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;cursor:pointer}
+.binfo .btns button:disabled{opacity:.35;cursor:default}
+.blegend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);align-items:center}
+.blegend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.blegend i+i{margin-left:-3px}
+@media (max-width:760px){
+  .btabs{display:flex}
+  .btrees{grid-template-columns:1fr}
+  .btree:not(.on){display:none}
+}
+
+
+/* game icons (Blizzard art via Wowhead) */
+.ico{width:36px;height:36px;border-radius:5px;box-shadow:0 0 0 1px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.25);display:inline-block;vertical-align:middle;flex:0 0 auto;background:#111}
+.ico.s{width:20px;height:20px;border-radius:4px}
+.ico.m{width:28px;height:28px}
+.ico.l{width:44px;height:44px;border-radius:7px}
+.title-row{display:flex;align-items:center;gap:16px}
+.seg button .ico.s{margin-left:-6px}
+.navrace .ico.s{width:22px;height:22px;border-radius:50%;margin-left:-6px;box-shadow:0 0 0 2px var(--faction-2)}
+.racials li{display:flex;gap:10px;align-items:flex-start}
+.racials .noico{width:20px;flex:0 0 auto}
+.combo{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center;margin:4px 0 2px}
+.combo .stepi{display:inline-flex;align-items:center;gap:4px}
+.combo .stepi+.stepi::before{content:"";width:6px;height:6px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:rotate(45deg);margin:0 5px 0 1px;opacity:.7}
+.tt .name-row{display:flex;align-items:center;gap:12px}
+.tt .name-row .ico{box-shadow:0 0 0 1px var(--tt-line)}
+/* talent cells like the in-game talent window */
+.tal{align-items:flex-start;gap:4px;min-height:84px;padding:6px 6px 6px}
+.tal .icw{position:relative;display:inline-block}
+.tal .icw .ico{width:36px;height:36px}
+.tal .tr{position:absolute;right:-8px;bottom:-6px;background:#0B0B0F;color:#F2F2F2;border-radius:6px;padding:0 4px;font-size:10.5px;line-height:15px;border:1px solid #555}
+.tal .tn{font-size:11px;padding-right:0;margin-top:5px}
+.tal::after{top:6px;right:6px}
+.tal .icw .ico{box-shadow:0 0 0 2px #6b6b6b}
+.tal.avail .icw .ico{box-shadow:0 0 0 2px #3FA535}
+.tal.some .icw .ico{box-shadow:0 0 0 2px #3FA535}
+.tal.some .tr{color:#7CFC6A;border-color:#3FA535}
+.tal.max .icw .ico{box-shadow:0 0 0 2px #E6B422}
+.tal.max .tr{color:#FFD65A;border-color:#E6B422}
+.tal.max{background:var(--tcs);color:var(--ink)}
+.tal.locked .icw .ico{filter:grayscale(1) brightness(.75)}
+.tal.locked{opacity:.6}
+.binfo .top .ico{width:36px;height:36px}
+.credit{font-size:13px;color:var(--muted)}
+
+/* phone leader strip */
+.strip{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(8,6,24,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:15px;display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.strip b{font-family:var(--mono)}
+@media (min-width:1000px){.strip{display:none!important}}
+
+@media (max-width:560px){
+  h1{font-size:34px} h2{font-size:22px} h3{font-size:18px}
+  section{padding-block:24px}
+  .lede{font-size:17.5px}
+  .panel{padding:14px}
+}
+
+/* race accents: kept last so they win over the base rules */
+h2::before{content:"";display:inline-block;width:11px;height:11px;transform:rotate(45deg);background:var(--race);margin-right:14px;vertical-align:5px;box-shadow:0 0 0 3px var(--race-soft)}
+.panel{border-top:3px solid var(--race)}
+.bspk b{color:var(--race)}
+.navrace{position:sticky;left:0;z-index:2;box-shadow:-24px 0 0 6px var(--ground),6px 0 8px -2px var(--ground);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--race-ink)!important;background:var(--race)!important;padding:6px 12px!important;border-radius:999px;margin-right:6px}
+.navrace i{width:8px;height:8px;border-radius:50%;background:var(--faction-2);display:inline-block;box-shadow:0 0 0 2px var(--race-soft)}
+.toc{border-bottom:2px solid var(--race)}
+</style>
+
+<script>
+window.FML_TALENT_DATA = /*TALENTS*/;
+window.FML_TALENT_TEXT = /*TALENT_TEXT*/;
+</script>
+<script>
+/*CLASS*/
+</script>
+<script>
+/*TALENTCORE*/
+</script>
+<script>
+// class colors as CSS custom properties, and the saved race, before the page paints
+(function () {
+  const C = window.CLASS, key = /^[a-z0-9-]+$/, val = /^#[0-9a-fA-F]{3,8}$/;
+  const css = v => Object.entries(v).filter(([k, x]) => key.test(k) && val.test(x)).map(([k, x]) => '--' + k + ':' + x).join(';');
+  const s = document.createElement('style');
+  s.textContent = ':root{' + css(C.colors.light) + '}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){' + css(C.colors.dark) + '}}'
+    + ':root[data-theme="dark"]{' + css(C.colors.dark) + '}';
+  document.head.appendChild(s);
+  try { const r = JSON.parse(localStorage.getItem(C.storagePrefix + 'race')); if (typeof r === 'string' && Object.prototype.hasOwnProperty.call(C.races, r)) document.documentElement.setAttribute('data-race', r); } catch (e) { /* storage blocked */ }
+})();
+</script>
+
+<header class="hero-band" data-watermark="">
+<div class="wrap hero">
+  <span class="eyebrow" data-text="eyebrow"></span>
+  <div class="title-row"><img class="ico l" id="classIco" alt=""><h1 data-text="title">Forever Mage Lab</h1></div>
+  <p class="lede" data-text="lede"></p>
+  <p class="trust" data-text="trust"></p>
+  <a class="race-badge" href="#you" id="raceBadge"><i></i><span></span></a>
+</div>
+</header>
+<div class="wrap stubbar" id="stubBar" role="note" hidden><p id="stubText"></p></div>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap">
+    <a class="navrace" href="#you" aria-label="Your race, change it"><img class="ico s" id="navRaceIco" alt=""><span id="navRace"></span></a>
+    <a href="#start">Start</a>
+    <a href="#you" data-text="navYou"></a>
+    <a href="#dungeons">Dungeons</a>
+    <a href="#builder">Talent builder</a>
+    <a href="#specs">Specs at 60</a>
+    <span class="sep" aria-hidden="true"></span>
+    <a href="#raid">Raid calculator</a>
+    <a href="#upgrades">Item upgrades</a>
+    <span class="sep" aria-hidden="true"></span>
+    <a href="#proof">Proof</a>
+    <a href="#tests">Help test</a>
+  </div>
+</nav>
+
+<main>
+<section id="start" class="wrap">
+  <h2>The short answer</h2>
+  <div class="onramp">
+    <p data-text="onramp"></p>
+    <details>
+      <summary>Glossary of the terms on this page</summary>
+      <div class="dbody"><dl class="gloss" id="gloss"></dl></div>
+    </details>
+  </div>
+  <div class="panel"><ul class="verdict" id="verdictList"></ul></div>
+</section>
+
+<section id="you" class="wrap">
+  <h2 data-text="youTitle"></h2>
+  <p>Pick a race and a level. The level plan, the dungeon list, the race card and the raid calculator all follow these two choices.</p>
+  <div class="panel you-controls">
+    <fieldset><legend>Race</legend><div class="seg race-seg" data-compact="0"></div></fieldset>
+    <fieldset>
+      <legend>Level</legend>
+      <div class="lvlrow">
+        <button type="button" class="stepbtn" id="lvlDown" aria-label="One level lower">&#8722;</button>
+        <input type="range" id="lvl" min="1" max="60" value="30" aria-label="Character level">
+        <button type="button" class="stepbtn" id="lvlUp" aria-label="One level higher">+</button>
+        <input type="number" id="lvlNum" min="1" max="60" value="30" inputmode="numeric" aria-label="Character level, typed">
+      </div>
+      <div class="lvlchips" id="lvlChips" role="group" aria-label="Jump to level"></div>
+    </fieldset>
+  </div>
+  <div class="you-grid">
+    <div class="panel card" id="planCard">
+      <div class="card-head"><span class="lvl-big" id="lvlBig">30</span><span class="pill label" id="lvlPhase"></span><span class="note" id="lvlPts"></span></div>
+      <div class="facts">
+        <div class="fact"><span class="lab">What to press</span><div class="combo" id="pCombo" aria-hidden="true"></div><span class="val" id="pRot"></span><span class="sub" id="pRotSub"></span></div>
+        <div class="fact" id="pExtra" hidden><span class="lab" id="pExtraLab"></span><span class="val" id="pExtraVal"></span><span class="sub" id="pExtraSub"></span></div>
+        <div class="fact"><span class="lab">New at this level</span><span class="val" id="pNew"></span><span class="sub" id="pNewSub"></span></div>
+        <div class="fact"><span class="lab">Dungeons that fit</span><ul class="dlist" id="pDung"></ul><span class="sub" id="pDungSub"></span><a class="go" href="#dungeons">All dungeons by level</a></div>
+      </div>
+      <div class="fact"><span class="lab">Talents at this level</span><ul class="tlist" id="pTal"></ul></div>
+      <p class="note" id="pGear"></p>
+      <p class="note" id="pRace"></p>
+    </div>
+    <div class="panel card" id="raceCard"></div>
+  </div>
+  <details>
+    <summary id="raceCompare">Compare the races</summary>
+    <div class="dbody">
+      <div class="tbl" role="region" aria-label="Race comparison" tabindex="0"><table class="stack">
+        <thead><tr><th scope="col">Race</th><th scope="col">Leveling</th><th scope="col" class="r">Raid damage</th><th scope="col">PvP</th></tr></thead>
+        <tbody id="raceTable"></tbody>
+      </table></div>
+      <p class="note">Raid damage is the gain over no racials for the top build, at the raid calculator's current settings.</p>
+    </div>
+  </details>
+</section>
+
+<section id="dungeons" class="wrap">
+  <h2>Dungeons</h2>
+  <p>Every Forever dungeon on one level line. The marker is your level. Pick a dungeon to jump to the level it opens.</p>
+  <div class="panel dng">
+    <div class="dng-top">
+      <div class="dng-lvl">
+        <button type="button" class="stepbtn" id="dngDown" aria-label="One level lower">&#8722;</button>
+        <span class="lab">Level</span><span class="num" id="dngLvl">30</span>
+        <button type="button" class="stepbtn" id="dngUp" aria-label="One level higher">+</button>
+      </div>
+      <fieldset><legend class="sr-only">Show dungeons from</legend><div class="seg compact" id="dngSide"><button type="button" data-v="mine" aria-pressed="true">Your side</button><button type="button" data-v="all" aria-pressed="false">Both factions</button></div></fieldset>
+    </div>
+    <p class="dng-sum" id="dngSum"></p>
+    <ul class="dng-chart" id="dngChart" aria-label="Dungeons by level"></ul>
+    <p class="note">Highlighted dungeons fit your level, counting one level early. Ranges for dungeons new in Forever are published. Ranges for returning dungeons are estimates around Forever's recommended level.</p>
+  </div>
+</section>
+
+<section id="builder" lang="en">
+  <div class="wrap intro">
+    <h2>Talent builder</h2>
+    <p>Build your own tree and see how fast it levels next to the page plan. Click to add a point. Shift-click or right-click removes one, or use the &#8722; and + under the tree.</p>
+  </div>
+  <div class="wrap wide" style="display:flex;flex-direction:column;gap:16px">
+    <div class="btop">
+      <div class="panel bcontrols">
+        <div class="brow">
+          <div class="fld" style="flex:0 0 auto;min-width:0"><span class="label">Level</span>
+            <div class="blvl"><button type="button" class="stepbtn" id="bLvlDown" aria-label="One level lower">&#8722;</button><span class="num" id="bLevel">30</span><button type="button" class="stepbtn" id="bLvlUp" aria-label="One level higher">+</button></div>
+          </div>
+          <div class="fld"><span class="label">Points</span><span id="bPts" style="font-weight:600;padding-block:8px"></span></div>
+          <div class="fld"><label for="bGear">Gear</label><select id="bGear"></select></div>
+        </div>
+        <fieldset><legend>Start from</legend><div class="seg compact" id="bPresets"></div></fieldset>
+      </div>
+      <div class="panel bscore" aria-live="off">
+        <span class="label" style="color:var(--muted)">Seconds per kill, walking and resting included</span>
+        <div class="bspk"><b id="bSpk"></b><span id="bKph" class="note" style="font-size:15px"></span></div>
+        <span class="note" id="bSplit"></span>
+        <span class="bvs" id="bVs"></span>
+        <span><span class="label" style="color:var(--muted)">Best rotation</span><br><span id="bRot" style="font-weight:600"></span></span>
+        <ul class="bnotes" id="bNotes"></ul>
+        <div class="blink"><input type="text" id="bLink" readonly aria-label="Link to this build"><button type="button" id="bCopy">Copy link</button></div>
+        <span class="sr-only" id="bSummary"></span>
+      </div>
+    </div>
+    <div class="seg compact btabs" id="bTabs" role="group" aria-label="Talent tree"></div>
+    <div class="btrees">
+      <div class="btree t0" data-t="0"><h3 id="bTreeHead0"></h3><div class="bgrid" id="bTree0" role="group"></div></div>
+      <div class="btree t1" data-t="1"><h3 id="bTreeHead1"></h3><div class="bgrid" id="bTree1" role="group"></div></div>
+      <div class="btree t2" data-t="2"><h3 id="bTreeHead2"></h3><div class="bgrid" id="bTree2" role="group"></div></div>
+    </div>
+    <div class="panel binfo">
+      <div class="top"><img class="ico" id="bInfoIco" alt="" hidden><h3 id="bInfoName"></h3><span class="note" id="bInfoRank"></span><span id="bInfoTag"></span></div>
+      <p id="bInfoNow"></p>
+      <p class="note" id="bInfoNext"></p>
+      <p class="note" id="bInfoLock" style="color:var(--amber)"></p>
+      <div class="btns"><button type="button" id="bMinus" aria-label="Remove a point from the selected talent">&#8722;</button><button type="button" id="bPlus" aria-label="Add a point to the selected talent">+</button></div>
+    </div>
+    <div class="blegend"><span><i style="background:var(--tree0)"></i><i style="background:var(--tree1)"></i><i style="background:var(--tree2)"></i>Counts in the score (dot in the tree's color)</span><span><i style="box-shadow:inset 0 0 0 1.5px var(--muted)"></i>Not in the score</span></div>
+  </div>
+</section>
+
+<section id="specs" class="wrap">
+  <h2 data-text="specsTitle"></h2>
+  <p data-text="specsIntro"></p>
+  <div class="specs" id="specCards"></div>
+  <p class="note" data-text="specsNote"></p>
+</section>
+
+<section id="raid">
+  <div class="wrap intro">
+    <h2>Raid calculator</h2>
+    <p data-text="raidIntro"></p>
+  </div>
+  <div class="wrap wide raid-grid">
+    <div class="panel raid-controls" id="raidControls" role="group" aria-label="Calculator settings"></div>
+    <div class="raid-results">
+      <div class="legend" id="raidLegend"></div>
+      <div class="bars" id="bars"></div>
+      <p class="tie" id="tieNote" hidden>The top two builds are within 1% of each other, which is closer than this model can call. Pick either.</p>
+      <p class="verdict-line" id="raidVerdict"></p>
+      <p class="note" data-text="raidNote"></p>
+    </div>
+  </div>
+</section>
+
+<section id="upgrades" class="wrap">
+  <h2>Is this item an upgrade?</h2>
+  <p>Stat weights say what one more point of each stat is worth for each build, at the calculator's settings. Each is also priced in spell power (SP), so you can value any item.</p>
+  <div class="tbl" role="region" aria-label="Stat weights" tabindex="0"><table class="stack">
+    <thead><tr><th scope="col">Build</th><th scope="col" class="r">+1 spell power</th><th scope="col" class="r">+1% crit</th><th scope="col" class="r">+1% hit</th><th scope="col" class="r">+1 Intellect</th><th scope="col" class="r">+1 Spirit</th><th scope="col" class="r">+1 mp5</th></tr></thead>
+    <tbody id="weights"></tbody>
+  </table></div>
+  <div class="panel card">
+    <h3>Compare two items</h3>
+    <p class="note">The calculator's settings count as wearing the equipped item. Enter what each item gives and the full model re-runs with the swap.</p>
+    <div class="ctrl" style="grid-template-columns:1fr"><label for="cmpSpec">Build</label><select id="cmpSpec"></select></div>
+    <div class="cmp" role="group" aria-label="Item stats">
+      <span class="corner"></span><span class="h">Equipped</span><span class="h">Alternative</span>
+      <span class="rowlab">Spell power</span>
+      <input type="number" id="aSp" value="30" min="0" max="200" step="1" inputmode="numeric" aria-label="Equipped item spell power">
+      <input type="number" id="bSp" value="40" min="0" max="200" step="1" inputmode="numeric" aria-label="Alternative item spell power">
+      <span class="rowlab">Crit %</span>
+      <input type="number" id="aCrit" value="1" min="0" max="5" step="1" inputmode="numeric" aria-label="Equipped item crit percent">
+      <input type="number" id="bCrit" value="0" min="0" max="5" step="1" inputmode="numeric" aria-label="Alternative item crit percent">
+      <span class="rowlab">Hit %</span>
+      <input type="number" id="aHit" value="0" min="0" max="5" step="1" inputmode="numeric" aria-label="Equipped item hit percent">
+      <input type="number" id="bHit" value="0" min="0" max="5" step="1" inputmode="numeric" aria-label="Alternative item hit percent">
+      <span class="rowlab">Intellect</span>
+      <input type="number" id="aInt" value="0" min="0" max="60" step="1" inputmode="numeric" aria-label="Equipped item Intellect">
+      <input type="number" id="bInt" value="0" min="0" max="60" step="1" inputmode="numeric" aria-label="Alternative item Intellect">
+      <span class="rowlab">Spirit</span>
+      <input type="number" id="aSpirit" value="0" min="0" max="60" step="1" inputmode="numeric" aria-label="Equipped item Spirit">
+      <input type="number" id="bSpirit" value="0" min="0" max="60" step="1" inputmode="numeric" aria-label="Alternative item Spirit">
+      <span class="rowlab">Mana per 5 sec</span>
+      <input type="number" id="aMp5" value="0" min="0" max="30" step="1" inputmode="numeric" aria-label="Equipped item mana per 5 seconds">
+      <input type="number" id="bMp5" value="0" min="0" max="30" step="1" inputmode="numeric" aria-label="Alternative item mana per 5 seconds">
+    </div>
+    <p class="cmp-out" id="cmpOut"></p>
+  </div>
+</section>
+
+<section id="proof" class="wrap">
+  <h2>The proof</h2>
+  <p>Everything above rests on this. Open what you want to check.</p>
+  <h3 id="rule"></h3>
+  <div id="ruleBody" style="display:flex;flex-direction:column;gap:12px"></div>
+  <h3 id="claims">Claims we checked</h3>
+  <div class="claims" id="claimList"></div>
+  <details id="talents">
+    <summary>What each talent point is worth</summary>
+    <div class="dbody" id="talentValues"></div>
+  </details>
+</section>
+
+<section id="tests" class="wrap">
+  <h2>Help test these</h2>
+  <p>These checks decide the open questions. Tick them off as you go. Your ticks stay in this browser only. <span id="reportLine"></span></p>
+  <ul class="tests" id="testList"></ul>
+</section>
+
+<section id="method" class="wrap">
+  <h2>How this was checked</h2>
+  <p class="callout" data-text="limits"></p>
+  <details>
+    <summary>Method, data and review</summary>
+    <div class="dbody"><div id="methodText" style="display:flex;flex-direction:column;gap:12px"></div><p><span id="codeLine"></span></p></div>
+  </details>
+  <details id="changelog">
+    <summary>What changed</summary>
+    <div class="dbody"><ul class="src" id="changeList"></ul></div>
+  </details>
+  <details>
+    <summary>Sources</summary>
+    <div class="dbody">
+      <ul class="src" id="sourceList"></ul>
+      <p class="credit">Game icons are Blizzard Entertainment's art, taken from Wowhead's image server. This is a non-commercial fan project.</p>
+    </div>
+  </details>
+</section>
+</main>
+
+<div class="strip" id="strip" hidden aria-hidden="true"><span id="stripName"></span><span><b id="stripVal"></b> <span class="note" id="stripGap"></span></span></div>
+<div class="sr-only" role="status" id="srStatus"></div>
+
+<script>
+/*MODEL*/
+</script>
+<script>
+/*LEVELING*/
+</script>
+<script>
+window.FML_ICONS = /*ICONS*/;
+</script>
+<script>
+(function () {
+  'use strict';
+  const C = window.CLASS;
+  const core = TalentCore.make(C.talents, C.talentRules);
+  const RACES = C.races;
+  // own keys only: a hash or saved value like 'constructor' must never count as a race
+  const isRace = id => typeof id === 'string' && Object.prototype.hasOwnProperty.call(RACES, id);
+  const TBY = Object.fromEntries(C.talents.map(x => [x.k, x]));
+
+  // ---------------------------------------------------------------- per-viewer storage (conveniences only), CLASS.storagePrefix keys
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(C.storagePrefix + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(C.storagePrefix + k, JSON.stringify(v)); } catch (e) { /* storage blocked */ } }
+  };
+  const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+  const clamp = (v, lo, hi, d) => { const n = Number(v); return (v === '' || v === null || typeof v === 'boolean' || !Number.isFinite(n)) ? d : Math.min(hi, Math.max(lo, n)); };
+
+  // ---------------------------------------------------------------- game icons (embedded by src/build.py from assets/icons/ICONS.txt)
+  const ICONS = window.FML_ICONS || {};
+  const icon = (name, cls, alt) => { const i = el('img', 'ico' + (cls ? ' ' + cls : '')); i.alt = alt || ''; if (ICONS[name]) i.src = ICONS[name]; else i.hidden = true; return i; };
+
+  // ---------------------------------------------------------------- rich text: **bold**, [label](#anchor or https://...), {name}
+  const INLINE = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
+  const safeHref = h => (/^#[\w-]*$/.test(h) || /^https:\/\/[^\s"'<>]+$/.test(h) ? h : '#');
+  function rich(node, s) {
+    const text = String(s === undefined || s === null ? '' : s).replace(/\{name\}/g, C.name);
+    node.textContent = '';
+    let i = 0;
+    for (const m of text.matchAll(INLINE)) {
+      if (m.index > i) node.appendChild(document.createTextNode(text.slice(i, m.index)));
+      if (m[1] !== undefined) node.appendChild(el('b', '', m[1]));
+      else {
+        const a = el('a', '', m[2]); a.href = safeHref(m[3]);
+        if (a.getAttribute('href').startsWith('https:')) { a.target = '_blank'; a.rel = 'noopener'; }
+        node.appendChild(a);
+      }
+      i = m.index + m[0].length;
+    }
+    if (i < text.length) node.appendChild(document.createTextNode(text.slice(i)));
+    node.classList.toggle('todo', text.includes('TODO-CONTENT'));
+    return node;
+  }
+
+  // ---------------------------------------------------------------- state (validated)
+  const savedRace = store.get('race', C.defaultRace);
+  const state = {
+    race: isRace(savedRace) ? savedRace : C.defaultRace,
+    level: Math.round(clamp(store.get('level', 30), 1, 60, 30)),
+    dngAll: store.get('dngAll', false) === true,
+  };
+  let announceTimer = null;
+  const announce = msg => { const s = $('srStatus'); clearTimeout(announceTimer); s.textContent = ''; announceTimer = setTimeout(() => { s.textContent = msg; }, 80); };
+  const NUM_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+  // ---------------------------------------------------------------- race pickers (built once, kept in sync), race card and table
+  function buildRaceSegs() {
+    document.querySelectorAll('.race-seg').forEach(seg => {
+      const compact = seg.dataset.compact === '1';
+      seg.textContent = '';
+      Object.entries(RACES).forEach(([id, r]) => {
+        const b = el('button'); b.type = 'button'; b.dataset.race = id;
+        b.append(icon(r.icon, 's', ''), el('span', '', r.label));
+        if (!compact) b.appendChild(el('span', 'fac', r.faction));
+        b.addEventListener('click', () => setRace(id, true));
+        seg.appendChild(b);
+      });
+    });
+  }
+  function syncRace() {
+    const r = RACES[state.race];
+    document.documentElement.setAttribute('data-race', state.race);
+    $('raceBadge').querySelector('span').textContent = r.label + ' ' + C.name + ' · ' + r.faction;
+    document.querySelector('.hero-band').setAttribute('data-watermark', r.label);
+    $('navRace').textContent = r.label;
+    const ni = $('navRaceIco'); if (ICONS[r.icon]) { ni.src = ICONS[r.icon]; ni.hidden = false; } else ni.hidden = true;
+    document.querySelectorAll('.race-seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.race === state.race)));
+    syncRaceOptions();
+  }
+  function setRace(id, speak) {
+    if (!isRace(id)) return;
+    state.race = id; store.set('race', id);
+    syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
+    if (speak) announce(RACES[id].label + ' selected. ' + $('raidVerdict').textContent);
+  }
+  const fact = (lab, val, sub) => {
+    const d = el('div', 'fact');
+    d.append(el('span', 'lab', lab), rich(el('span', 'val'), val));
+    if (sub) d.appendChild(rich(el('span', 'sub'), sub));
+    return d;
+  };
+  const levelWord = r => (typeof r.levelPct !== 'number' ? 'TODO-CONTENT' : r.levelPct >= 3 ? 'Faster' : r.levelPct > 0 ? 'Slight edge' : 'Neutral');
+  const pct = g => (g >= 0 ? '+' : '') + g.toFixed(1) + '%';
+  function renderRaceCard() {
+    const r = RACES[state.race], card = $('raceCard');
+    card.textContent = '';
+    const head = el('div', 'card-head');
+    head.append(icon(r.icon, 'l', r.label + ' portrait'), el('h3', '', (r.fullName || r.label) + ' ' + C.name), el('span', 'pill label', r.faction));
+    const v = el('p'); v.appendChild(rich(el('b'), r.verdict));
+    const facts = el('div', 'facts');
+    facts.append(fact('Leveling', levelWord(r), r.level),
+      fact('Raid damage', pct(raidGain(state.race)), r.raidNote || 'Over no racials, top build, at the calculator settings'),
+      fact('PvP', r.pvp[0], r.pvp[1]));
+    const list = el('ul', 'racials');
+    r.racials.forEach(([n, t, ic]) => {
+      const li = el('li');
+      li.appendChild(ic && ICONS[ic] ? icon(ic, 's', '') : el('span', 'noico'));
+      const tx = el('span'); tx.append(el('b', '', n + '. '), document.createTextNode(t));
+      li.appendChild(tx); list.appendChild(li);
+    });
+    card.append(head, v, facts, list);
+    if (r.note) card.appendChild(rich(el('p', 'note'), r.note));
+  }
+  function renderRaceTable() {
+    const tb = $('raceTable'); tb.textContent = '';
+    const ids = Object.keys(RACES);
+    ids.forEach(id => {
+      const r = RACES[id], tr = el('tr', id === state.race ? 'hl' : '');
+      const th = el('th', '', (r.fullName || r.label) + ' (' + r.faction + ')'); th.scope = 'row'; tr.appendChild(th);
+      [['Leveling', r.level, 'wide'], ['Raid damage', pct(raidGain(id)), 'r'], ['PvP', r.pvp[0] + (r.pvp[1] ? ', ' + r.pvp[1] : ''), 'wide']]
+        .forEach(([lab, txt, cls]) => { const td = rich(el('td', cls), txt); td.dataset.label = lab; tr.appendChild(td); });
+      tb.appendChild(tr);
+    });
+    $('raceCompare').textContent = 'Compare all ' + (NUM_WORDS[ids.length] || ids.length) + ' races';
+  }
+
+  // ---------------------------------------------------------------- level planner (CLASS.planner)
+  const PLAN = core.expand(C.planner.order);
+  const RESPEC = C.planner.respec ? { level: C.planner.respec.level, label: C.planner.respec.label, order: core.expand(C.planner.respec.order) } : null;
+  const hasPlan = PLAN.length > 0;
+  const planAt = L => (RESPEC && L >= RESPEC.level ? RESPEC.order : PLAN);
+  const byFrom = (list, L) => list.filter(x => x.from <= L).pop() || list[0];
+  function talentsAt(L) {
+    const pts = core.points(L), taken = planAt(L).slice(0, pts), got = {};
+    taken.forEach(k => { got[k] = (got[k] || 0) + 1; });
+    const fresh = pts > 0 && taken.length === pts && !(RESPEC && L === RESPEC.level) ? taken[taken.length - 1] : null;
+    return { pts, got, fresh };
+  }
+  // trainer ranks at level L; a talent spell's rank 1 comes with the talent, its later ranks only if the plan has it
+  function trainerAt(L, got) {
+    const out = [];
+    Object.entries(C.planner.ranks).forEach(([n, s]) => {
+      const idx = s.levels.indexOf(L);
+      if (idx < 0) return;
+      if (s.talent) { if (idx > 0 && got[s.talent]) out.push(n + ' rank ' + (idx + 1)); return; }
+      out.push(idx === 0 ? n + ' (new spell)' : n + ' rank ' + (idx + 1));
+    });
+    return out;
+  }
+  function buildLevelChips() {
+    const box = $('lvlChips');
+    C.planner.chips.forEach(L => {
+      const b = el('button', '', String(L)); b.type = 'button'; b.dataset.l = L;
+      b.setAttribute('aria-label', 'Level ' + L);
+      b.addEventListener('click', () => setLevel(L, true));
+      box.appendChild(b);
+    });
+  }
+  function setLevel(L, speak) {
+    state.level = Math.round(clamp(L, 1, 60, state.level)); store.set('level', state.level);
+    renderPlanner();
+    builderFollowLevel();
+    renderBuilder();
+    if (speak) announce('Level ' + state.level + '. ' + $('pRot').textContent + '.');
+  }
+  function renderPlanner() {
+    const L = state.level, ph = byFrom(C.planner.phases, L), t = talentsAt(L);
+    $('lvl').value = L; $('lvlNum').value = L; $('lvlBig').textContent = L;
+    $('lvl').setAttribute('aria-valuetext', 'Level ' + L);
+    document.querySelectorAll('#lvlChips button').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.l) === L)));
+    rich($('lvlPhase'), ph.name);
+    $('lvlPts').textContent = t.pts ? t.pts + ' talent point' + (t.pts > 1 ? 's' : '') : 'Talents start at level ' + C.talentRules.firstLevel;
+    rich($('pRot'), ph.rot); rich($('pRotSub'), ph.sub || '');
+    const combo = $('pCombo'); combo.textContent = '';
+    (ph.steps || []).forEach(n => { const w = el('span', 'stepi'); w.appendChild(icon(C.spellIcons[n], 'm', n)); w.title = n; combo.appendChild(w); });
+    const ex = ph.extra;
+    $('pExtra').hidden = !ex;
+    if (ex) { $('pExtraLab').textContent = ex[0]; rich($('pExtraVal'), ex[1]); rich($('pExtraSub'), ex[2] || ''); }
+    const train = trainerAt(L, t.got);
+    const newTal = RESPEC && L === RESPEC.level ? RESPEC.label : (t.fresh ? TBY[t.fresh].n + ' ' + t.got[t.fresh] : null);
+    $('pNew').textContent = newTal || (train.length ? 'Trainer visit' : 'Nothing new');
+    $('pNewSub').textContent = (train.length ? 'Train: ' + train.join(', ') + '.' : 'No new spell ranks at this level.')
+      + (L === 60 && C.planner.tomeNote ? ' ' + C.planner.tomeNote : '');
+    const ul = $('pTal'); ul.textContent = '';
+    Object.entries(t.got).forEach(([k, c]) => ul.appendChild(el('li', k === t.fresh ? 'fresh' : '', TBY[k].n + ' ' + c)));
+    if (!t.pts) ul.appendChild(el('li', '', 'None yet'));
+    else if (!hasPlan) ul.appendChild(rich(el('li'), 'TODO-CONTENT: the talent order comes from the leveling model.'));
+    rich($('pGear'), byFrom(C.planner.gear, L).text);
+    rich($('pRace'), RACES[state.race].label + ' tip: ' + RACES[state.race].tip);
+    renderDungeons(L);
+    renderDungeonChart(L);
+  }
+
+  // ---------------------------------------------------------------- dungeons (CLASS.dungeons: name, from, to, zone, side, new)
+  const DUNGEONS = C.dungeons;
+  const dngFits = (d, L) => L >= d[1] - 1 && L <= d[2];
+  const onSide = (d, side) => d[4] === 'Both' || d[4] === side;
+  function renderDungeons(L) {
+    const side = RACES[state.race].faction;
+    const home = DUNGEONS.filter(d => dngFits(d, L) && onSide(d, side));
+    const ul = $('pDung'); ul.textContent = '';
+    home.slice(0, 5).forEach(d => {
+      const li = el('li', '', d[0] + ', ' + d[1] + ' to ' + d[2]);
+      if (d[5]) li.appendChild(el('span', 'tag', 'New'));
+      ul.appendChild(li);
+    });
+    $('pDungSub').textContent = L < 12 ? 'The first dungeons open around level 13.'
+      : (home.length ? 'Ranges for returning dungeons are estimates.' : 'Nothing on your side fits exactly. Quest until the next one opens.');
+  }
+  // dungeon chart: every dungeon on a level 10 to 60 line, rebuilt only when the faction filter changes
+  const DNG_MIN = 10, DNG_MAX = 60;
+  const dngPct = l => (clamp(l, DNG_MIN, DNG_MAX, DNG_MIN) - DNG_MIN) / (DNG_MAX - DNG_MIN) * 100;
+  let dngKey = '';
+  function buildDungeonRows(side) {
+    const chart = $('dngChart'); chart.textContent = '';
+    const axis = el('li', 'dng-axis'); axis.setAttribute('aria-hidden', 'true');
+    const ticks = el('span', 'ticks');
+    for (let l = DNG_MIN; l <= DNG_MAX; l += 10) { const t = el('span', '', String(l)); t.style.left = dngPct(l) + '%'; ticks.appendChild(t); }
+    const you = el('b', 'you'); you.id = 'dngYou'; ticks.appendChild(you);
+    axis.append(el('span'), ticks); chart.appendChild(axis);
+    DUNGEONS.filter(d => state.dngAll || onSide(d, side)).forEach(d => {
+      const away = !onSide(d, side);
+      const li = el('li'), b = el('button'); b.type = 'button'; b.dungeon = d; b.dataset.away = away ? '1' : '';
+      const name = el('span', 'dng-name', d[0]);
+      if (d[5]) name.appendChild(el('span', 'tag', 'New'));
+      name.appendChild(el('small', '', d[1] + ' to ' + d[2] + ' · ' + d[3] + (away ? ' · ' + d[4] + ' side' : '')));
+      const track = el('span', 'dng-track'), bar = el('span', 'dng-bar');
+      bar.style.left = dngPct(d[1]) + '%'; bar.style.width = (dngPct(d[2]) - dngPct(d[1])) + '%';
+      track.appendChild(bar); b.append(name, track);
+      b.addEventListener('click', () => setLevel(d[1], true));
+      li.appendChild(b); chart.appendChild(li);
+    });
+  }
+  function renderDungeonChart(L) {
+    const side = RACES[state.race].faction, key = side + '|' + state.dngAll;
+    if (key !== dngKey) { buildDungeonRows(side); dngKey = key; }
+    $('dngChart').style.setProperty('--lv', dngPct(L) + '%');
+    $('dngYou').textContent = 'You ' + L;
+    $('dngLvl').textContent = L;
+    $('dngSide').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.v === 'all') === state.dngAll)));
+    let fit = 0;
+    $('dngChart').querySelectorAll('button').forEach(b => {
+      const d = b.dungeon, away = b.dataset.away === '1', ok = dngFits(d, L);
+      if (ok && !away) fit++;
+      b.className = 'dng-row' + (ok ? ' fit' : '') + (away ? ' away' : '');
+      b.setAttribute('aria-label', d[0] + ', levels ' + d[1] + ' to ' + d[2] + ', ' + d[3] + (away ? ', ' + d[4] + ' side' : '')
+        + (d[5] ? ', new in Forever' : '') + (ok ? ', fits your level' : '') + '. Sets your level to ' + d[1] + '.');
+    });
+    const next = DUNGEONS.find(d => d[1] - 1 > L && onSide(d, side));
+    $('dngSum').textContent = L < 12 ? 'The first dungeons open around level 13. Quest until then.'
+      : fit ? fit + ' dungeon' + (fit > 1 ? 's fit' : ' fits') + ' level ' + L + ' on your side.'
+      : 'Nothing on your side fits level ' + L + '.' + (next ? ' Next up: ' + next[0] + ' at ' + next[1] + '.' : '');
+  }
+
+/*CONTENT*/
+
+/*RAID*/
+
+/*BUILDER*/
+
+  // ---------------------------------------------------------------- deep links: #lvl-24, #race-undead, #b-... builds, or any element id
+  function openTo(node) {
+    for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+    node.scrollIntoView({ block: 'start' });
+    if (node.matches('input, select, button')) node.focus({ preventScroll: true });
+  }
+  function handleHash() {
+    let h = '';
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
+    if (!h) return;
+    let m = h.match(/^lvl-(\d{1,2})$/);
+    if (m) { setLevel(Number(m[1]), false); openTo($('you')); return; }
+    if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder')); } return; }
+    m = h.match(/^race-([a-z]+)$/);
+    if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you')); return; }
+    const target = document.getElementById(h);
+    if (target) openTo(target);
+  }
+
+  // ---------------------------------------------------------------- wiring
+  function wirePage() {
+    $('lvl').addEventListener('input', e => setLevel(e.target.value, false));
+    $('lvl').addEventListener('change', () => announce('Level ' + state.level + '. ' + $('pRot').textContent + '.'));
+    $('lvlNum').addEventListener('change', e => setLevel(e.target.value, true));
+    $('lvlDown').addEventListener('click', () => setLevel(state.level - 1, true));
+    $('lvlUp').addEventListener('click', () => setLevel(state.level + 1, true));
+    $('dngDown').addEventListener('click', () => setLevel(state.level - 1, true));
+    $('dngUp').addEventListener('click', () => setLevel(state.level + 1, true));
+    $('dngSide').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      state.dngAll = b.dataset.v === 'all'; store.set('dngAll', state.dngAll);
+      renderDungeonChart(state.level);
+    });
+    window.addEventListener('hashchange', handleHash);
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (a && a.getAttribute('href') === location.hash) { e.preventDefault(); handleHash(); }
+    });
+  }
+  // section nav highlight and the phone leader strip
+  function watchSections() {
+    const links = [...document.querySelectorAll('.toc a:not(.navrace)')];
+    const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]));
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting || !byId[en.target.id]) return;
+        links.forEach(a => a.removeAttribute('aria-current'));
+        const cur = byId[en.target.id];
+        cur.setAttribute('aria-current', 'true');
+        const row = cur.parentElement, badge = row.querySelector('.navrace');
+        const cover = badge ? badge.offsetWidth + 12 : 0;          // the pinned race badge sits over the row's left edge
+        const left = cur.offsetLeft - row.offsetLeft, right = left + cur.offsetWidth;
+        if (left - cover < row.scrollLeft || right > row.scrollLeft + row.clientWidth) row.scrollTo({ left: Math.max(0, left - cover - 8), behavior: 'auto' });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(byId).forEach(id => { const s = $(id); if (s) io.observe(s); });
+    const strip = $('strip');
+    new IntersectionObserver(entries => { entries.forEach(en => { strip.hidden = !en.isIntersecting; }); }, { threshold: 0.05 }).observe($('raid'));
+  }
+
+  renderContent();
+  buildRaidControls(); buildRaceSegs(); buildLevelChips(); wirePage(); wireRaid(); wireBuilder();
+  syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
+  watchSections();
+  handleHash();
+})();
+</script>

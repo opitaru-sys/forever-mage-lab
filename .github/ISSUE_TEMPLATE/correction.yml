@@ -1,0 +1,26 @@
+name: Correction
+description: Report wrong data or wrong math anywhere in the page, the models, or the docs.
+title: "[Correction] "
+labels: ["correction"]
+body:
+  - type: textarea
+    id: whats-wrong
+    attributes:
+      label: What is wrong
+      description: The number, formula, or claim you think is incorrect.
+    validations:
+      required: true
+  - type: textarea
+    id: source-or-evidence
+    attributes:
+      label: Source or evidence
+      description: A Wowhead link, a combat log, a spell tooltip, a datamine entry, or your own recompute.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where on the page
+      placeholder: "e.g. The verdict section, the Frost row of the raid calculator, docs/raid-model.md"
+    validations:
+      required: false

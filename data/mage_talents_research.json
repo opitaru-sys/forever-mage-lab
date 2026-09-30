@@ -1,0 +1,3591 @@
+{
+ "about": "WoW Forever Mage talents, beta client 1.60.1 (builds 69893 to 70124). Per-rank values are the client trait curves the ElliotWood sim reads, cross-checked against ForeverChanges per-rank texts (build 70124). Wowhead tooltips print stored base points and are wrong for several talents; see crossCheck. Collected 30 Sep 2026.",
+ "rules": {
+  "firstTalentPointLevel": 10,
+  "maxPoints": 51,
+  "pointsPerTier": "UNVERIFIED (Classic 5 per row assumed by every source; not read from client)",
+  "legacyPerkTalented": "Legacy perk Talented moves the first point to level 9..5 (ranks 1..5); 51 cap unchanged (ForeverChanges legacy data)."
+ },
+ "sourcesKey": {
+  "tree": "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+  "curve": "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+  "forEverChanges": "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+  "wowhead": "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+  "video": "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+  "sim": "ElliotWood/Forever sim/mage/*.go"
+ },
+ "talents": [
+  {
+   "name": "Wand Specialization",
+   "tree": "Arcane",
+   "row": 0,
+   "col": 0,
+   "tier": 1,
+   "maxRanks": 2,
+   "spellId": 6057,
+   "traitDefinitionId": 135345,
+   "prereq": null,
+   "perRank": {
+    "wandDamagePct": [
+     13,
+     25
+    ]
+   },
+   "effectTopRank": "Increases your damage with Wands by 25%.",
+   "effectRank1": "Increases your damage with Wands by 13%.",
+   "appliesTo": "Wands",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "MOVED",
+   "changeSummary": "Moved from tier 2 to tier 1.",
+   "classic": {
+    "name": "Wand Specialization",
+    "maxRanks": 2,
+    "topRankText": "Increases your damage with Wands by 25%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      13,
+      25
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases your damage with Wands by 13%.",
+    "blizzconVideoRanks": [
+     [
+      13
+     ],
+     [
+      25
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled (sim has no wand attack).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged numbers; moved to tier 1. Blizzard notes for build 70009 say wands no longer gain spell power (via ForeverChanges patch notes), so this talent scales only wand base damage."
+  },
+  {
+   "name": "Arcane Focus",
+   "tree": "Arcane",
+   "row": 0,
+   "col": 1,
+   "tier": 1,
+   "maxRanks": 5,
+   "spellId": 11222,
+   "traitDefinitionId": 135344,
+   "prereq": null,
+   "perRank": {
+    "spellHitPct": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "effectTopRank": "Improves your chance to hit with Arcane spells by 5%.",
+   "effectRank1": "Improves your chance to hit with Arcane spells by 1%.",
+   "appliesTo": "Arcane spells only (client class mask: Arcane Blast, Arcane Explosion, Arcane Missiles, Counterspell, Polymorph).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Effect rewritten.",
+   "classic": {
+    "name": "Arcane Focus",
+    "maxRanks": 5,
+    "topRankText": "Reduces the chance that the opponent can resist your Arcane spells by 10%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Improves your chance to hit with Arcane spells by 2%.",
+    "blizzconVideoRanks": [
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "SchoolBonusHitChance[Arcane] += curve value.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Classic was 2/4/6/8/10% (10% at 5/5); Forever curve is 1/2/3/4/5%. Wowhead tooltip shows 2% because it prints the stored base points, not a rank. Curve, BlizzCon rank 1 frame (1%) and ForeverChanges all agree on 1% per rank. Does NOT cover Fire or Frost (unlike the Warlock Suppression finding)."
+  },
+  {
+   "name": "Improved Channeling",
+   "tree": "Arcane",
+   "row": 0,
+   "col": 2,
+   "tier": 1,
+   "maxRanks": 5,
+   "spellId": 11237,
+   "traitDefinitionId": 135343,
+   "prereq": null,
+   "perRank": {
+    "pushbackProtectPct_ArcaneMissiles": [
+     20,
+     40,
+     60,
+     80,
+     100
+    ],
+    "pushbackProtectPct_ArcaneBlast": [
+     14,
+     28,
+     42,
+     56,
+     70
+    ]
+   },
+   "effectTopRank": "Gives you a 100% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 70% chance while casting Arcane Blast.",
+   "effectRank1": "Gives you a 20% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 14% chance while casting Arcane Blast.",
+   "appliesTo": "Arcane Missiles (effect 0), Arcane Blast (effect 1). Client modifier is SPELLMOD_NOT_LOSE_CASTING_TIME (pushback).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Renamed from Improved Arcane Missiles. Numbers and wording changed.",
+   "classic": {
+    "name": "Improved Arcane Missiles",
+    "maxRanks": 5,
+    "topRankText": "Gives you a 100% chance to avoid interruption caused by damage while channeling Arcane Missiles."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      20,
+      40,
+      60,
+      80,
+      100
+     ],
+     [
+      14,
+      28,
+      42,
+      56,
+      70
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Gives you a 20% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 14% chance while casting Arcane Blast.",
+    "blizzconVideoRanks": [
+     [
+      20,
+      14
+     ],
+     [
+      40,
+      28
+     ],
+     [
+      60,
+      42
+     ],
+     [
+      80,
+      56
+     ],
+     [
+      100,
+      70
+     ]
+    ],
+    "blizzconRanksSource": "extrapolated"
+   },
+   "simReads": "Not modelled (sim mage takes no damage).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Renamed from Improved Arcane Missiles; adds an Arcane Blast share."
+  },
+  {
+   "name": "Arcane Subtlety",
+   "tree": "Arcane",
+   "row": 1,
+   "col": 0,
+   "tier": 2,
+   "maxRanks": 2,
+   "spellId": 11210,
+   "traitDefinitionId": 135342,
+   "prereq": null,
+   "perRank": {
+    "threatReductionPct_arcane": [
+     15,
+     30
+    ],
+    "targetResistanceReduction_allSchools": [
+     8,
+     15
+    ]
+   },
+   "effectTopRank": "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%.",
+   "effectRank1": "Reduces your target's resistance to all your spells by 8 and reduces the threat caused by your Arcane spells by 15%.",
+   "appliesTo": "Resistance reduction: all your spells. Threat: Arcane spells.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from tier 1 to tier 2. Rank 2: 15 instead of 10, 30% instead of 40%.",
+   "classic": {
+    "name": "Arcane Subtlety",
+    "maxRanks": 2,
+    "topRankText": "Reduces your target's resistance to all your spells by 10 and reduces the threat caused by your Arcane spells by 40%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -15,
+      -30
+     ],
+     [
+      -8,
+      -15
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%.",
+    "blizzconVideoRanks": [
+     [
+      8,
+      15
+     ],
+     [
+      16,
+      30
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Threat multiplier from effect 0; SpellPiercing from effect 1 (negative target resistance).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Rank 2 is 15 resistance and 30% threat (Classic 10 and 40%). The BlizzCon extrapolation (16) and Icy Veins overview (16) are wrong; the client curve is 8/15."
+  },
+  {
+   "name": "Magic Absorption",
+   "tree": "Arcane",
+   "row": 1,
+   "col": 1,
+   "tier": 2,
+   "maxRanks": 2,
+   "spellId": 29441,
+   "traitDefinitionId": 135341,
+   "prereq": null,
+   "perRank": {
+    "manaRestoredPctOnFullResist": [
+     1,
+     2
+    ],
+    "allResistances": [
+     5,
+     10
+    ]
+   },
+   "effectTopRank": "Increases all your resistances by 10 and causes all spells you fully resist to restore 2% of your total mana. Cannot trigger more often than 1 time per sec.",
+   "effectRank1": "Increases all your resistances by 5 and causes all spells you fully resist to restore 1% of your total mana. Cannot trigger more often than 1 time per sec.",
+   "appliesTo": "All resistances; mana on a fully resisted spell, 1 sec cooldown.",
+   "relevance": [],
+   "changedInForever": "CHANGED",
+   "changeSummary": "2 ranks (Classic: 5). Rank 2: 10 instead of 4, 1 instead of 1 sec, reworded.",
+   "classic": {
+    "name": "Magic Absorption",
+    "maxRanks": 5,
+    "topRankText": "Increases all resistances by 10 and causes all spells you fully resist to restore 5% of your total mana. 1 sec. cooldown."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2
+     ],
+     [
+      5,
+      10
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases all your resistances by 2 and causes all spells you fully resist to restore 1% of your total mana. Cannot trigger more often than 1 time per sec. (1s cooldown)",
+    "blizzconVideoRanks": [
+     [
+      5,
+      1
+     ],
+     [
+      10,
+      2
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Only the resistance half.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "2 ranks (Classic 5). Wowhead shows \"resistances by 2\" (base points); curve and ForeverChanges say 5/10."
+  },
+  {
+   "name": "Arcane Concentration",
+   "tree": "Arcane",
+   "row": 1,
+   "col": 2,
+   "tier": 2,
+   "maxRanks": 5,
+   "spellId": 11213,
+   "traitDefinitionId": 135340,
+   "prereq": null,
+   "perRank": {
+    "clearcastingProcPct": [
+     2,
+     4,
+     6,
+     8,
+     10
+    ]
+   },
+   "effectTopRank": "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.",
+   "effectRank1": "Gives you a 2% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.",
+   "appliesTo": "Any damaging spell hit; Clearcasting 12536 makes the next damage spell free, 15 sec.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Arcane Concentration",
+    "maxRanks": 5,
+    "topRankText": "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6,
+      8,
+      10
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Gives you a 100% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%. (1s cooldown)",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ],
+     [
+      8
+     ],
+     [
+      10
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "ProcChance from effect 1 curve; ICD read from row (1 sec).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged from Classic, including the 1 sec proc cooldown (present in Era SpellAuraOptions too). Wowhead shows 100% (the proc-trigger base points); the real chance is the curve 2..10%. Proc flag is \"deal harmful spell\" (0x10000), so Forever Blizzard ticks, which are now separate direct-damage spells, may be able to proc it (UNVERIFIED)."
+  },
+  {
+   "name": "Arcane Resilience",
+   "tree": "Arcane",
+   "row": 1,
+   "col": 3,
+   "tier": 2,
+   "maxRanks": 2,
+   "spellId": 28574,
+   "traitDefinitionId": 135339,
+   "prereq": null,
+   "perRank": {
+    "armorFromIntellectPct": [
+     25,
+     50
+    ]
+   },
+   "effectTopRank": "Increases your Armor by an amount equal to 50% of your Intellect.",
+   "effectRank1": "Increases your Armor by an amount equal to 25% of your Intellect.",
+   "appliesTo": "Armor",
+   "relevance": [],
+   "changedInForever": "CHANGED",
+   "changeSummary": "2 ranks (Classic: 1). Moved from tier 3 to tier 2. 25% instead of 50%.",
+   "classic": {
+    "name": "Arcane Resilience",
+    "maxRanks": 1,
+    "topRankText": "Increases your armor by an amount equal to 50% of your Intellect."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      25,
+      50
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases your Armor by an amount equal to 50% of your Intellect.",
+    "blizzconVideoRanks": [
+     [
+      25
+     ],
+     [
+      50
+     ]
+    ],
+    "blizzconRanksSource": "extrapolated"
+   },
+   "simReads": "Stat dependency Intellect to Armor.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "2 ranks (Classic 1 rank at 50%)."
+  },
+  {
+   "name": "Arcane Geometry",
+   "tree": "Arcane",
+   "row": 2,
+   "col": 0,
+   "tier": 3,
+   "maxRanks": 2,
+   "spellId": 11247,
+   "traitDefinitionId": 135338,
+   "prereq": null,
+   "perRank": {
+    "arcaneRangeYards": [
+     3,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the range of your Arcane spells by 6 yards.",
+   "effectRank1": "Increases the range of your Arcane spells by 3 yards.",
+   "appliesTo": "Arcane spells (range).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Replaces Magic Attunement.",
+   "classic": {
+    "name": "Magic Attunement",
+    "maxRanks": 2,
+    "topRankText": "Increases the effect of your Amplify Magic and Dampen Magic spells by 50%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      3,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases the range of your Arcane spells by 6 yards.",
+    "blizzconVideoRanks": [
+     [
+      3
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Replaces Magic Attunement. Arcane Explosion is self-centred, so the range bonus does not widen it (UNVERIFIED whether it touches radius; the modifier is SPELLMOD_RANGE)."
+  },
+  {
+   "name": "Arcane Impact",
+   "tree": "Arcane",
+   "row": 2,
+   "col": 1,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11242,
+   "traitDefinitionId": 135337,
+   "prereq": null,
+   "perRank": {
+    "critPct": [
+     2,
+     4,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the critical strike chance of your Arcane spells by 6%.",
+   "effectRank1": "Increases the critical strike chance of your Arcane spells by 2%.",
+   "appliesTo": "Arcane Blast, Arcane Explosion, Arcane Missiles (client mask).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Renamed from Improved Arcane Explosion. Same numbers, reworded.",
+   "classic": {
+    "name": "Improved Arcane Explosion",
+    "maxRanks": 3,
+    "topRankText": "Increases the critical strike chance of your Arcane Explosion spell by an additional 6%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the critical strike chance of your Arcane spells by 6%.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "BonusCrit on all Arcane mage spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Classic (Improved Arcane Explosion) touched Arcane Explosion only; now all Arcane damage spells."
+  },
+  {
+   "name": "Arcane Blast",
+   "tree": "Arcane",
+   "row": 2,
+   "col": 3,
+   "tier": 3,
+   "maxRanks": 1,
+   "spellId": 400574,
+   "traitDefinitionId": 135336,
+   "prereq": null,
+   "perRank": {
+    "castSec": 2.5,
+    "manaCost": "15% of base mana",
+    "buffDamagePctPerStack": 10,
+    "buffPeriodicDamagePctPerStack": 10,
+    "arcaneBlastCostPctPerStack": 175,
+    "maxStacks": 4,
+    "buffDurationSec": 8,
+    "ranks": 5,
+    "spellPowerCoefficient": 0.714
+   },
+   "effectTopRank": "Blasts the target with energy, dealing 50 to 58 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by 10% and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 8 sec or until any other damage spell is cast.",
+   "effectRank1": "Blasts the target with energy, dealing 50 to 58 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by 10% and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 8 sec or until any other damage spell is cast.",
+   "appliesTo": "Buff 400573 damage mask: Arcane Explosion, Blast Wave, Cone of Cold, Fire Blast, Fireball, Frost Nova, Frostbolt, Frostfire Bolt, Ice Lance, Pyroblast, Scorch. NOT Arcane Missiles, Blizzard or Flamestrike (client mask), despite tooltip \"all your other spells\".",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "NEW",
+   "changeSummary": "Blasts the target with energy, dealing 50 to 58 Arcane damage.",
+   "classic": {
+    "name": null,
+    "maxRanks": null,
+    "topRankText": null
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Blasts the target with energy, dealing 57 to 65 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by 10% and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 8 sec or until any other damage spell is cast.",
+    "blizzconVideoRanks": [
+     [
+      95,
+      104,
+      10,
+      175,
+      4,
+      8
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "arcane_blast.go + arcane_charge.go; any other damage spell spends all stacks; Arcane Missiles holds stacks for its channel then spends them.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "New talent, trained with the point at level 20, 5 ranks (1239696-1239700). Damage numbers are the spells agent's scope. Whether Arcane Missiles gets the stack bonus in game is an open question (client mask says no)."
+  },
+  {
+   "name": "Arcane Shielding",
+   "tree": "Arcane",
+   "row": 3,
+   "col": 0,
+   "tier": 4,
+   "maxRanks": 2,
+   "spellId": 11252,
+   "traitDefinitionId": 135335,
+   "prereq": null,
+   "perRank": {
+    "manaShieldManaPerDamageReductionPct": [
+     17,
+     33
+    ],
+    "mageArmorResistBonusPct": [
+     25,
+     50
+    ]
+   },
+   "effectTopRank": "Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by 33% and increases the resistances granted by your Mage Armor spell by 50%.",
+   "effectRank1": "Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by 17% and increases the resistances granted by your Mage Armor spell by 25%.",
+   "appliesTo": "Mana Shield; Mage Armor.",
+   "relevance": [],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Renamed from Improved Mana Shield. Numbers and wording changed.",
+   "classic": {
+    "name": "Improved Mana Shield",
+    "maxRanks": 2,
+    "topRankText": "Decreases the mana lost per point of damage taken when Mana Shield is active by 20%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -17,
+      -33
+     ],
+     [
+      25,
+      50
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by 33% and increases the resistances granted by your Mage Armor spell by 50%.",
+    "blizzconVideoRanks": [
+     [
+      17,
+      25
+     ],
+     [
+      34,
+      50
+     ]
+    ],
+    "blizzconRanksSource": "extrapolated"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Renamed from Improved Mana Shield."
+  },
+  {
+   "name": "Improved Counterspell",
+   "tree": "Arcane",
+   "row": 3,
+   "col": 1,
+   "tier": 4,
+   "maxRanks": 2,
+   "spellId": 11255,
+   "traitDefinitionId": 135334,
+   "prereq": null,
+   "perRank": {
+    "silenceMs": [
+     2000,
+     4000
+    ]
+   },
+   "effectTopRank": "Your Counterspell also Silences the target for 4 sec.",
+   "effectRank1": "Your Counterspell also Silences the target for 2 sec.",
+   "appliesTo": "Counterspell.",
+   "relevance": [],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Effect rewritten.",
+   "classic": {
+    "name": "Improved Counterspell",
+    "maxRanks": 2,
+    "topRankText": "Gives your Counterspell a 100% chance to silence the target for 4 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2000,
+      4000
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Your Counterspell also Silences the target for 4 sec.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      2
+     ]
+    ],
+    "blizzconRanksSource": "manual"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Always silences 2/4 sec (Classic: 50%/100% chance of a 4 sec silence). The BlizzCon file had 2/2 (manual guess)."
+  },
+  {
+   "name": "Arcane Meditation",
+   "tree": "Arcane",
+   "row": 3,
+   "col": 2,
+   "tier": 4,
+   "maxRanks": 3,
+   "spellId": 18462,
+   "traitDefinitionId": 135333,
+   "prereq": {
+    "talent": "Arcane Concentration",
+    "row": 1,
+    "col": 2,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "regenWhileCastingPct": [
+     17,
+     33,
+     50
+    ]
+   },
+   "effectTopRank": "Allows 50% of your Mana regeneration to continue while casting.",
+   "effectRank1": "Allows 17% of your Mana regeneration to continue while casting.",
+   "appliesTo": "Spirit-based mana regeneration while casting (the 5-second rule window).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from column 4 to column 3. Requires Arcane Concentration. Rank 3: 50% instead of 15%.",
+   "classic": {
+    "name": "Arcane Meditation",
+    "maxRanks": 3,
+    "topRankText": "Allows 15% of your Mana regeneration to continue while casting."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      17,
+      33,
+      50
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Allows 50% of your Mana regeneration to continue while casting.",
+    "blizzconVideoRanks": [
+     [
+      17
+     ],
+     [
+      34
+     ],
+     [
+      51
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "SpiritRegenRateCasting += curve fraction.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Big change: Classic 5/10/15%, Forever 17/33/50%. Stacks with Mage Armor (now 50%) in Classic rules, which would allow 100% casting regen (UNVERIFIED in game; test in OPEN QUESTIONS). BlizzCon extrapolation 17/34/51 was off by one point."
+  },
+  {
+   "name": "Missile Barrage",
+   "tree": "Arcane",
+   "row": 3,
+   "col": 3,
+   "tier": 4,
+   "maxRanks": 1,
+   "spellId": 400588,
+   "traitDefinitionId": 135332,
+   "prereq": null,
+   "perRank": {
+    "procPct_ArcaneBlast": 40,
+    "procPct_FireballFrostboltFrostfireBolt": 20,
+    "channelReductionPct": 50,
+    "costReductionPct": 100,
+    "missileIntervalSec": 0.5,
+    "buffDurationSec": 15
+   },
+   "effectTopRank": "Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec.",
+   "effectRank1": "Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec.",
+   "appliesTo": "Arcane Missiles (next cast).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "NEW",
+   "changeSummary": "5 sec.",
+   "classic": {
+    "name": null,
+    "maxRanks": null,
+    "topRankText": null
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec. (Proc chance: 50%)",
+    "blizzconVideoRanks": [
+     [
+      40,
+      20,
+      50,
+      100,
+      0.5
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "Hardcoded 40%/20%; 15 sec buff 400589 read from client.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "New. The talent row carries SpellAuraOptions ProcChance 50 and a second dummy effect of 5 that the sim does not read; Wowhead shows \"Proc chance: 50%\". How 40/20 and 50 combine in game is UNVERIFIED. ForeverChanges' one-line summary \"5 sec.\" reflects that dummy value, not a duration."
+  },
+  {
+   "name": "Presence of Mind",
+   "tree": "Arcane",
+   "row": 4,
+   "col": 1,
+   "tier": 5,
+   "maxRanks": 1,
+   "spellId": 12043,
+   "traitDefinitionId": 135331,
+   "prereq": null,
+   "perRank": {
+    "cooldownSec": 180,
+    "effect": "next Mage spell with cast time under 10 sec is instant"
+   },
+   "effectTopRank": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell.",
+   "effectRank1": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell.",
+   "appliesTo": "Client mask includes Pyroblast, Fireball, Frostbolt, Frostfire Bolt, Arcane Blast, Scorch, Flamestrike, Polymorph, conjures.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Presence of Mind",
+    "maxRanks": 1,
+    "topRankText": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell.",
+    "blizzconVideoRanks": [
+     [
+      10
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "presence_of_mind.go.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Arcane Mind",
+   "tree": "Arcane",
+   "row": 4,
+   "col": 2,
+   "tier": 5,
+   "maxRanks": 5,
+   "spellId": 11232,
+   "traitDefinitionId": 135330,
+   "prereq": null,
+   "perRank": {
+    "intellectPct": [
+     2,
+     4,
+     6,
+     8,
+     10
+    ],
+    "arcaneCritDamageBonusPct": [
+     20,
+     40,
+     60,
+     80,
+     100
+    ]
+   },
+   "effectTopRank": "Increases your Intellect by 10% and increases the critical strike damage bonus of your Arcane spells by 100%.",
+   "effectRank1": "Increases your Intellect by 2% and increases the critical strike damage bonus of your Arcane spells by 20%.",
+   "appliesTo": "Intellect (all); crit damage bonus on Arcane Blast, Arcane Explosion, Arcane Missiles (client mask).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "No longer requires Arcane Resilience. Effect rewritten.",
+   "classic": {
+    "name": "Arcane Mind",
+    "maxRanks": 5,
+    "topRankText": "Increases your maximum Mana by 10%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     [
+      20,
+      40,
+      60,
+      80,
+      100
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Increases your Intellect by 10% and increases the critical strike damage bonus of your Arcane spells by 100%.",
+    "blizzconVideoRanks": [
+     [
+      2,
+      20
+     ],
+     [
+      4,
+      40
+     ],
+     [
+      6,
+      60
+     ],
+     [
+      8,
+      80
+     ],
+     [
+      10,
+      100
+     ]
+    ],
+    "blizzconRanksSource": "extrapolated"
+   },
+   "simReads": "MultiplyStat Intellect; CritMultiplier on Arcane spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Classic: +2..10% maximum mana. Forever: +2..10% Intellect and +20..100% Arcane crit damage bonus (at 5/5 an Arcane crit deals double instead of 1.5x, the same shape as Ice Shards). No longer requires Arcane Resilience."
+  },
+  {
+   "name": "Arcane Instability",
+   "tree": "Arcane",
+   "row": 5,
+   "col": 2,
+   "tier": 6,
+   "maxRanks": 3,
+   "spellId": 15058,
+   "traitDefinitionId": 135329,
+   "prereq": null,
+   "perRank": {
+    "damagePct": [
+     1,
+     2,
+     3
+    ],
+    "periodicDamagePct": [
+     1,
+     2,
+     3
+    ],
+    "critPct_allAttacks": [
+     1,
+     2,
+     3
+    ]
+   },
+   "effectTopRank": "Increases the damage done by your spells by 3% and your critical strike chance by 3%.",
+   "effectRank1": "Increases the damage done by your spells by 1% and your critical strike chance by 1%.",
+   "appliesTo": "Damage: all mage damage spells. Crit: aura A_MOD_CRIT_PCT (all crit, spells and attacks).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from column 2 to column 3. No longer requires Presence of Mind. Effect rewritten.",
+   "classic": {
+    "name": "Arcane Instability",
+    "maxRanks": 3,
+    "topRankText": "Increases your spell damage and critical strike chance by 3%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the damage done by your spells by 1% and your critical strike chance by 1%.",
+    "blizzconVideoRanks": [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      3
+     ]
+    ],
+    "blizzconRanksSource": "extrapolated"
+   },
+   "simReads": "DamageDone and BonusCrit on all mage spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Same numbers as Classic (1/2/3%). No longer requires Presence of Mind. Wowhead shows 1% (base points)."
+  },
+  {
+   "name": "Arcane Power",
+   "tree": "Arcane",
+   "row": 6,
+   "col": 1,
+   "tier": 7,
+   "maxRanks": 1,
+   "spellId": 12042,
+   "traitDefinitionId": 135328,
+   "prereq": {
+    "talent": "Presence of Mind",
+    "row": 4,
+    "col": 1,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "durationSec": 15,
+    "damagePct": 30,
+    "manaCostPct": 30,
+    "cooldownSec": 180
+   },
+   "effectTopRank": "For the next 15 sec, your spells deal 30% more damage while costing 30% more mana to cast.",
+   "effectRank1": "For the next 15 sec, your spells deal 30% more damage while costing 30% more mana to cast.",
+   "appliesTo": "All mage damage spells (client mask).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Requires Presence of Mind (Classic: Arcane Instability). Effect rewritten.",
+   "classic": {
+    "name": "Arcane Power",
+    "maxRanks": 1,
+    "topRankText": "When activated, your spells deal 30% more damage while costing 30% more mana to cast. This effect lasts 15 sec."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "For the next 15 sec, your spells deal 30% more damage while costing 30% more mana to cast.",
+    "blizzconVideoRanks": [
+     [
+      15,
+      30,
+      30
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "arcane_power.go reads 12042.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Numbers unchanged. Now requires Presence of Mind (Classic: Arcane Instability)."
+  },
+  {
+   "name": "Wake of Fire",
+   "tree": "Fire",
+   "row": 0,
+   "col": 0,
+   "tier": 1,
+   "maxRanks": 2,
+   "spellId": 11078,
+   "traitDefinitionId": 135327,
+   "prereq": null,
+   "perRank": {
+    "fireBlastCooldownReductionMs": [
+     1000,
+     2000
+    ],
+    "fireBlastCritPctAfterKill": [
+     25,
+     50
+    ]
+   },
+   "effectTopRank": "Reduces the cooldown of your Fire Blast spell by 2 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 30 sec by 50%.",
+   "effectRank1": "Reduces the cooldown of your Fire Blast spell by 1 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 30 sec by 25%.",
+   "appliesTo": "Fire Blast. Kill buff 1312934: +crit on next Fire Blast within 30 sec after killing a non-trivial target.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Replaces Improved Fire Blast. 2 ranks (Classic: 3). Moved from tier 2 to tier 1.",
+   "classic": {
+    "name": "Improved Fire Blast",
+    "maxRanks": 3,
+    "topRankText": "Reduces the cooldown of your Fire Blast spell by 1.5 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -1000,
+      -2000
+     ],
+     [
+      25,
+      50
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Reduces the cooldown of your Fire Blast spell by 2 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 30 sec by 50%.",
+    "blizzconVideoRanks": [
+     [
+      1,
+      20,
+      25
+     ],
+     [
+      1,
+      20,
+      25
+     ]
+    ],
+    "blizzconRanksSource": "manual"
+   },
+   "simReads": "Cooldown half only.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Replaces Improved Fire Blast (Classic -0.5/-1/-1.5 sec, 3 ranks). Build 70009 raised the kill window from 20 to 30 sec. Icy Veins overview still says 20 sec."
+  },
+  {
+   "name": "Incineration",
+   "tree": "Fire",
+   "row": 0,
+   "col": 1,
+   "tier": 1,
+   "maxRanks": 3,
+   "spellId": 18459,
+   "traitDefinitionId": 135326,
+   "prereq": null,
+   "perRank": {
+    "critPct": [
+     2,
+     4,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 6%.",
+   "effectRank1": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 2%.",
+   "appliesTo": "Fire Blast, Scorch, Arcane Blast, Ice Lance (client mask and tooltip).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Renamed from Incinerate. 3 ranks (Classic: 2). Moved from tier 3 to tier 1. Same numbers, reworded.",
+   "classic": {
+    "name": "Incinerate",
+    "maxRanks": 2,
+    "topRankText": "Increases the critical strike chance of your Fire Blast and Scorch spells by 4%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 6%.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "BonusCrit on those four spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Renamed from Incinerate; 3 ranks (Classic 2 ranks, 2/4%); moved to tier 1."
+  },
+  {
+   "name": "Improved Fireball",
+   "tree": "Fire",
+   "row": 0,
+   "col": 2,
+   "tier": 1,
+   "maxRanks": 5,
+   "spellId": 11069,
+   "traitDefinitionId": 135325,
+   "prereq": null,
+   "perRank": {
+    "castTimeReductionMs": [
+     100,
+     200,
+     300,
+     400,
+     500
+    ]
+   },
+   "effectTopRank": "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.5 sec.",
+   "effectRank1": "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.1 sec.",
+   "appliesTo": "Fireball and Frostfire Bolt.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from column 2 to column 3. Same numbers, reworded.",
+   "classic": {
+    "name": "Improved Fireball",
+    "maxRanks": 5,
+    "topRankText": "Reduces the casting time of your Fireball spell by 0.5 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -100,
+      -200,
+      -300,
+      -400,
+      -500
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Reduces the casting time of your Fireball and Frostfire Bolt spells by 1 sec.",
+    "blizzconVideoRanks": null,
+    "blizzconRanksSource": null
+   },
+   "simReads": "CastTime flat mod.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Now also covers Frostfire Bolt. Wowhead prints \"1 sec\" (base -500 ms rounded up); curve and ForeverChanges say 0.1..0.5 sec."
+  },
+  {
+   "name": "Ignite",
+   "tree": "Fire",
+   "row": 1,
+   "col": 0,
+   "tier": 2,
+   "maxRanks": 5,
+   "spellId": 11119,
+   "traitDefinitionId": 135324,
+   "prereq": null,
+   "perRank": {
+    "ignitePctOfCrit": [
+     8,
+     16,
+     24,
+     32,
+     40
+    ]
+   },
+   "effectTopRank": "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec.",
+   "effectRank1": "Your critical strikes from Fire damage spells cause the target to burn for an additional 8% of your spell's damage over 4 sec.",
+   "appliesTo": "Crits of Fire damage spells (proc flag: direct harmful spell hits only).",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Same as Classic. Tooltip numbers unchanged but burn spell replaced (412538, single stack, no double-counted bonuses since build 70009).",
+   "classic": {
+    "name": "Ignite",
+    "maxRanks": 5,
+    "topRankText": "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      8,
+      16,
+      24,
+      32,
+      40
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec.",
+    "blizzconVideoRanks": [
+     [
+      8
+     ],
+     [
+      16
+     ],
+     [
+      24
+     ],
+     [
+      32
+     ],
+     [
+      40
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Rolling ignite: a new crit adds its share to what the running burn still owes, 2 ticks over 4 sec, ticks cannot crit and ignore modifiers. Only the mage's own crits; no multi-mage sharing modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Tooltip numbers unchanged, but the burn is a new spell: 412538 (periodic dummy, 2 sec period, 4 sec, MaxStack 1) replaces Era 12654 (periodic damage, stacks to 5). Build 70009 note: Ignite \"no longer counts damage bonuses twice\". Whether it is shared between mages, and whether the burn is rolled or refreshed, is UNVERIFIED."
+  },
+  {
+   "name": "Flame Throwing",
+   "tree": "Fire",
+   "row": 1,
+   "col": 1,
+   "tier": 2,
+   "maxRanks": 2,
+   "spellId": 11100,
+   "traitDefinitionId": 135323,
+   "prereq": null,
+   "perRank": {
+    "fireRangeYards": [
+     3,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the range of your Fire spells by 6 yards.",
+   "effectRank1": "Increases the range of your Fire spells by 3 yards.",
+   "appliesTo": "Fire spells (range).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Flame Throwing",
+    "maxRanks": 2,
+    "topRankText": "Increases the range of your Fire spells by 6 yards."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      3,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases the range of your Fire spells by 6 yards.",
+    "blizzconVideoRanks": [
+     [
+      3
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Impact",
+   "tree": "Fire",
+   "row": 1,
+   "col": 2,
+   "tier": 2,
+   "maxRanks": 3,
+   "spellId": 11103,
+   "traitDefinitionId": 135322,
+   "prereq": null,
+   "perRank": {
+    "stunProcPct": [
+     3,
+     7,
+     10
+    ]
+   },
+   "effectTopRank": "Gives your Fire spells a 10% chance to stun the target for 2 sec.",
+   "effectRank1": "Gives your Fire spells a 3% chance to stun the target for 2 sec.",
+   "appliesTo": "Fire spells; stun 12355, 2 sec.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "3 ranks (Classic: 5). Moved from tier 1 to tier 2. Rank 3: 10% instead of 6%.",
+   "classic": {
+    "name": "Impact",
+    "maxRanks": 5,
+    "topRankText": "Gives your Fire spells a 10% chance to stun the target for 2 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      3,
+      7,
+      10
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Gives your Fire spells a 10% chance to stun the target for 2 sec.",
+    "blizzconVideoRanks": [
+     [
+      3
+     ],
+     [
+      6
+     ],
+     [
+      9
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled (bosses immune).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "3 ranks (Classic 5 at 2/4/6/8/10%). Rank 2 is 7%, not 6% (BlizzCon extrapolation)."
+  },
+  {
+   "name": "Burning Soul",
+   "tree": "Fire",
+   "row": 2,
+   "col": 0,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11083,
+   "traitDefinitionId": 135319,
+   "prereq": null,
+   "perRank": {
+    "pushbackProtectPct": [
+     23,
+     47,
+     70
+    ],
+    "fireThreatReductionPct": [
+     10,
+     20,
+     30
+    ]
+   },
+   "effectTopRank": "Gives your Fire spells a 70% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 30%.",
+   "effectRank1": "Gives your Fire spells a 23% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 10%.",
+   "appliesTo": "Fireball, Flamestrike, Frostfire Bolt, Pyroblast, Scorch (pushback mask); Fire spells (threat).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "3 ranks (Classic: 2). Moved from column 4 to column 1. Rank 2: 47% instead of 70%, 20% instead of 30%.",
+   "classic": {
+    "name": "Burning Soul",
+    "maxRanks": 2,
+    "topRankText": "Gives your Fire spells a 70% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 30%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      23,
+      47,
+      70
+     ],
+     [
+      -10,
+      -20,
+      -30
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Gives your Fire spells a 70% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 30%.",
+    "blizzconVideoRanks": [
+     [
+      23,
+      10
+     ],
+     [
+      46,
+      20
+     ],
+     [
+      69,
+      30
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Threat half only.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "3 ranks (Classic 2 ranks 35/70% and 15/30%)."
+  },
+  {
+   "name": "Improved Flamestrike",
+   "tree": "Fire",
+   "row": 2,
+   "col": 1,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11108,
+   "traitDefinitionId": 135321,
+   "prereq": null,
+   "perRank": {
+    "critPct": [
+     5,
+     10,
+     15
+    ]
+   },
+   "effectTopRank": "Increases the critical strike chance of your Flamestrike spell by 15%.",
+   "effectRank1": "Increases the critical strike chance of your Flamestrike spell by 5%.",
+   "appliesTo": "Flamestrike (direct and burn spells in mask).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Improved Flamestrike",
+    "maxRanks": 3,
+    "topRankText": "Increases the critical strike chance of your Flamestrike spell by 15%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      5,
+      10,
+      15
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the critical strike chance of your Flamestrike spell by 15%.",
+    "blizzconVideoRanks": [
+     [
+      5
+     ],
+     [
+      10
+     ],
+     [
+      15
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "BonusCrit on Flamestrike.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Pyroblast",
+   "tree": "Fire",
+   "row": 2,
+   "col": 2,
+   "tier": 3,
+   "maxRanks": 1,
+   "spellId": 11366,
+   "traitDefinitionId": 135320,
+   "prereq": null,
+   "perRank": {
+    "castSec": 6,
+    "ranks": 8,
+    "directCoefficient": 1.0,
+    "periodicCoefficientPerTick": 0.15
+   },
+   "effectTopRank": "Hurls an immense fiery boulder that causes 95 to 125 Fire damage and an additional 44 Fire damage over 12 sec.",
+   "effectRank1": "Hurls an immense fiery boulder that causes 95 to 125 Fire damage and an additional 44 Fire damage over 12 sec.",
+   "appliesTo": "Talent-granted spell.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "95 to 125 instead of 141 to 187, 44 instead of 56.",
+   "classic": {
+    "name": "Pyroblast",
+    "maxRanks": 1,
+    "topRankText": "Hurls an immense fiery boulder that causes 141 to 187 Fire damage and an additional 56 Fire damage over 12 sec."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Hurls an immense fiery boulder that causes 101 to 131 Fire damage and an additional 44 Fire damage over 12 sec.",
+    "blizzconVideoRanks": [
+     [
+      155,
+      185,
+      76,
+      12
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "pyroblast.go casts rank 8.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Damage is the spells agent's scope. Hot Streak makes it a rotational spell."
+  },
+  {
+   "name": "Improved Scorch",
+   "tree": "Fire",
+   "row": 3,
+   "col": 0,
+   "tier": 4,
+   "maxRanks": 3,
+   "spellId": 11095,
+   "traitDefinitionId": 135318,
+   "prereq": null,
+   "perRank": {
+    "fireVulnerabilityApplyPct": [
+     33,
+     67,
+     100
+    ]
+   },
+   "effectTopRank": "Your Scorch spell has a 100% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.",
+   "effectRank1": "Your Scorch spell has a 33% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.",
+   "appliesTo": "Scorch applies Fire Vulnerability 22959: +3% Fire damage taken FROM THE APPLYING MAGE per stack, 5 stacks, 30 sec.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Same numbers, reworded. Fire Vulnerability is now personal to the applying mage (client aura type change).",
+   "classic": {
+    "name": "Improved Scorch",
+    "maxRanks": 3,
+    "topRankText": "Your Scorch spells have a 100% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases the Fire damage dealt to your target by 3% and lasts 30 sec. Stacks up to 5 times."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      33,
+      67,
+      100
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Your Scorch spell has a 100% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.",
+    "blizzconVideoRanks": [
+     [
+      33
+     ],
+     [
+      66
+     ],
+     [
+      100
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Personal damage mod on the mage's own Fire spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "CHANGED MECHANIC although numbers match Classic: Era 22959 used aura A_MOD_DAMAGE_PERCENT_TAKEN (raid-wide); beta uses A_MOD_SCHOOL_MASK_DAMAGE_FROM_CASTER (personal). Wowhead Forever tooltip confirms \"Fire damage taken from the Mage\". Every Fire mage keeps their own Scorch stacks; no shared Scorch mage."
+  },
+  {
+   "name": "Improved Fire Ward",
+   "tree": "Fire",
+   "row": 3,
+   "col": 1,
+   "tier": 4,
+   "maxRanks": 2,
+   "spellId": 11094,
+   "traitDefinitionId": 135317,
+   "prereq": null,
+   "perRank": {
+    "fireReflectPct": [
+     10,
+     20
+    ]
+   },
+   "effectTopRank": "Causes your Fire Ward to have a 20% chance to reflect Fire spells while active.",
+   "effectRank1": "Causes your Fire Ward to have a 10% chance to reflect Fire spells while active.",
+   "appliesTo": "Fire Ward.",
+   "relevance": [],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Improved Fire Ward",
+    "maxRanks": 2,
+    "topRankText": "Causes your Fire Ward to have a 20% chance to reflect Fire spells while active."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      10,
+      20
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Causes your Fire Ward to have a 20% chance to reflect Fire spells while active.",
+    "blizzconVideoRanks": [
+     [
+      10
+     ],
+     [
+      20
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Hot Streak",
+   "tree": "Fire",
+   "row": 3,
+   "col": 2,
+   "tier": 4,
+   "maxRanks": 1,
+   "spellId": 400624,
+   "traitDefinitionId": 135316,
+   "prereq": {
+    "talent": "Pyroblast",
+    "row": 2,
+    "col": 2,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "buffDurationSec": 20,
+    "pyroblastCastReductionPctPerStack": 25,
+    "maxStacks": 3
+   },
+   "effectTopRank": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+   "effectRank1": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+   "appliesTo": "Non-periodic crits with Fireball, Frostfire Bolt, Fire Blast, Scorch build stacks; next Pyroblast spends all.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "NEW",
+   "changeSummary": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec.",
+   "classic": {
+    "name": null,
+    "maxRanks": null,
+    "topRankText": null
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+    "blizzconVideoRanks": [
+     [
+      15,
+      25,
+      3
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "Stacks from those four spells' crits; 3 stacks = 1.5 sec Pyroblast.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "New. Duration raised 15 to 20 sec in build 70009. Icy Veins overview still says 15 sec."
+  },
+  {
+   "name": "Master of Elements",
+   "tree": "Fire",
+   "row": 3,
+   "col": 3,
+   "tier": 4,
+   "maxRanks": 3,
+   "spellId": 29074,
+   "traitDefinitionId": 135315,
+   "prereq": null,
+   "perRank": {
+    "refundPctOfBaseCost": [
+     10,
+     20,
+     30
+    ]
+   },
+   "effectTopRank": "Your Fire and Frost critical strikes will refund 30% of their base mana cost.",
+   "effectRank1": "Your Fire and Frost critical strikes will refund 10% of their base mana cost.",
+   "appliesTo": "Crits of Fire and Frost spells.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Same numbers, reworded.",
+   "classic": {
+    "name": "Master of Elements",
+    "maxRanks": 3,
+    "topRankText": "Your Fire and Frost spell criticals will refund 30% of their base mana cost."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      10,
+      20,
+      30
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Your Fire and Frost critical strikes will refund 10% of their base mana cost. (9ms cooldown)",
+    "blizzconVideoRanks": [
+     [
+      10
+     ],
+     [
+      20
+     ],
+     [
+      30
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Refunds curve fraction of spell base cost on Fire/Frost crits.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Same numbers as Classic. Blizzard and Flamestrike burn ticks are now separate spells with no mana cost of their own; whether a tick crit refunds anything is UNVERIFIED."
+  },
+  {
+   "name": "Critical Mass",
+   "tree": "Fire",
+   "row": 4,
+   "col": 1,
+   "tier": 5,
+   "maxRanks": 3,
+   "spellId": 11115,
+   "traitDefinitionId": 135314,
+   "prereq": null,
+   "perRank": {
+    "critPct": [
+     2,
+     4,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the critical strike chance of your Fire spells by 6%.",
+   "effectRank1": "Increases the critical strike chance of your Fire spells by 2%.",
+   "appliesTo": "Fire damage spells incl. Blast Wave, Flamestrike, Frostfire Bolt (client mask).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Critical Mass",
+    "maxRanks": 3,
+    "topRankText": "Increases the critical strike chance of your Fire spells by 6%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the critical strike chance of your Fire spells by 2%.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "BonusCrit on Fire spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Blast Wave",
+   "tree": "Fire",
+   "row": 4,
+   "col": 2,
+   "tier": 5,
+   "maxRanks": 1,
+   "spellId": 11113,
+   "traitDefinitionId": 135313,
+   "prereq": null,
+   "perRank": {
+    "cooldownSec": 45,
+    "dazeSlowPct": 50,
+    "dazeSec": 6,
+    "ranks": 5,
+    "coefficient": 0.129
+   },
+   "effectTopRank": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 148 to 178 Fire damage, and Dazing them for 50% reduced movement speed for 6 sec.",
+   "effectRank1": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 148 to 178 Fire damage, and Dazing them for 50% reduced movement speed for 6 sec.",
+   "appliesTo": "Talent-granted AoE.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "No longer requires Pyroblast. Numbers and wording changed.",
+   "classic": {
+    "name": "Blast Wave",
+    "maxRanks": 1,
+    "topRankText": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 154 to 186 Fire damage, and dazing them for 6 sec."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 154 to 184 Fire damage, and Dazing them for 50% reduced movement speed for 6 sec.",
+    "blizzconVideoRanks": [
+     [
+      160,
+      191,
+      50,
+      6
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "blast_wave.go casts rank 5.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "No longer requires Pyroblast. Damage slightly lower (spells agent scope)."
+  },
+  {
+   "name": "Fire Power",
+   "tree": "Fire",
+   "row": 5,
+   "col": 2,
+   "tier": 6,
+   "maxRanks": 5,
+   "spellId": 11124,
+   "traitDefinitionId": 135312,
+   "prereq": null,
+   "perRank": {
+    "fireDamagePct": [
+     2,
+     4,
+     6,
+     8,
+     10
+    ],
+    "firePeriodicDamagePct": [
+     2,
+     4,
+     6,
+     8,
+     10
+    ]
+   },
+   "effectTopRank": "Increases the damage done by your Fire spells by 10%.",
+   "effectRank1": "Increases the damage done by your Fire spells by 2%.",
+   "appliesTo": "Fire damage spells (direct) and their periodic parts.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Fire Power",
+    "maxRanks": 5,
+    "topRankText": "Increases the damage done by your Fire spells by 10%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6,
+      8,
+      10
+     ],
+     [
+      2,
+      4,
+      6,
+      8,
+      10
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Increases the damage done by your Fire spells by 2%.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ],
+     [
+      8
+     ],
+     [
+      10
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "DamageDone on Fire spells; Ignite excluded by flags.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Combustion",
+   "tree": "Fire",
+   "row": 6,
+   "col": 1,
+   "tier": 7,
+   "maxRanks": 1,
+   "spellId": 11129,
+   "traitDefinitionId": 135311,
+   "prereq": {
+    "talent": "Critical Mass",
+    "row": 4,
+    "col": 1,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "critPctPerFireHit": 10,
+    "endsAfterNonPeriodicFireCrits": 4,
+    "cooldownSec": 180
+   },
+   "effectTopRank": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells.",
+   "effectRank1": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells.",
+   "appliesTo": "Fire spells.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "4 instead of 3, reworded.",
+   "classic": {
+    "name": "Combustion",
+    "maxRanks": 1,
+    "topRankText": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 3 critical strikes with Fire spells."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells.",
+    "blizzconVideoRanks": [
+     [
+      10,
+      4
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "combustion.go reads charges 4 and 10% per stack (28682).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Lasts 4 non-periodic crits (Classic 3). Requires Critical Mass."
+  },
+  {
+   "name": "Frost Warding",
+   "tree": "Frost",
+   "row": 0,
+   "col": 0,
+   "tier": 1,
+   "maxRanks": 2,
+   "spellId": 11189,
+   "traitDefinitionId": 135310,
+   "prereq": null,
+   "perRank": {
+    "frostIceArmorBonusPct": [
+     15,
+     30
+    ],
+    "frostWardReflectPct": [
+     10,
+     20
+    ]
+   },
+   "effectTopRank": "Increases the Armor and resistance given by your Frost Armor and Ice Armor spells by 30%. In addition, gives your Frost Ward a 20% chance to reflect Frost spells and effects while active.",
+   "effectRank1": "Increases the Armor and resistance given by your Frost Armor and Ice Armor spells by 15%. In addition, gives your Frost Ward a 10% chance to reflect Frost spells and effects while active.",
+   "appliesTo": "Frost Armor, Ice Armor; Frost Ward.",
+   "relevance": [],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Same numbers, reworded.",
+   "classic": {
+    "name": "Frost Warding",
+    "maxRanks": 2,
+    "topRankText": "Increases the armor and resistances given by your Frost Armor and Ice Armor spells by 30%. In addition, gives your Frost Ward a 20% chance to reflect Frost spells and effects while active."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      15,
+      30
+     ],
+     [
+      10,
+      20
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases the Armor and resistance given by your Frost Armor and Ice Armor spells by 15%. In addition, gives your Frost Ward a 10% chance to reflect Frost spells and effects while active.",
+    "blizzconVideoRanks": [
+     [
+      15,
+      10
+     ],
+     [
+      30,
+      20
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Same numbers."
+  },
+  {
+   "name": "Improved Frostbolt",
+   "tree": "Frost",
+   "row": 0,
+   "col": 1,
+   "tier": 1,
+   "maxRanks": 5,
+   "spellId": 11070,
+   "traitDefinitionId": 135309,
+   "prereq": null,
+   "perRank": {
+    "castTimeReductionMs": [
+     100,
+     200,
+     300,
+     400,
+     500
+    ]
+   },
+   "effectTopRank": "Reduces the casting time of your Frostbolt spell by 0.5 sec.",
+   "effectRank1": "Reduces the casting time of your Frostbolt spell by 0.1 sec.",
+   "appliesTo": "Frostbolt.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Improved Frostbolt",
+    "maxRanks": 5,
+    "topRankText": "Reduces the casting time of your Frostbolt spell by 0.5 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -100,
+      -200,
+      -300,
+      -400,
+      -500
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Reduces the casting time of your Frostbolt spell by 0 sec.",
+    "blizzconVideoRanks": [
+     [
+      0.1
+     ],
+     [
+      0.2
+     ],
+     [
+      0.3
+     ],
+     [
+      0.4
+     ],
+     [
+      0.5
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "CastTime flat mod.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged. Wowhead prints \"0 sec\" (base -100 ms rounded)."
+  },
+  {
+   "name": "Elemental Precision",
+   "tree": "Frost",
+   "row": 0,
+   "col": 2,
+   "tier": 1,
+   "maxRanks": 5,
+   "spellId": 29438,
+   "traitDefinitionId": 135308,
+   "prereq": null,
+   "perRank": {
+    "spellHitPct": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "effectTopRank": "Improves your chance to hit with Frost and Fire spells by 5%.",
+   "effectRank1": "Improves your chance to hit with Frost and Fire spells by 1%.",
+   "appliesTo": "Fire and Frost damage spells (client mask: Fireball, Fire Blast, Scorch, Pyroblast, Flamestrike, Blast Wave, Frostbolt, Frost Nova, Cone of Cold, Blizzard and ticks, Ice Lance, Frostfire Bolt). NOT Arcane.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "5 ranks (Classic: 3). Effect rewritten.",
+   "classic": {
+    "name": "Elemental Precision",
+    "maxRanks": 3,
+    "topRankText": "Reduces the chance that the opponent can resist your Frost and Fire spells by 6%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Improves your chance to hit with Frost and Fire spells by 6%.",
+    "blizzconVideoRanks": [
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ],
+     [
+      4
+     ],
+     [
+      5
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "SchoolBonusHitChance[Fire] and [Frost] += curve value.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "5 ranks at 1% each (Classic 3 ranks, 2/4/6%). Wowhead tooltip says 6% because it prints the stored base points (Classic top rank); curve, BlizzCon rank 1 and ForeverChanges say 1..5%. Does not cover all schools."
+  },
+  {
+   "name": "Ice Shards",
+   "tree": "Frost",
+   "row": 1,
+   "col": 0,
+   "tier": 2,
+   "maxRanks": 5,
+   "spellId": 11207,
+   "traitDefinitionId": 135307,
+   "prereq": null,
+   "perRank": {
+    "frostCritDamageBonusPct": [
+     20,
+     40,
+     60,
+     80,
+     100
+    ]
+   },
+   "effectTopRank": "Increases the critical strike damage bonus of your Frost spells by 100%.",
+   "effectRank1": "Increases the critical strike damage bonus of your Frost spells by 20%.",
+   "appliesTo": "Frost spells incl. Blizzard ticks, Cone of Cold, Frost Nova, Frostbolt, Ice Lance, Frostfire Bolt (client mask).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Ice Shards",
+    "maxRanks": 5,
+    "topRankText": "Increases the critical strike damage bonus of your Frost spells by 100%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      20,
+      40,
+      60,
+      80,
+      100
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Increases the critical strike damage bonus of your Frost spells by 100%.",
+    "blizzconVideoRanks": [
+     [
+      20
+     ],
+     [
+      40
+     ],
+     [
+      60
+     ],
+     [
+      80
+     ],
+     [
+      100
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "CritMultiplier on Frost spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Permafrost",
+   "tree": "Frost",
+   "row": 1,
+   "col": 1,
+   "tier": 2,
+   "maxRanks": 3,
+   "spellId": 11175,
+   "traitDefinitionId": 135306,
+   "prereq": null,
+   "perRank": {
+    "chillDurationPct": [
+     11,
+     22,
+     33
+    ],
+    "extraSlowPct": [
+     3,
+     7,
+     10
+    ]
+   },
+   "effectTopRank": "Increases the duration of your Chill effects by 33% and reduces the target's speed by an additional 10%.",
+   "effectRank1": "Increases the duration of your Chill effects by 11% and reduces the target's speed by an additional 3%.",
+   "appliesTo": "Chill effects (client mask bit: Frostbolt, Cone of Cold, Frostfire Bolt, Improved Blizzard Chilled 12484, Frost Armor and Ice Armor chills).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from column 4 to column 2. Rank 3: 33% instead of 3 secs.",
+   "classic": {
+    "name": "Permafrost",
+    "maxRanks": 3,
+    "topRankText": "Increases the duration of your Chill effects by 3 secs and reduces the target's speed by an additional 10%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      11,
+      22,
+      33
+     ],
+     [
+      -3,
+      -7,
+      -10
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the duration of your Chill effects by 33% and reduces the target's speed by an additional 10%.",
+    "blizzconVideoRanks": [
+     [
+      11,
+      3
+     ],
+     [
+      11,
+      3
+     ],
+     [
+      11,
+      3
+     ]
+    ],
+    "blizzconRanksSource": "manual"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "CHANGED: Classic +1/2/3 sec and 4/7/10% slow; Forever +11/22/33% duration and 3/7/10% slow. On Blizzard's 1.5 sec chill, 3/3 gives about 2.0 sec (Classic 4.5 sec); on Cone of Cold (now 6 sec base) about 8 sec (Classic 11 sec). Those two durations are my arithmetic, not a read value."
+  },
+  {
+   "name": "Improved Frost Nova",
+   "tree": "Frost",
+   "row": 1,
+   "col": 2,
+   "tier": 2,
+   "maxRanks": 2,
+   "spellId": 11165,
+   "traitDefinitionId": 135305,
+   "prereq": null,
+   "perRank": {
+    "frostNovaCooldownReductionMs": [
+     2000,
+     4000
+    ]
+   },
+   "effectTopRank": "Reduces the cooldown of your Frost Nova spell by 4 sec.",
+   "effectRank1": "Reduces the cooldown of your Frost Nova spell by 2 sec.",
+   "appliesTo": "Frost Nova.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Improved Frost Nova",
+    "maxRanks": 2,
+    "topRankText": "Reduces the cooldown of your Frost Nova spell by 4 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -2000,
+      -4000
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Reduces the cooldown of your Frost Nova spell by 4 sec.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Cooldown flat mod.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged (-2/-4 sec)."
+  },
+  {
+   "name": "Frostbite",
+   "tree": "Frost",
+   "row": 1,
+   "col": 3,
+   "tier": 2,
+   "maxRanks": 3,
+   "spellId": 11071,
+   "traitDefinitionId": 135304,
+   "prereq": null,
+   "perRank": {
+    "freezeProcPct": [
+     5,
+     10,
+     15
+    ]
+   },
+   "effectTopRank": "Gives your Chill effects a 15% chance to Freeze the target for 5 sec.",
+   "effectRank1": "Gives your Chill effects a 5% chance to Freeze the target for 5 sec.",
+   "appliesTo": "Chill effects (same client mask as Permafrost, which includes Frost Armor and Ice Armor chill procs). Freeze 12494 is a 5 sec root.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "MOVED",
+   "changeSummary": "Moved from column 2 to column 4.",
+   "classic": {
+    "name": "Frostbite",
+    "maxRanks": 3,
+    "topRankText": "Gives your Chill effects a 15% chance to freeze the target for 5 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      5,
+      10,
+      15
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Gives your Chill effects a 15% chance to Freeze the target for 5 sec.",
+    "blizzconVideoRanks": [
+     [
+      5
+     ],
+     [
+      10
+     ],
+     [
+      15
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled (bosses immune).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged numbers; moved to column 4."
+  },
+  {
+   "name": "Piercing Ice",
+   "tree": "Frost",
+   "row": 2,
+   "col": 0,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11151,
+   "traitDefinitionId": 135303,
+   "prereq": null,
+   "perRank": {
+    "frostDamagePct": [
+     2,
+     4,
+     6
+    ]
+   },
+   "effectTopRank": "Increases the damage done by your Frost spells by 6%.",
+   "effectRank1": "Increases the damage done by your Frost spells by 2%.",
+   "appliesTo": "Effect 0: Frost damage spells. Effect 1 (periodic, mask Blizzard and Frostfire Bolt): no curve row, held at base 2%.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Piercing Ice",
+    "maxRanks": 3,
+    "topRankText": "Increases the damage done by your Frost spells by 6%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      2,
+      4,
+      6
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the damage done by your Frost spells by 2%.",
+    "blizzconVideoRanks": [
+     [
+      2
+     ],
+     [
+      4
+     ],
+     [
+      6
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "DamageDone on Frost spells from effect 0 only.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Same numbers as Classic. The periodic effect has no curve row, so it may be 2% at every rank or a data gap (UNVERIFIED; small)."
+  },
+  {
+   "name": "Frost Channeling",
+   "tree": "Frost",
+   "row": 2,
+   "col": 1,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11160,
+   "traitDefinitionId": 135302,
+   "prereq": null,
+   "perRank": {
+    "frostManaCostReductionPct": [
+     5,
+     10,
+     15
+    ],
+    "frostThreatReductionPct": [
+     10,
+     20,
+     30
+    ]
+   },
+   "effectTopRank": "Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%.",
+   "effectRank1": "Reduces the mana cost of your Frost spells by 5% and reduces the threat caused by your Frost spells by 10%.",
+   "appliesTo": "Frost spells (cost mask includes Blizzard, Cone of Cold, Frost Nova, Frostbolt, Ice Lance, Frostfire Bolt, armors, Ice Barrier, Ice Block).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "MOVED",
+   "changeSummary": "Moved from tier 4 to tier 3.",
+   "classic": {
+    "name": "Frost Channeling",
+    "maxRanks": 3,
+    "topRankText": "Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -5,
+      -10,
+      -15
+     ],
+     [
+      10,
+      20,
+      30
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%.",
+    "blizzconVideoRanks": [
+     [
+      5,
+      10
+     ],
+     [
+      10,
+      20
+     ],
+     [
+      15,
+      30
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Cost and threat mods on Frost spells.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Same numbers; moved to tier 3."
+  },
+  {
+   "name": "Ice Lance",
+   "tree": "Frost",
+   "row": 2,
+   "col": 2,
+   "tier": 3,
+   "maxRanks": 1,
+   "spellId": 1312002,
+   "traitDefinitionId": 135297,
+   "prereq": null,
+   "perRank": {
+    "frozenDamageBonusPct": 300,
+    "castSec": 0,
+    "ranks": 6,
+    "spellPowerCoefficient": "UNKNOWN (client row reads 0; sim assumes 0.143)"
+   },
+   "effectTopRank": "Deals 26 to 30 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.",
+   "effectRank1": "Deals 26 to 30 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.",
+   "appliesTo": "Talent-granted spell; bonus vs Frozen targets or while Fingers of Frost is up.",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "NEW",
+   "changeSummary": "Deals 26 to 30 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.",
+   "classic": {
+    "name": null,
+    "maxRanks": null,
+    "topRankText": null
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Deals 28 to 32 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.",
+    "blizzconVideoRanks": [
+     [
+      28,
+      33,
+      300
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "ice_lance.go; frozen = Fingers of Frost active (bosses cannot be frozen otherwise).",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "New. Rank 1 1312002, ranks 3-6 1240044-1240047 (rank 2 is 400640). Two extra dummy effects (20 and 5) whose meaning the tooltip does not show. Spell power coefficient is the biggest open Frost raid number: the sim notes .429 or .572 are as likely as .143."
+  },
+  {
+   "name": "Improved Blizzard",
+   "tree": "Frost",
+   "row": 2,
+   "col": 3,
+   "tier": 3,
+   "maxRanks": 3,
+   "spellId": 11185,
+   "traitDefinitionId": 135301,
+   "prereq": null,
+   "perRank": {
+    "blizzardChillSlowPct": [
+     15,
+     25,
+     40
+    ]
+   },
+   "effectTopRank": "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 40% for 1.5 sec.",
+   "effectRank1": "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 15% for 1.5 sec.",
+   "appliesTo": "Blizzard ticks apply Chilled 12484 (1.5 sec).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Rank 3: 40% instead of 65%, reworded.",
+   "classic": {
+    "name": "Improved Blizzard",
+    "maxRanks": 3,
+    "topRankText": "Adds a chill effect to your Blizzard spell. This effect lowers the target's movement speed by 65%. Lasts 1.5 sec."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      -15,
+      -25,
+      -40
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 40% for 1.5 sec.",
+    "blizzconVideoRanks": [
+     [
+      15
+     ],
+     [
+      30
+     ],
+     [
+      45
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Registers the chill so Fingers of Frost can roll on it; slow not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "NERF: Classic 30/50/65%, Forever 15/25/40%. One spell for every rank (Classic 12487/12488 removed)."
+  },
+  {
+   "name": "Arctic Reach",
+   "tree": "Frost",
+   "row": 3,
+   "col": 0,
+   "tier": 4,
+   "maxRanks": 2,
+   "spellId": 16757,
+   "traitDefinitionId": 135300,
+   "prereq": null,
+   "perRank": {
+    "rangePct_FrostboltBlizzard": [
+     10,
+     20
+    ],
+    "radiusPct_FrostNovaConeOfCold": [
+     10,
+     20
+    ]
+   },
+   "effectTopRank": "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 20%.",
+   "effectRank1": "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 10%.",
+   "appliesTo": "Frostbolt, Blizzard (range); Frost Nova, Cone of Cold (radius).",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "UNCHANGED",
+   "changeSummary": "Same as Classic.",
+   "classic": {
+    "name": "Arctic Reach",
+    "maxRanks": 2,
+    "topRankText": "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 20%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      10,
+      20
+     ],
+     [
+      10,
+      20
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 10%.",
+    "blizzconVideoRanks": [
+     [
+      10
+     ],
+     [
+      20
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Unchanged."
+  },
+  {
+   "name": "Ice Block",
+   "tree": "Frost",
+   "row": 3,
+   "col": 1,
+   "tier": 4,
+   "maxRanks": 1,
+   "spellId": 11958,
+   "traitDefinitionId": 135299,
+   "prereq": null,
+   "perRank": {
+    "durationSec": 10,
+    "cooldownSec": 300
+   },
+   "effectTopRank": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move, or cast spells.",
+   "effectRank1": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move, or cast spells.",
+   "appliesTo": "Self.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "MOVED",
+   "changeSummary": "Moved from tier 5 to tier 4.",
+   "classic": {
+    "name": "Ice Block",
+    "maxRanks": 1,
+    "topRankText": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move or cast spells."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move, or cast spells.",
+    "blizzconVideoRanks": [
+     [
+      10
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Moved from tier 5 to tier 4 (ForeverChanges wording)."
+  },
+  {
+   "name": "Shatter",
+   "tree": "Frost",
+   "row": 3,
+   "col": 3,
+   "tier": 4,
+   "maxRanks": 3,
+   "spellId": 11170,
+   "traitDefinitionId": 135298,
+   "prereq": null,
+   "perRank": {
+    "critPctVsFrozen": [
+     17,
+     33,
+     50
+    ]
+   },
+   "effectTopRank": "Increases the critical strike chance of all your spells against Frozen targets by 50%.",
+   "effectRank1": "Increases the critical strike chance of all your spells against Frozen targets by 17%.",
+   "appliesTo": "All your spells against Frozen targets (and Fingers of Frost windows).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "3 ranks (Classic: 5). Moved from column 3 to column 4. No longer requires Improved Frost Nova. Rank 3: 50% instead of 30%.",
+   "classic": {
+    "name": "Shatter",
+    "maxRanks": 5,
+    "topRankText": "Increases the critical strike chance of all your spells against frozen targets by 50%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      17,
+      33,
+      50
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the critical strike chance of all your spells against Frozen targets by 1%.",
+    "blizzconVideoRanks": [
+     [
+      50
+     ],
+     [
+      50
+     ],
+     [
+      50
+     ]
+    ],
+    "blizzconRanksSource": "manual"
+   },
+   "simReads": "Folded into Fingers of Frost aura.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "3 ranks at 17/33/50% (Classic 5 ranks 10..50%). No longer requires Improved Frost Nova. Wowhead shows 1% (base points). BlizzCon file had 50/50/50 (manual); the tools README once said five ranks."
+  },
+  {
+   "name": "Improved Cone of Cold",
+   "tree": "Frost",
+   "row": 4,
+   "col": 0,
+   "tier": 5,
+   "maxRanks": 3,
+   "spellId": 11190,
+   "traitDefinitionId": 135295,
+   "prereq": null,
+   "perRank": {
+    "coneOfColdDamagePct": [
+     12,
+     23,
+     35
+    ]
+   },
+   "effectTopRank": "Increases the damage dealt by your Cone of Cold spell by 35%.",
+   "effectRank1": "Increases the damage dealt by your Cone of Cold spell by 12%.",
+   "appliesTo": "Cone of Cold.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from column 3 to column 1. 12% instead of 15%.",
+   "classic": {
+    "name": "Improved Cone of Cold",
+    "maxRanks": 3,
+    "topRankText": "Increases the damage dealt by your Cone of Cold spell by 35%."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      12,
+      23,
+      35
+     ]
+    ],
+    "forEverChangesRanks": 3,
+    "wowheadTooltip": "Increases the damage dealt by your Cone of Cold spell by 15%.",
+    "blizzconVideoRanks": [
+     [
+      12
+     ],
+     [
+      24
+     ],
+     [
+      36
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "DamageDone on Cone of Cold.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "12/23/35% (Classic 15/25/35%). Wowhead shows 15% (base points)."
+  },
+  {
+   "name": "Cold Snap",
+   "tree": "Frost",
+   "row": 4,
+   "col": 1,
+   "tier": 5,
+   "maxRanks": 1,
+   "spellId": 12472,
+   "traitDefinitionId": 135296,
+   "prereq": null,
+   "perRank": {
+    "cooldownSec": 600
+   },
+   "effectTopRank": "Finishes the remaining cooldown on all your other Frost spells.",
+   "effectRank1": "Finishes the remaining cooldown on all your other Frost spells.",
+   "appliesTo": "Other Frost spells' cooldowns.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Moved from tier 3 to tier 5. Effect rewritten.",
+   "classic": {
+    "name": "Cold Snap",
+    "maxRanks": 1,
+    "topRankText": "When activated, this spell finishes the cooldown on all of your Frost spells."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Finishes the remaining cooldown on all your other Frost spells.",
+    "blizzconVideoRanks": [
+     []
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "cold_snap.go.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Moved to tier 5; Ice Barrier now requires it."
+  },
+  {
+   "name": "Fingers of Frost",
+   "tree": "Frost",
+   "row": 4,
+   "col": 2,
+   "tier": 5,
+   "maxRanks": 2,
+   "spellId": 400647,
+   "traitDefinitionId": 135294,
+   "prereq": {
+    "talent": "Ice Lance",
+    "row": 2,
+    "col": 2,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "charges": [
+     1,
+     2
+    ],
+    "procPctOnChill": 15,
+    "buffDurationSec": 15
+   },
+   "effectTopRank": "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec.",
+   "effectRank1": "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 1 spell cast as if the target were Frozen. Lasts 15 sec.",
+   "appliesTo": "Chill effects (Frostbolt, Cone of Cold, Frostfire Bolt, Improved Blizzard chill per sim; client chill bit also covers Frost/Ice Armor chills).",
+   "relevance": [
+    "leveling",
+    "raid"
+   ],
+   "changedInForever": "NEW",
+   "changeSummary": "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 1 spell cast as if the target were Frozen. Lasts 15 sec.",
+   "classic": {
+    "name": null,
+    "maxRanks": null,
+    "topRankText": null
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2
+     ]
+    ],
+    "forEverChangesRanks": 2,
+    "wowheadTooltip": "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec.",
+    "blizzconVideoRanks": [
+     [
+      15,
+      1,
+      15
+     ],
+     [
+      15,
+      1,
+      15
+     ]
+    ],
+    "blizzconRanksSource": "manual"
+   },
+   "simReads": "15% at both ranks; stacks 1/2; shatter crit applied during the window.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "New; requires Ice Lance. Curve row covers charges only (1/2); the 15% chance is flat at both ranks. Icy Veins overview says 30% (pre-beta); client says 15%. Wowhead shows \"next 2 spells\" (base points)."
+  },
+  {
+   "name": "Winter's Chill",
+   "tree": "Frost",
+   "row": 5,
+   "col": 2,
+   "tier": 6,
+   "maxRanks": 5,
+   "spellId": 11180,
+   "traitDefinitionId": 135293,
+   "prereq": null,
+   "perRank": {
+    "maxStacks": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "applyChancePct": [
+     20,
+     40,
+     60,
+     80,
+     100
+    ]
+   },
+   "effectTopRank": "Gives your Frost damage spells a 100% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 5 times.",
+   "effectRank1": "Gives your Frost damage spells a 20% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 1 times.",
+   "appliesTo": "Frost damage spells apply debuff 12579: +2% crit per stack for THIS mage's Frostbolt and Ice Lance only, 15 sec.",
+   "relevance": [
+    "raid"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Now personal: only the applying mage's Frostbolt and Ice Lance gain the crit; stack cap equals talent rank.",
+   "classic": {
+    "name": "Winter's Chill",
+    "maxRanks": 5,
+    "topRankText": "Gives your Frost damage spells a 100% chance to apply the Winter's Chill effect, which increases the chance a Frost spell will critically hit the target by 2% for 15 sec. Stacks up to 5 times."
+   },
+   "crossCheck": {
+    "clientCurve": [
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     [
+      20,
+      40,
+      60,
+      80,
+      100
+     ]
+    ],
+    "forEverChangesRanks": 5,
+    "wowheadTooltip": "Gives your Frost damage spells a 0% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 5 times.",
+    "blizzconVideoRanks": [
+     [
+      20
+     ],
+     [
+      40
+     ],
+     [
+      60
+     ],
+     [
+      80
+     ],
+     [
+      100
+     ]
+    ],
+    "blizzconRanksSource": "classic-prior"
+   },
+   "simReads": "Personal crit mod on Frostbolt and Ice Lance.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "CHANGED MECHANIC: Era 12579 used A_MOD_ATTACKER_SPELL_CRIT_CHANCE (any caster, all Frost spells); beta uses A_MOD_CRIT_CHANCE_FOR_CASTER_WITH_ABILITIES with a Frostbolt/Ice Lance mask. Stack cap is per rank (1..5). No longer a raid debuff. Wowhead prints \"0% chance\" (base points of the dummy). The repo docs/forever_rules.md line \"single personal stack\" is stale; the sim code stacks per point."
+  },
+  {
+   "name": "Ice Barrier",
+   "tree": "Frost",
+   "row": 6,
+   "col": 1,
+   "tier": 7,
+   "maxRanks": 1,
+   "spellId": 11426,
+   "traitDefinitionId": 135292,
+   "prereq": {
+    "talent": "Cold Snap",
+    "row": 4,
+    "col": 1,
+    "ranksRequired": "UNVERIFIED (Classic convention is full ranks; BlizzCon file says nothing)"
+   },
+   "perRank": {
+    "cooldownSec": 30,
+    "durationSec": 60,
+    "ranks": 4,
+    "absorbRank1": 431,
+    "noPushbackOrInterruptWhileHeld": true
+   },
+   "effectTopRank": "Instantly shields you, absorbing 431 damage. Lasts 1 min. While the shield holds, your spellcasts will not be interrupted or delayed from taking damage.",
+   "effectRank1": "Instantly shields you, absorbing 431 damage. Lasts 1 min. While the shield holds, your spellcasts will not be interrupted or delayed from taking damage.",
+   "appliesTo": "Self.",
+   "relevance": [
+    "leveling"
+   ],
+   "changedInForever": "CHANGED",
+   "changeSummary": "Requires Cold Snap (Classic: Ice Block). 431 instead of 438, reworded.",
+   "classic": {
+    "name": "Ice Barrier",
+    "maxRanks": 1,
+    "topRankText": "Instantly shields you, absorbing 438 damage. Lasts 1 min. While the shield holds, spells will not be interrupted."
+   },
+   "crossCheck": {
+    "clientCurve": null,
+    "forEverChangesRanks": 1,
+    "wowheadTooltip": "Instantly shields you, absorbing 448 damage. Lasts 1 min. While the shield holds, your spellcasts will not be interrupted or delayed from taking damage.",
+    "blizzconVideoRanks": [
+     [
+      431,
+      1
+     ]
+    ],
+    "blizzconRanksSource": "observed"
+   },
+   "simReads": "Not modelled.",
+   "src": [
+    "ElliotWood/Forever ui/sim/talents/trees/mage.json (row, col, maxPoints, prereqLocation, spellId)",
+    "ElliotWood/Forever sim/core/spelldata/spells_auto_gen.go generatedCurves (trait curve read from beta client)",
+    "foreverchanges.pro/talents/mage embedded data (wago.tools TraitNode, beta build 1.60.1.70124; Classic Era 1.15.9.69722)",
+    "nether.wowhead.com/forever/tooltip/spell/<id> (shows stored base points, not always top rank)",
+    "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
+    "ElliotWood/Forever sim/mage/*.go"
+   ],
+   "note": "Requires Cold Snap (Classic: Ice Block). New: while the shield holds, casts are not interrupted or delayed by damage (matters for AoE Blizzard channels). Wowhead prints 448 (level-scaled value at 60)."
+  }
+ ]
+}
