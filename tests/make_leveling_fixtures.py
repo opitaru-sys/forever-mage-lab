@@ -2,13 +2,16 @@
 
 Run from the repo root: python tests/make_leveling_fixtures.py
 It first checks the model's embedded data against data/: every spell rank row (check_tables) and every
-talent per-rank value (check_talents below). Then it writes tests/leveling_fixtures.json: a grid of builds (the
-planner order and the three tree-first orders of analysis/leveling_paths.py, and no talents), levels, gear, races
-and options.
+talent per-rank value (check_talents below), that every tv() lookup in both models names a real talent
+(check_tv_calls), and that the chill's slow follows Permafrost's ranks (slow_cases). Then it writes
+tests/leveling_fixtures.json: a grid of builds (the planner order and the three tree-first orders of
+analysis/leveling_paths.py, and no talents), levels, gear, races and options; and tests/leveling_slow_fixtures.json,
+the chill slow at 0 to 3 ranks of Permafrost.
 """
 import io
 import json
 import os
+import re
 import sys
 import contextlib
 from multiprocessing import Pool
@@ -18,7 +21,7 @@ sys.path.insert(0, os.path.join(ROOT, 'models'))
 sys.path.insert(0, os.path.join(ROOT, 'analysis'))
 
 import leveling_sim as ls                         # noqa: E402
-from character import evaluate, valid, KEYS, SCORED, BY_KEY   # noqa: E402
+from character import evaluate, valid, make_char, KEYS, SCORED, BY_KEY, POLICIES   # noqa: E402
 with contextlib.redirect_stdout(io.StringIO()):
     from leveling_paths import build, ORDERS      # noqa: E402
 
@@ -129,6 +132,38 @@ def check_talents():
     return bad
 
 
+TV_CALL = re.compile(r"\btv\(\s*[\w.]+\s*,\s*'(\w+)'(?:\s*,\s*'(\w+)')?\s*\)")
+CHILL_SLOW = 0.40       # the Frostbolt and Cone of Cold chill's movement slow before Permafrost (the model's base)
+
+
+def check_tv_calls():
+    """Every literal tv(ch, 'Talent'[, 'Table']) in the Python and JS models names a real talent and a known table.
+    tv() reads the rank of its first argument, so a table name there (tv(ch, 'PermafrostSlow')) silently reads rank 0."""
+    bad = []
+    for rel in ('models/leveling_sim.py', 'leveling.js'):
+        with open(os.path.join(ROOT, rel), encoding='utf-8') as f:
+            calls = TV_CALL.findall(f.read())
+        if len(calls) < 10:
+            bad.append((rel, 'only %d tv() calls found: the scan pattern is stale' % len(calls)))
+        bad += [(rel, 'tv', key, table) for key, table in calls if key not in KEYS or (table or key) not in ls.TV]
+    return bad
+
+
+def slow_cases():
+    """The chill's movement slow at 0 to 3 ranks of Permafrost: data/talents.json against the model."""
+    out, bad = [], []
+    per = BY_KEY['Permafrost']['perRank']['extraSlowPct']
+    for r in range(len(per) + 1):
+        tal = dict(ImprovedFrostbolt=5, **({'Permafrost': r} if r else {}))
+        assert valid(tal), tal
+        want = CHILL_SLOW + (per[r - 1] / 100 if r else 0.0)
+        got = ls.fight_consts(make_char(30, tal), POLICIES['Frostbolt'])['slow']
+        if abs(got - want) > 1e-12:
+            bad.append(('Permafrost slow', r, got, want))
+        out.append(dict(level=30, talents=tal, rank=r, slow=want))
+    return out, bad
+
+
 def job(c):
     kw = dict(c['opts'])
     n, r = evaluate(c['level'], c['talents'], c['gear'], c['race'], **kw)
@@ -198,12 +233,16 @@ def cases():
 
 
 def main():
-    bad = check_tables() + check_talents()
+    slows, slow_bad = slow_cases()
+    bad = check_tables() + check_talents() + check_tv_calls() + slow_bad
     if bad:
         for b in bad:
             print('DATA MISMATCH', b)
         sys.exit(1)
-    print('data check: every spell row and talent value matches data/')
+    print('data check: every spell row and talent value matches data/; every tv() names a talent; the chill slow '
+          'follows Permafrost at 0 to %d ranks' % (len(slows) - 1))
+    with open(os.path.join(ROOT, 'tests', 'leveling_slow_fixtures.json'), 'w', newline='\r\n') as f:
+        json.dump(slows, f, indent=0)
     cs = cases()
     with Pool(max(1, (os.cpu_count() or 2) - 2)) as pool:
         res = pool.map(job, cs, chunksize=2)

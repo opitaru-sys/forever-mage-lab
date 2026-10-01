@@ -38,33 +38,32 @@ def rep(*p):
 PLANNER = rep(('ImprovedFrostbolt', 5), ('Frostbite', 2), ('IceShards', 2), ('Frostbite', 1), ('IceLance', 1),
               ('PiercingIce', 3), ('IceShards', 1), ('Shatter', 3), ('IceShards', 2), ('FingersOfFrost', 2),
               ('FrostChanneling', 2), ('ElementalPrecision', 1), ('FrostChanneling', 1), ('ElementalPrecision', 1),
-              ('Incineration', 1), ('ElementalPrecision', 1), ('Incineration', 1), ('WintersChill', 1),
-              ('ArcticReach', 1), ('WintersChill', 1), ('ArcticReach', 1), ('WakeOfFire', 2), ('WintersChill', 2),
-              ('ImprovedFrostNova', 1), ('IceBlock', 1), ('ColdSnap', 1), ('IceBarrier', 1),
-              ('ImprovedConeOfCold', 1), ('WandSpecialization', 2), ('ImprovedConeOfCold', 2), ('ArcaneFocus', 3),
-              ('ElementalPrecision', 1))
+              ('Incineration', 1), ('ElementalPrecision', 1), ('Incineration', 2), ('ArcticReach', 1),
+              ('WintersChill', 1), ('ArcticReach', 1), ('WakeOfFire', 2), ('WintersChill', 2), ('Ignite', 1),
+              ('WandSpecialization', 2), ('ArcaneFocus', 3), ('ArcaneConcentration', 5), ('ImprovedConeOfCold', 2))
 FROST = rep(('ImprovedFrostbolt', 5), ('Frostbite', 2), ('IceShards', 2), ('Frostbite', 1), ('IceLance', 1),
             ('PiercingIce', 3), ('IceShards', 1), ('Shatter', 3), ('IceShards', 2), ('FingersOfFrost', 2),
             ('FrostChanneling', 2), ('ElementalPrecision', 1), ('FrostChanneling', 1), ('ElementalPrecision', 2),
-            ('ArcticReach', 2), ('WintersChill', 3), ('ImprovedFrostNova', 1), ('Permafrost', 2), ('WintersChill', 2),
-            ('ImprovedFrostNova', 1), ('IceBlock', 1), ('ColdSnap', 1), ('IceBarrier', 1), ('ImprovedConeOfCold', 1),
-            ('WandSpecialization', 2), ('ImprovedConeOfCold', 2), ('ArcaneFocus', 3), ('ElementalPrecision', 1))
+            ('ArcticReach', 2), ('WintersChill', 2), ('Permafrost', 1), ('WintersChill', 1), ('ImprovedFrostNova', 1),
+            ('WintersChill', 2), ('ImprovedFrostNova', 1), ('IceBlock', 1), ('ColdSnap', 1), ('IceBarrier', 1),
+            ('ImprovedConeOfCold', 1), ('WandSpecialization', 2), ('ImprovedConeOfCold', 1), ('Permafrost', 1),
+            ('ImprovedConeOfCold', 1), ('ArcaneFocus', 3), ('ElementalPrecision', 1))
 FIRE = rep(('WakeOfFire', 2), ('Incineration', 3), ('Ignite', 5), ('Pyroblast', 1), ('BurningSoul', 1),
            ('ImprovedFireball', 1), ('BurningSoul', 2), ('HotStreak', 1), ('ImprovedScorch', 3), ('FlameThrowing', 1),
-           ('CriticalMass', 3), ('Impact', 1), ('FlameThrowing', 1), ('FirePower', 4), ('ImprovedFireball', 1),
+           ('CriticalMass', 3), ('FlameThrowing', 1), ('Impact', 1), ('FirePower', 4), ('ImprovedFireball', 1),
            ('Combustion', 1), ('FirePower', 1), ('MasterOfElements', 2), ('Impact', 1), ('ElementalPrecision', 1),
            ('MasterOfElements', 1), ('ElementalPrecision', 2), ('Impact', 1), ('ElementalPrecision', 2),
            ('ImprovedFireball', 1), ('BlastWave', 1), ('ImprovedFrostbolt', 1), ('WandSpecialization', 1),
            ('ImprovedFrostbolt', 4), ('PiercingIce', 1))
-ARCANE = rep(('ImprovedChanneling', 1), ('WandSpecialization', 2), ('ArcaneFocus', 2), ('ArcaneConcentration', 3),
-             ('ImprovedChanneling', 1), ('ArcaneConcentration', 1), ('ArcaneFocus', 1), ('ArcaneConcentration', 1),
-             ('ArcaneFocus', 1), ('ImprovedChanneling', 1), ('ArcaneBlast', 1), ('MissileBarrage', 1),
-             ('ArcaneMeditation', 1), ('ArcaneImpact', 2), ('ArcaneMeditation', 1), ('PresenceOfMind', 1),
-             ('ArcaneMeditation', 1), ('ArcaneImpact', 1), ('ImprovedChanneling', 2), ('ArcaneInstability', 3),
-             ('ArcaneMind', 2), ('ImprovedFrostbolt', 1), ('ArcanePower', 1), ('ArcaneMind', 1),
-             ('ImprovedFrostbolt', 4), ('ElementalPrecision', 1), ('ArcaneMind', 2), ('ElementalPrecision', 4),
-             ('FrostChanneling', 2), ('IceLance', 1), ('FrostChanneling', 1), ('Permafrost', 1), ('Shatter', 1),
-             ('ArcaneFocus', 1))
+ARCANE = rep(('ImprovedChanneling', 1), ('WandSpecialization', 2), ('ArcaneFocus', 2), ('ArcaneConcentration', 4),
+             ('ImprovedChanneling', 1), ('ArcaneFocus', 1), ('ArcaneConcentration', 1), ('ArcaneFocus', 1),
+             ('ImprovedChanneling', 1), ('ArcaneBlast', 1), ('MissileBarrage', 1), ('ArcaneMeditation', 1),
+             ('ArcaneImpact', 2), ('ArcaneMeditation', 1), ('PresenceOfMind', 1), ('ArcaneMeditation', 1),
+             ('ArcaneImpact', 1), ('ArcaneMind', 2), ('ArcaneInstability', 3), ('ImprovedFrostbolt', 1),
+             ('ImprovedChanneling', 2), ('ArcanePower', 1), ('ArcaneMind', 1), ('ImprovedFrostbolt', 1),
+             ('ArcaneMind', 1), ('ElementalPrecision', 1), ('ArcaneMind', 1), ('ImprovedFrostbolt', 1),
+             ('ElementalPrecision', 2), ('ImprovedFrostbolt', 2), ('ElementalPrecision', 2), ('FrostChanneling', 3),
+             ('IceLance', 1), ('Permafrost', 1), ('Shatter', 1), ('ArcaneFocus', 1))
 ORDERS = {'planner': PLANNER, 'frost': FROST, 'fire': FIRE, 'arcane': ARCANE}
 
 

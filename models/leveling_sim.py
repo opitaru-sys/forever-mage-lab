@@ -299,7 +299,7 @@ def fight_consts(ch, pol):
     fb, pf = k['row']['Frostbolt'], tv(ch, 'Permafrost')
     k['chill_s'] = dict(Frostbolt=(FROSTBOLT_SLOW_S[fb[0]] if fb else 0) * (1 + pf), FrostfireBolt=9.0 * (1 + pf),
                         ConeOfCold=6.0 * (1 + pf))
-    k['slow'] = 0.40 + tv(ch, 'PermafrostSlow')
+    k['slow'] = 0.40 + tv(ch, 'Permafrost', 'PermafrostSlow')   # the chill's movement slow, Permafrost's extra
     k['p_cc'] = tv(ch, 'ArcaneConcentration')
     k['moe'] = tv(ch, 'MasterOfElements')
     k['ignite'] = tv(ch, 'Ignite')

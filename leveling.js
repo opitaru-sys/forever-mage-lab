@@ -183,7 +183,7 @@
       FrostNova: COOLDOWN.FrostNova - tv(ch, 'ImprovedFrostNova'), BlastWave: COOLDOWN.BlastWave };
     const fb = k.row.Frostbolt, pf = tv(ch, 'Permafrost');
     k.chill_s = { Frostbolt: (fb ? FROSTBOLT_SLOW_S[fb[0]] : 0) * (1 + pf), FrostfireBolt: 9.0 * (1 + pf), ConeOfCold: 6.0 * (1 + pf) };
-    k.slow = 0.40 + tv(ch, 'PermafrostSlow');
+    k.slow = 0.40 + tv(ch, 'Permafrost', 'PermafrostSlow');   // the chill's movement slow, Permafrost's extra
     k.p_cc = tv(ch, 'ArcaneConcentration');
     k.moe = tv(ch, 'MasterOfElements');
     k.ignite = tv(ch, 'Ignite');
@@ -845,41 +845,56 @@
   }
   const polKey = pol => Object.keys(pol).sort().map(k => k + '=' + (k === 'prio' ? pol[k].join(',') : String(pol[k]))).join('|');
   const offOr = g => [null].concat(g.map((_, i) => i));
-  // single-group changes to a fixed point (at most `passes`), then (pairs) two-group changes; repeat while one helps
+  // the choices one group (singleMoves) or two groups (pairMoves) away from `choice`
+  function singleMoves(gs, choice) {
+    const out = [];
+    for (let gi = 0; gi < gs.length; gi++) {
+      for (const c of offOr(gs[gi])) if (c !== choice[gi]) out.push(choice.slice(0, gi).concat([c], choice.slice(gi + 1)));
+    }
+    return out;
+  }
+  function pairMoves(gs, choice) {
+    const out = [];
+    for (let gi = 0; gi < gs.length; gi++) {
+      for (let gj = gi + 1; gj < gs.length; gj++) {
+        for (const ci of offOr(gs[gi])) {
+          for (const cj of offOr(gs[gj])) {
+            if (ci === choice[gi] && cj === choice[gj]) continue;
+            const trial = choice.slice();
+            trial[gi] = ci; trial[gj] = cj;
+            out.push(trial);
+          }
+        }
+      }
+    }
+    return out;
+  }
+  // the fastest trial that beats cur (the first of equals, in order) as [choice, result]; null if none does
+  function bestMove(run, pol, name, gs, cur, trials) {
+    let best = null;
+    for (const trial of trials) {
+      const r = run(compose(pol, name, gs, trial)[0]);
+      if (better(r, cur) && (best === null || better(r, best[1]))) best = [trial, r];
+    }
+    return best;
+  }
+  // Steepest descent over the modifier groups: the fastest single-group change while one helps (at most
+  // passes x groups moves), then, if pairs, the fastest two-group change, and start over (coord_search in Python).
   function coordSearch(run, pol, name, gs, start, passes, pairs) {
     passes = passes === undefined ? 3 : passes;
     pairs = pairs === undefined ? true : pairs;
     let choice = start.slice();
     let cur = run(compose(pol, name, gs, choice)[0]);
     for (;;) {
-      for (let pass = 0; pass < passes; pass++) {
-        let changed = false;
-        for (let gi = 0; gi < gs.length; gi++) {
-          for (const c of offOr(gs[gi])) {
-            if (c === choice[gi]) continue;
-            const trial = choice.slice(0, gi).concat([c], choice.slice(gi + 1));
-            const r = run(compose(pol, name, gs, trial)[0]);
-            if (better(r, cur)) { choice = trial; cur = r; changed = true; }
-          }
-        }
-        if (!changed) break;
+      for (let i = 0; i < passes * Math.max(1, gs.length); i++) {
+        const best = bestMove(run, pol, name, gs, cur, singleMoves(gs, choice));
+        if (best === null) break;
+        choice = best[0]; cur = best[1];
       }
       if (!pairs) return [choice, cur];
-      let improved = false;
-      for (let gi = 0; gi < gs.length; gi++) {
-        for (let gj = gi + 1; gj < gs.length; gj++) {
-          for (const ci of offOr(gs[gi])) {
-            for (const cj of offOr(gs[gj])) {
-              if (ci === choice[gi] && cj === choice[gj]) continue;
-              const trial = choice.slice();
-              trial[gi] = ci; trial[gj] = cj;
-              const r = run(compose(pol, name, gs, trial)[0]);
-              if (better(r, cur)) { choice = trial; cur = r; improved = true; }
-            }
-          }
-        }
-      }
-      if (!improved) return [choice, cur];
+      const best = bestMove(run, pol, name, gs, cur, pairMoves(gs, choice));
+      if (best === null) return [choice, cur];
+      choice = best[0]; cur = best[1];
     }
   }
 
@@ -978,6 +993,6 @@
 
   const api = { evaluate, evaluateUncached, policyLabel, SCORED, UNSCORED, OPT_MAP, POLICIES, makeChar, mobHp, mobDps, simulate,
     secondsPerKill, restSetup, restSolve, travelRegen, rankRows, ddAvg, POTIONS, POTION_NAMES, HP_MULTS, LOW_RANKS,
-    modGroups, rankGroup, runPolicy };
+    modGroups, rankGroup, runPolicy, fightConsts };
   if (typeof module !== 'undefined') module.exports = api; else root.LevelingModel = api;
 })(this);

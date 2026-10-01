@@ -369,41 +369,56 @@ def pol_key(pol):
     return '|'.join(k + '=' + (','.join(v) if k == 'prio' else str(v)) for k, v in sorted(pol.items()))
 
 
+def _single_moves(gs, choice):
+    """Every choice that differs from `choice` in one group (None: the group off)."""
+    return [choice[:gi] + [c] + choice[gi + 1:] for gi, g in enumerate(gs)
+            for c in [None] + list(range(len(g))) if c != choice[gi]]
+
+
+def _pair_moves(gs, choice):
+    """Every choice that differs from `choice` in two groups at once (or in one of the two)."""
+    out = []
+    for gi in range(len(gs)):
+        for gj in range(gi + 1, len(gs)):
+            for ci in [None] + list(range(len(gs[gi]))):
+                for cj in [None] + list(range(len(gs[gj]))):
+                    if ci == choice[gi] and cj == choice[gj]:
+                        continue
+                    trial = list(choice)
+                    trial[gi], trial[gj] = ci, cj
+                    out.append(trial)
+    return out
+
+
+def _best_move(run, pol, name, gs, cur, trials):
+    """The fastest trial that beats `cur` (the first of equals, in order), as (choice, result); None if none does."""
+    best = None
+    for trial in trials:
+        r = run(compose(pol, name, gs, trial)[0])
+        if better(r, cur) and (best is None or better(r, best[1])):
+            best = (trial, r)
+    return best
+
+
 def coord_search(run, pol, name, gs, start, passes=3, pairs=True):
-    """From a choice of options (one entry per group, None: off), try every other option of each group in turn and
-    keep any change that is faster; repeat until a pass changes nothing (at most `passes`). Then try every change of
-    two groups at once (pairs); if one is faster, keep it and start over. Returns (choice, result)."""
+    """Steepest descent over the modifier groups, from `start` (one entry per group, None: off). Move to the fastest
+    single-group change while one beats the current choice (at most passes x groups moves). Then, if `pairs`, move
+    to the fastest two-group change and start over. Returns (choice, result). Taking the first faster change instead
+    stranded the search three changes from the best (3.3% at level 46, 1 Oct 2026)."""
     choice = list(start)
     cur = run(compose(pol, name, gs, choice)[0])
     while True:
-        for _ in range(passes):
-            changed = False
-            for gi, g in enumerate(gs):
-                for c in [None] + list(range(len(g))):
-                    if c == choice[gi]:
-                        continue
-                    trial = choice[:gi] + [c] + choice[gi + 1:]
-                    r = run(compose(pol, name, gs, trial)[0])
-                    if better(r, cur):
-                        choice, cur, changed = trial, r, True
-            if not changed:
+        for _ in range(passes * max(1, len(gs))):
+            best = _best_move(run, pol, name, gs, cur, _single_moves(gs, choice))
+            if best is None:
                 break
+            choice, cur = best
         if not pairs:
             return choice, cur
-        improved = False
-        for gi in range(len(gs)):
-            for gj in range(gi + 1, len(gs)):
-                for ci in [None] + list(range(len(gs[gi]))):
-                    for cj in [None] + list(range(len(gs[gj]))):
-                        if ci == choice[gi] and cj == choice[gj]:
-                            continue
-                        trial = list(choice)
-                        trial[gi], trial[gj] = ci, cj
-                        r = run(compose(pol, name, gs, trial)[0])
-                        if better(r, cur):
-                            choice, cur, improved = trial, r, True
-        if not improved:
+        best = _best_move(run, pol, name, gs, cur, _pair_moves(gs, choice))
+        if best is None:
             return choice, cur
+        choice, cur = best
 
 
 def evaluate(L, tal, gear=1, race='none', hp_mults=HP_MULTS, top=6, mods=True, downrank=True, policies=None,
@@ -413,11 +428,11 @@ def evaluate(L, tal, gear=1, race='none', hp_mults=HP_MULTS, top=6, mods=True, d
     off or one option) x every allowed rank of its main spell (rank_group).
     1. Probe: every base runs plain, at each allowed rank, with its first group's second option alone (Frost
        Nova, then step back), and with that option at each allowed rank; its best probe ranks it.
-    2. The best `top` bases (feasible first) each get coord_search from their best probe: single-group changes to a
-       fixed point, and for the best `pair_top` also two-group changes. Results are memoized within the call.
+    2. The best `top` bases (feasible first) each get coord_search from their best probe: steepest descent over
+       single-group changes, and for the best `pair_top` also two-group changes. Results are memoized within the call.
     analysis/leveling_search_check.py compares this with the exhaustive search (every base, modifier set and rank).
-    On its 212-case grid (1 Oct 2026) the largest gap was 0.000%, at 85 rotations run on average against 249
-    for the exhaustive search. A rotation in which the Mage dies or
+    On its 212-case grid (1 Oct 2026, final orders) the largest gap was 0.000%, at 87 rotations run on average
+    against 229 for the exhaustive search. A rotation in which the Mage dies or
     the mob lives 240 s is infeasible and never beats a feasible one. The name carries ' +Ice Lance', ' +Hot Streak
     Pyroblast' and ' +Missile Barrage' when the rotation casts them. result has spk (seconds per kill: fight +
     walking + rest), ttk, rest, feasible, pots and evo, and the fight details."""

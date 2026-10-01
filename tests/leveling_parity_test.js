@@ -34,6 +34,19 @@ for (const c of cases) {
       '| py', c.policy, c.spk, '| js', r.policy, r.spk);
   }
 }
+// the chill's slow follows Permafrost's ranks (Python's value, and data/talents.json directly)
+{
+  const per = talents.find(t => t.k === 'Permafrost').perRank.extraSlowPct;
+  const frostbolt = m.POLICIES.find(p => p[0] === 'Frostbolt')[1];
+  for (const c of require('./leveling_slow_fixtures.json')) {
+    const got = m.fightConsts(m.makeChar(c.level, c.talents, 1, 'none', {}), frostbolt).slow;
+    const want = 0.40 + (c.rank ? per[c.rank - 1] / 100 : 0);
+    if (Math.abs(got - c.slow) > 1e-12 || Math.abs(got - want) > 1e-12) {
+      failed++;
+      console.log('SLOW: Permafrost', c.rank, 'gives', got, 'want', want);
+    }
+  }
+}
 // every talent is either scored or has a reason it is not
 const keys = talents.map(t => t.k);
 const covered = new Set(m.SCORED.concat(Object.keys(m.UNSCORED)));

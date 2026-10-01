@@ -42,7 +42,7 @@ Each fight starts from a full pool. It runs until the mob dies, the Mage dies, o
 
 **The search.** Every combination is too many to run on each builder click, so `evaluate` searches:
 1. **Probe.** Every base runs plain, at each allowed rank, with "Frost Nova, then step back", and with that option at each allowed rank (a lower rank can pay only once Nova is in); its best probe ranks it.
-2. **Local search.** The best six bases each get a search from their best probe. It changes one group at a time, keeping any change that is faster, until nothing changes. For the best two bases it also tries every change of two groups at once, and starts over if one helps.
+2. **Local search.** The best six bases each get a search from their best probe. It tries every change of one group and moves to the fastest, until no change helps (steepest descent). For the best two bases it then tries every change of two groups at once, moves to the fastest, and starts over if one helps. Taking the first faster change instead (the first version) could strand the search three changes from the best: 3.3% at level 46.
 3. **Memo.** Results are memoized within the call.
 
 `analysis/leveling_search_check.py` compares this with an exhaustive search: every base x every modifier combination x every allowed rank. Its grid covers the four talent orders at every third level, gear 1 and 2, option cases and races. The largest gap is reported in `mage-research/leveling/leveling_v1.md`, and it must stay under 0.5%.
@@ -55,7 +55,7 @@ Each fight starts from a full pool. It runs until the mob dies, the Mage dies, o
 - Cooldown actions replace drinking and eating time: Evocation, a mana potion, Cannibalize, Rapid Regeneration, Read Ley Line. Rest uses every subset of them. A kill cycle of `spk` uses each one `spk / cooldown` times, so `spk = fight + walk + rest(spk)` is solved by fixed-point iteration. An action counts only if it saves at least 1 s per use.
 - Mana gems cost more mana to conjure than they restore (Agate 530 for 400, up to Ruby 1470 for 1100), so the rest model never uses them.
 
-**Data.** Spell values come from `data/mage_spells.json` and talent values from `data/talents.json`. Every embedded row is checked against those files when fixtures are made (`tests/make_leveling_fixtures.py`).
+**Data.** Spell values come from `data/mage_spells.json` and talent values from `data/talents.json`. Every embedded row is checked against those files when fixtures are made (`tests/make_leveling_fixtures.py`). That script also checks that every `tv()` lookup in both models names a real talent (a table name in the talent slot reads rank 0 silently: until 1 Oct 2026 Permafrost's extra slow was always 0 that way), and that the chill's slow is 40% plus Permafrost's 3/7/10% at 0 to 3 ranks; `tests/leveling_slow_fixtures.json` carries those values to the parity test.
 - **Base stats by level.** Base mana and spell crit per Intellect come from the beta client's `PlayerExpectedStat` (1.60.1.69893). Base health, Intellect, Spirit and Stamina come from Wowhead's Forever gear planner (the arrays the ElliotWood sim takes its level-60 row from). Copies are in `forever-warlock-lab-drafts/mage-research/leveling/mage_base_stats.json`.
 - **Mob stats.** Mob health, mob damage, the hit table and the 8 s walk are the Warlock lab's, so the two pages stay comparable.
 

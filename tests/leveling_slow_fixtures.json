@@ -1,0 +1,37 @@
+[
+{
+"level": 30,
+"talents": {
+"ImprovedFrostbolt": 5
+},
+"rank": 0,
+"slow": 0.4
+},
+{
+"level": 30,
+"talents": {
+"ImprovedFrostbolt": 5,
+"Permafrost": 1
+},
+"rank": 1,
+"slow": 0.43000000000000005
+},
+{
+"level": 30,
+"talents": {
+"ImprovedFrostbolt": 5,
+"Permafrost": 2
+},
+"rank": 2,
+"slow": 0.47000000000000003
+},
+{
+"level": 30,
+"talents": {
+"ImprovedFrostbolt": 5,
+"Permafrost": 3
+},
+"rank": 3,
+"slow": 0.5
+}
+]
