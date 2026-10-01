@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(HERE, '..', 'models'))
 
 import aoe                                                  # noqa: E402
 import leveling_sim as ls                                   # noqa: E402
-from character import make_char, mob_hp                     # noqa: E402
+from character import make_char, mob_dps, mob_hp            # noqa: E402
 
 LEVELS = (20, 25, 30, 40, 50, 60)
 NS = tuple(range(2, 11))
@@ -41,6 +41,7 @@ VARIANTS = [
     ('Blizzard chill set once a cast', dict(bz_refresh=False), 'm3'),
     ('Classic chill: 75% for 4.5 s', dict(bz_slow=0.75, bz_chill_s=4.5), 'reference'),
     ('Frost Nova break 0.1 a hit', dict(nova_break=0.1), 'm12'),
+    ('Frost Nova (and Frostbite) never break', dict(nova_break=0.0), 'm12'),
     ('Frost Nova break 1.0 a hit', dict(nova_break=1.0), 'm12'),
     ('Frostbite rolls on the first tick only', dict(fb_rolls='first'), 'm17'),
     ('mob damage x0.5', dict(mob_dps_mult=0.5), 'm16'),
@@ -71,6 +72,7 @@ VARIANTS = [
     ('Mage Armor from 34, not Frost or Ice Armor', dict(aoe_armor='auto'), 'model'),
     ('gear: 2 Int and 2 Stamina a level', dict(gear_int=2.0, gear_sta=2.0), 'gear'),
     ('low ranks full: single target may downrank at every level', dict(low_ranks='full'), 'm13'),
+    ('mobs 3 levels below the Mage, on both sides', dict(below=3), 'model'),
     ('kind world: Classic chill, Nova break 0.1, mob health x0.8, gear x2',
      dict(bz_slow=0.75, bz_chill_s=4.5, nova_break=0.1, hp_scale=0.8, gear_int=2.0, gear_sta=2.0), 'combined'),
 ]
@@ -84,14 +86,26 @@ def slim(r):
     return out
 
 
+def at_level(o, L):
+    """Options at level L. 'below': k puts every mob k levels under the Mage, on both sides of the comparison, as
+    health and damage multiples of the curves at L - k (character.mob_hp, mob_dps). Spell hit (no source for lower
+    mobs) and experience a kill (lower for both sides alike) are left alone, so AoE and single target still fight the
+    same mobs."""
+    if 'below' not in o:
+        return o
+    k, rest = o['below'], {x: v for x, v in o.items() if x != 'below'}
+    return dict(rest, hp_scale=rest.get('hp_scale', 1.0) * mob_hp(L - k) / mob_hp(L),
+                mob_dps_mult=rest.get('mob_dps_mult', 1.0) * mob_dps(L - k) / mob_dps(L))
+
+
 def _pull(args):
     arch, L, n, o = args
-    return slim(aoe.best_pull(L, n, arch, o))
+    return slim(aoe.best_pull(L, n, arch, at_level(o, L)))
 
 
 def _base(args):
     L, o = args
-    name, r = aoe.baseline(L, o)
+    name, r = aoe.baseline(L, at_level(o, L))
     return name, r['spk'], r['feasible'], r['ttk'], r['rest']
 
 
@@ -182,23 +196,29 @@ def defaults():
     """Seconds per kill by pull size at the defaults, against the single-target baseline."""
     out, base = grid(VARIANTS[:1])
     key = repr([])
+    cal = dict(zip(LEVELS, run(_cal, LEVELS)))
     print('\n### Seconds per kill by pull size, default assumptions (gear 1, no race)\n')
     print('Single target: the planner build, best rotation (character.evaluate). A failed pull shows why: "oom" (out '
           'of mana first), "caught" (health under the floor first), "stall". The floor is '
           f'{aoe.AOE_DEFAULTS["safety"]:.0%} health at every mob health multiple.')
+    print('Small pulls carry the engine bias: how much slower the same engine runs one mob than evaluate() does '
+          '(the calibration section). Read a small-pull gap net of it.')
     for a in aoe.ARCHES:
+        bias = a == 'nb'
         print(f'\n#### {aoe.ARCH_NAME[a]}\n')
         print('| L | single target | ' + ' | '.join(f'n={n}' for n in NS) +
-              ' | breakeven n (fastest) | largest safe n |')
-        print('|---|---|' + '---|' * len(NS) + '---|---|')
+              ' | breakeven n (fastest) | largest safe n |' + (' engine bias, one mob |' if bias else ''))
+        print('|---|---|' + '---|' * len(NS) + '---|---|' + ('---|' if bias else ''))
         for L in LEVELS:
             if L < aoe.ARCH_FROM[a]:
                 continue
             b = base[(key, L)][1]
             rows = [(n, out[(key, a, L, n)]) for n in NS]
             v, br = verdict(b, rows)
+            c = cal[L]
+            extra = (f" {100 * (c['spk'] / b - 1):+.1f}% |" if c['feasible'] else ' - |') if bias else ''
             print(f'| {L} | {b:.1f} | ' + ' | '.join(cell(r) for _, r in rows) +
-                  f" | {v} | {br['max_safe'] if br['max_safe'] else 'none'} |")
+                  f" | {v} | {br['max_safe'] if br['max_safe'] else 'none'} |" + extra)
 
 
 def failures():

@@ -163,10 +163,13 @@ def trees():
 
 
 def races():
-    """Each race with the planner build, gear 1: mean seconds per kill and the change against no race."""
-    rs = ['none', 'human', 'gnome', 'skyborne', 'orc', 'undead', 'troll']
-    res = run_many([(L, build(PLANNER, L - 9), 1, r, {}) for L in LEVELS for r in rs])
-    vals = {r: [res[i * len(rs) + j][1]['spk'] for i in range(len(LEVELS))] for j, r in enumerate(rs)}
+    """Each race with the planner build, gear 1: mean seconds per kill and the change against no race. The last row is
+    Undead with Touch of the Grave on spells only (option totg_source, test m23)."""
+    rows = [(r, r, {}) for r in ('none', 'human', 'gnome', 'skyborne', 'orc', 'undead', 'troll')]
+    rows.append(('undead, spells only (m23)', 'undead', dict(totg_source='spells')))
+    rs = [lab for lab, _, _ in rows]
+    res = run_many([(L, build(PLANNER, L - 9), 1, r, o) for L in LEVELS for _, r, o in rows])
+    vals = {lab: [res[i * len(rows) + j][1]['spk'] for i in range(len(LEVELS))] for j, lab in enumerate(rs)}
     base, base_h = mean(vals['none']), hours(LEVELS, vals['none'])
     print('\n### Races, planner build, gear 1\n')
     print('| race | mean s per kill 10-60 | vs no race | hours 10-60 | vs no race | 10-19 | 20-29 | 30-39 | 40-49 | 50-60 |')
@@ -298,6 +301,7 @@ SENS = [
     ('Frostbite freeze never breaks (fb_break 0)', dict(fb_break=0.0)),
     ('Frost Nova and Frostbite never break', dict(nova_break=0.0)),
     ('Frost Nova and Frostbite break on every hit', dict(nova_break=1.0)),
+    ('wand shots never break roots (m12)', dict(wand_breaks=False)),
     ('no stepping back after a root', dict(kite=False)),
     ('no spell pushback', dict(pushback=False)),
     ('mob damage x1.5 (test m16)', dict(mob_dps_mult=1.5)),

@@ -123,7 +123,9 @@ def make_char(L, tal, gear=1, race='none', **o):
     humanoid_share, elemental_share, leyline, regen_stack ('add' or 'max'), armor ('auto': Frost or Ice Armor below 34,
     Mage Armor from 34; 'frost': never Mage Armor), frostbite_source ('every' chill, or 'spells' only: test m17),
     armor_slow, thrill (Thrill of Adventure rank 0 to 5), pushback, mob_dps_mult (test m16), low_ranks ('measured',
-    'full', 'classic', 'tbc': test m13), plus every Char option. fb_break defaults to nova_break."""
+    'full', 'classic', 'tbc': test m13), totg_source ('all': Touch of the Grave on spells and wand shots; 'spells':
+    test m23), plus every Char option (wand_breaks: False keeps wand shots from breaking roots). fb_break defaults to
+    nova_break."""
     r = RACES[race]
     g = dict(GEAR, int=o.get('gear_int', GEAR['int']), sta=o.get('gear_sta', GEAR['sta']), spi=o.get('gear_spi', GEAR['spi']))
     intel = (BASE_INT[L - 1] + r[0] + g['int'] * L + arcane_intellect(L)) * (1 + ls.TV['ArcaneMind'][tal['ArcaneMind'] - 1]
@@ -146,7 +148,8 @@ def make_char(L, tal, gear=1, race='none', **o):
         dmg += 0.05 * o.get('elemental_share', ELEMENTALS)
     keep = {k: o[k] for k in ('pull_gap', 'mob_speed', 'player_speed', 'step_s', 'swing', 'pushback_s', 'nova_break',
                               'fb_break', 'kite', 'il_coef', 'dd_mode', 'below20', 'low_ranks', 'top_ranks', 'potions',
-                              'gems', 'evocation', 'wowhead_drinks', 'spirit_drink', 'mountain_water') if k in o}
+                              'gems', 'evocation', 'wowhead_drinks', 'spirit_drink', 'mountain_water', 'wand_breaks')
+            if k in o}
     keep.setdefault('pull_gap', PULL_GAP)
     keep.setdefault('mob_speed', MOB_SPEED)
     keep.setdefault('step_s', STEP_S)
@@ -160,6 +163,7 @@ def make_char(L, tal, gear=1, race='none', **o):
                 intellect=intel, spirit=spirit, mreg=(6.25 + spirit / 8) * regen, hreg=hreg,
                 hreg_combat=0.1 * hreg if race == 'troll' else 0.0, cast_regen=cast_regen,
                 haste=1.01 if race == 'skyborne' else 1.0, dmg_mult=dmg, wand_dps=0.9 * L + 3, totg=race == 'undead',
+                totg_wand=o.get('totg_source', 'all') == 'all',
                 mob_dps=mob_dps(L) * o.get('mob_dps_mult', 1.0), thrill=0.01 * o.get('thrill', 0), leyline=leyline,
                 cannibalize=o.get('humanoid_share', HUMANOIDS) if race == 'undead' else 0.0,
                 rapid_regen=race == 'troll', armor_chill=not mage_armor, armor_slow=o.get('armor_slow', ARMOR_SLOW),

@@ -332,6 +332,7 @@ tr.top th{font-weight:700}
 .c-test{background:var(--amber-soft);color:var(--amber)}
 .c-bust{background:var(--blood-soft);color:var(--blood)}
 .c-known{background:var(--accent-soft);color:var(--accent)}
+.claims details{scroll-margin-top:calc(var(--nav-h) + 12px)}
 .claims details>summary{font-size:17px}
 .claims .dbody p{max-width:68ch}
 
@@ -509,6 +510,7 @@ window.FML_TALENT_TEXT = /*TALENT_TEXT*/;
 <main>
 <section id="start" class="wrap">
   <h2>The short answer</h2>
+  <div class="panel"><ul class="verdict" id="verdictList"></ul></div>
   <div class="onramp">
     <p data-text="onramp"></p>
     <details>
@@ -516,7 +518,6 @@ window.FML_TALENT_TEXT = /*TALENT_TEXT*/;
       <div class="dbody"><dl class="gloss" id="gloss"></dl></div>
     </details>
   </div>
-  <div class="panel"><ul class="verdict" id="verdictList"></ul></div>
 </section>
 
 <section id="you" class="wrap">
@@ -1025,10 +1026,12 @@ window.FML_ICONS = /*ICONS*/;
 /*BUILDER*/
 
   // ---------------------------------------------------------------- deep links: #lvl-24, #go-undead-24, #race-undead, #b-... builds, or any element id
+  let opened = null;   // the last deep-link target and the scroll position it left, to redo once web fonts reflow the page
   function openTo(node) {
     for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
     node.scrollIntoView({ block: 'start' });
     if (node.matches('input, select, button')) node.focus({ preventScroll: true });
+    opened = { node, y: window.scrollY };
   }
   function handleHash() {
     let h = '';
@@ -1094,5 +1097,13 @@ window.FML_ICONS = /*ICONS*/;
   syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
   watchSections();
   handleHash();
+  // On a fresh load the deep-link scroll runs before the web fonts arrive, and their reflow moves the target (591 px at
+  // 390 px wide in review). Scroll to it again once they are ready: scroll only, no second focus, and not if the reader
+  // has scrolled since.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      if (opened && Math.abs(window.scrollY - opened.y) < 2) opened.node.scrollIntoView({ block: 'start' });
+    });
+  }
 })();
 </script>

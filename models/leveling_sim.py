@@ -16,7 +16,7 @@ GCD = 1.5
 MAX_TIME = 240.0
 FIN_BELOW = 0.2        # policy fin='Wand': wand once the mob is under 20% health
 MELEE_GAP = 5.0        # Frost Nova, Cone of Cold, Arcane Explosion and Blast Wave reach 10 yd: within 5 yd of melee
-WAND_SPEED = 1.5       # kept for old callers; wand shots no longer roll Touch of the Grave (FC-PN 70009: damaging spells)
+WAND_SPEED = 1.5       # ASSUMPTION: a 1.5 s wand; each shot is a damage event (breaks, Touch of the Grave)
 CONJURE_S = 3.0        # every Conjure Water and Conjure Food rank is a 3 s cast (client)
 MIN_SAVE = 1.0         # ASSUMPTION: a rest cooldown action (potion, Evocation, racial) must save 1 s a use
 
@@ -209,6 +209,8 @@ class Char:
     dmg_mult: float = 1.0       # racial damage vs a share of mob types (Troll beasts, Skyborne elementals)
     wand_dps: float = 0.0
     totg: bool = False          # Undead Touch of the Grave, caster version
+    totg_wand: bool = True      # it also rolls on wand shots (tooltip: spells and attacks; test m23)
+    wand_breaks: bool = True    # a wand shot rolls Frost Nova and Frostbite breaks like any damage event
     mob_dps: float = 0.0
     mob_speed: float = 8.0
     pull_gap: float = 25.0
@@ -362,7 +364,7 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
               fof=phase if k['fof_n'] else 0.0, wc=0.0, hs=3.0 * phase if k['hs'] else 0.0,
               mb=phase if k['mb'] else 0.0,
               cc=0.0, ab=0, ab_until=-1.0, fv=0.0, eu=3, comb_bonus=0.0, comb_crits=0.0, wake_used=False,
-              pom_used=False, swing=0.0, armor_until=-1.0)
+              pom_used=False, swing=0.0, armor_until=-1.0, shot_at=0.0)
     holds = []          # [end time, chance it holds, break chance per damage event, is a freeze]
     dots = {}
     ign = []            # [due time, amount, chance the tick exists] Ignite ticks
@@ -392,6 +394,13 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
     def heal(x):
         st['php'] = min(ch.max_hp, st['php'] + x)
         S['healed'] += x
+
+    def totg_proc(hit):
+        """Undead Touch of the Grave on a landed hit or wand shot: 10%, draining 5% of max health. Its 1 s proc
+        cooldown (client SpellAuraOptions 243733) is not modelled: applied exactly, it changed Undead by 0.03%."""
+        x = 0.1 * hit * 0.05 * ch.max_hp
+        deal('TouchOfTheGrave', x)
+        heal(x)
 
     def sp_now():
         return ch.sp * (1 + 0.1 * k['p_bf']) if st['t'] < 15.0 else ch.sp
@@ -431,9 +440,7 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
         if k['moe'] and (fire or frost) and cost_paid_full > 0:
             st['mana'] = min(ch.max_mana, st['mana'] + k['base_cost'][name] * k['moe'] * hit * pcrit * (1 - cc_used))
         if ch.totg:
-            x = 0.1 * hit * 0.05 * ch.max_hp
-            deal('TouchOfTheGrave', x)
-            heal(x)
+            totg_proc(hit)
         if fire and k['impact']:
             holds.append([st['t'] + 2.0, hit * k['impact'], 0.0, False, 'stun'])
         if frost and k['wc_cap']:
@@ -531,6 +538,8 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
 
     def act(a, t):
         if a == 'Wand':
+            if not st['wand']:
+                st['shot_at'] = t       # ASSUMPTION: the first shot leaves as wanding starts, then one every WAND_SPEED
             st['wand'] = True
             st['pulled'] = True
             return
@@ -653,6 +662,12 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
         if st['wand'] and not busy:
             hit = min(0.99, ch.hit_base)
             deal('Wand', ch.wand_dps * DT * hit * k['wandspec'] * ch.dmg_mult)
+            if t >= st['shot_at'] - 1e-9:   # a shot leaves: a damage event (its damage is in the rate above)
+                st['shot_at'] += WAND_SPEED
+                if ch.wand_breaks:
+                    break_holds(hit)
+                if ch.totg and ch.totg_wand:
+                    totg_proc(hit)
             st['engaged'] = True
         if not busy and st['hp'] > 0:
             if want_step(ch, st, holds, pol):   # walking needs no global cooldown

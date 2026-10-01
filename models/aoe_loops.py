@@ -132,7 +132,8 @@ def slowed(P):
 
 
 def choose_blizzard(P):
-    """Nova the stack, walk out to pol step, Blizzard with the rear of the pack just inside the storm's far edge.
+    """Nova the stack, walk out to pol step, Blizzard with the rear of the pack just inside the storm's far edge
+    (step 'short': walk only until a storm on the frozen pack keeps its near edge outside melee reach, and storm it).
     Storm again at once if the pack's front is ETA_MIN seconds away or more (or pol wait is off); if it is closer,
     let it come when Nova will be ready by then, else walk back while the whole pack is slowed (pol kite) or storm
     anyway. Nova, Cone of Cold or Blink when they arrive; Arcane Explosion to finish (pol finish) or when nothing
@@ -140,7 +141,7 @@ def choose_blizzard(P):
     pol, K = P.pol, P.K
     alive, held, fnear, gmin, gmax, hmin = scan(P)
     far = K['bz_range'] + LEAD * BZ_RADIUS
-    target = far - 0.5 if pol['step'] == 'max' else pol['step']
+    target = dict(max=far - 0.5, short=P.reach + BZ_RADIUS + 0.5).get(pol['step'], pol['step'])
     d = defensive(P)
     if d:
         return d

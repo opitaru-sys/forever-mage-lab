@@ -8,10 +8,10 @@ Live page (once published): https://opitaru-sys.github.io/forever-mage-lab/
 
 ## The verdict
 
-- **Levels 10 to 19.** Frostbolt and your wand, with Fire Blast from 14, and Improved Frostbolt first. An Arcane wand build is 4.6% faster at these levels, but they are under a tenth of your leveling time, so playing Arcane and respeccing at 20 saves only 0.44%.
-- **Levels 20 to 60.** Frost, with Ice Lance on every freeze: this lab's order takes about 104 hours from 10 to 60 in the model, against 114 for Arcane-first and 121 for Fire-first. Frost Nova the mob when it closes and step back; from about 41, drop the wand and the step back and add Fire Blast on cooldown.
-- **AoE or single target.** No, not in our model. At Forever's values, Blizzard, Arcane Explosion and Flamestrike pulls of 2 to 10 mobs fail at every level from 20 to 60. Small pulls run out of mana, and bigger ones catch you before Frost Nova is back. Pulling two mobs and killing them one at a time with Frost Nova and Frostbolt comes closest. It is slower at every level, but only by 5 to 12% at 50 to 60, and if finding a pair takes no time it ties at 60.
-- **Group at 60.** Frost with Missile Barrage, 18/3/30: 532 dps at the calculator defaults before racials, 6% ahead of Fire with Arcane Blast (19/31/1, 502). One untested number can flip it: if Ice Lance has no spell power scaling, as the client row reads, Fire with Arcane Blast leads by 3% (test m4).
+- **Levels 10 to 19.** Frostbolt and your wand, with Fire Blast from 14, and Improved Frostbolt first. An Arcane wand build is about 4% faster at these levels, but they are under a tenth of your leveling time, so playing Arcane and respeccing at 20 saves only 0.36%.
+- **Levels 20 to 60.** Frost, with Ice Lance on every freeze: this lab's order takes about 104 hours of grinding from 10 to 60 in the model (kills only, no quest XP), against 114 for Arcane-first and 121 for Fire-first. Frost Nova the mob when it closes and step back; from about 41, drop the wand and the step back and add Fire Blast on cooldown.
+- **AoE leveling.** No, not in our model. At every level we tested (20, 25, 30, 40, 50 and 60), against mobs of your level, Blizzard, Arcane Explosion and Flamestrike pulls of 2 to 10 mobs fail: most run out of mana, and the rest are caught before Frost Nova is back. Two mobs at once, with Frost Nova and Frostbolt, are about even with one at a time at 50 and 60 (within the model's 6 to 9% slow bias there) and 9 to 45% slower from 20 to 40.
+- **Group at 60.** A close call: Frost with Missile Barrage, 18/3/30, does 534 dps at the calculator defaults before racials, 4.7% ahead of Fire with Arcane Blast (19/31/1, 510), and 4.3% in a dice simulation. Fire leads in fights under about 2 minutes (the crossover is about 135 s in the model, 120 s in the dice), and if Ice Lance has no spell power scaling, as the game's data reads (test m4, Fire +3.0%), or Fingers of Frost does not proc on raid bosses (test m30, Fire +3.0%). No boss partial resists (Fire +0.5%) and high gear (700 spell power, 15% crit and hit: Fire +0.9%) flip it too; Ice Lance partially resisting (test m29) leaves 3.0%, a Moonkin 3.8%, 15% gear hit 1.2%, and 15% hit with a Moonkin is a tie.
 - **Solo at 60.** The leveling order's final build, 10/6/35: Frostbolt and Fire Blast on cooldown, Frost Nova, Ice Lance on every freeze and Fingers of Frost charge. Its late pick, Arcane Concentration, makes kills at 60 2.2% faster.
 - **Race.** Race barely matters. Undead levels about 3% faster and adds 1.6% in raids; every other race is within about 2% for leveling and 1.4% in raids.
 - **Dungeons.** The first open at level 13. Whether dungeon kills give experience in Forever is untested (test m2), so the models leave dungeon leveling out.
@@ -28,7 +28,7 @@ Models:
 - **Raid** (`models/raid_model.py`): a mana-budget model that finds the mix of spell cycles doing the most damage within the fight's time and mana, with raid buffs, potions, runes, gems, Evocation and a wand while waiting for mana. `analysis/raid_check.py` plays each plan cast by cast with real dice as a check. Method: `docs/raid-model.md`.
 - **AoE** (`models/aoe.py`, `models/aoe_loops.py`): pulls of 2 to 10 mobs in 0.1 s steps, through five scripted loops (two mobs with Frost Nova and Frostbolt, Blizzard, Arcane Explosion, Flamestrike, Cone of Cold kiting), compared with the single-target model. On one mob it runs 3 to 9% slower than the single-target model, never faster, so it errs against AoE. Reviewed by a separate Claude session. Method: `docs/aoe-model.md`.
 - The page runs `model.js` and `leveling.js`, hand ports of the Python models. `tests/parity_test.js`, `tests/raid_options_test.js`, `tests/weights_test.js` and `tests/leveling_parity_test.js` check them against Python fixtures case by case.
-- **Cross-check against the ElliotWood sim.** On the sim's own three builds and rotations at matching stats (human, 500 spell power, 10.27% crit, 11% hit, 316 Intellect, 185 Spirit, 77 mp5, mana potion and rune, 300 s, level 63 target, 3000 iterations), the sim reads Arcane 472.8, Fire 398.5 and Frost 452.5 dps, and the model 476.7, 406.7 and 468.6: the model is 0.8 to 3.6% higher. The sim keeps a 1% miss floor, and its Frost build runs out of mana for 40 s of the 300.
+- **Cross-check against the ElliotWood sim.** On the sim's own three builds and rotations at matching stats (human, 500 spell power, 10.80% crit, 11% hit, 347.6 Intellect, 203.3 Spirit, 77 mp5, mana potion and rune, 300 s, level 63 target, 3000 iterations; raid buffs with Kings entered as sheet stats), the sim reads Arcane 478.8, Fire 408.1 and Frost 470.3 dps, and the model 479.0, 423.8 and 487.4: the model is 0 to 3.8% higher. The sim keeps a 1% miss floor, and its Frost build runs out of mana for 30 s of the 300.
 
 Every number on the page or in this README comes from a command in the table below.
 
@@ -46,17 +46,18 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 | Mob damage | 0.035 L^2 a second, taken only in melee range | Warlock lab curve, test m16 |
 | Mob run speed | 8 yd/s (player 7) | sim constant, test m3 |
 | Pull distance | 25 yd to melee, plus range talents | ASSUMPTION |
-| Frost Nova and Frostbite freezes | each damage event breaks them with chance 0.5 | ASSUMPTION; Frostbite's client aura row matches Nova's; test m12 |
+| Frost Nova and Frostbite freezes | each damage event, wand shots included, breaks them with chance 0.5 | ASSUMPTION; Frostbite's client aura row matches Nova's and reacts to every damage-taken flag; test m12 |
 | Stepping back | a searched choice: 2 s of walking after a root | ASSUMPTION |
 | Spell pushback | 0.5 s a melee hit; a channel loses one tick a hit | ASSUMPTION |
 | Spirit regen | 6.25 + Spirit/8 a second, after 5 s without spending mana | sim, tests m14 and m10 |
 | Regen while eating and drinking | on | ASSUMPTION (Classic rule), test m10 |
 | Water and food | client values (Crystal Water 4200 over 30 s) | client; Wowhead reads 25/26, test m10 |
-| Mana potions | the best the level allows, one per 2 min, on by default | Wowhead tooltips; vendor price from the client |
+| Mana potions | the best the level allows, one per 2 min, on by default; they cut leveling time by 9.2% | Wowhead tooltips; the client's list price (no vendor is known; auction prices are likely far higher) |
 | Ice Lance coefficient | 0.143, x4 on a frozen target for the whole hit | sim estimate; client 0; test m4 |
 | Low ranks | full coefficients, lower ranks cast only at 19 and below | client and DoubleZug's measurements; test m13 |
 | Armor | Frost or Ice Armor below 34, Mage Armor from 34; armor chills roll Frostbite | test m17 |
 | Wand | 0.9 L + 3 dps, no spell power | Warlock lab; Blizzard's 24 Sep notes |
+| Touch of the Grave (Undead) | 10% of damaging spells and wand shots drain 5% of max health | Wowhead tooltip ("spells and attacks") and the client proc mask, which includes ranged auto-attacks; spells only is test m23 |
 | Walking between kills | 8 s | Warlock lab |
 | XP per mob (hours only) | 45 + 5 L, Classic XP table | ASSUMPTION |
 
@@ -66,13 +67,15 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 |---|---|---|
 | Gear point | spell power 500, crit 10%, hit 11% from gear, Intellect 300, Spirit 120, mp5 0 | the Warlock page's gear point; the sim runner's grid |
 | Fight | one level 63 boss, 300 s | |
-| Raid buffs | on: Greater Blessing of Wisdom 40 mp5, Mana Spring Totem 25 mp5, Prayer of Spirit +40, Gift of the Wild +16 | Forever tooltips |
+| Raid buffs | on: Greater Blessing of Wisdom 40 mp5, Greater Blessing of Kings +10% to all stats, Mana Spring Totem 25 mp5, Prayer of Spirit +40, Gift of the Wild +16; Moonkin Form +3% spell crit is a switch, off | Forever tooltips; Kings takes a second Paladin (ASSUMPTION) |
 | Consumables | Major Mana Potion, Demonic or Dark Runes and mana gems on a shared 2 min cooldown, Mageblood Elixir, all on | client item categories (test m24) |
 | Hit cap | 16% against a level 63 boss, capped counts as 100% landed | Classic table, test m15 |
 | Boss partial resists | 6% average on non-binary spells (Frostbolt, Ice Lance, Blast Wave exempt) | sim; no test before raids |
 | Ice Lance coefficient | 0.143 | sim estimate; client 0; test m4 |
+| Ice Lance partial resists | none: treated as binary | ASSUMPTION, as the sim flags it; test m29 |
+| Fingers of Frost on a raid boss | procs from Frostbolt's chill, though bosses cannot be chilled | ASSUMPTION, as the sim does; test m30 |
 | Arcane Blast stacks | +10% a stack to other spells, not Arcane Missiles, Blizzard or Flamestrike | client masks; tooltip says all; test m8 |
-| Barrage Missiles | leave Arcane Blast stacks alone | client masks; the sim ends them; test m28 |
+| Barrage Missiles | leave Arcane Blast stacks alone | a reading of the client masks; the rank 5 tooltip and the sim end them; test m28 |
 | Casting regen | Mage Armor 50% plus Arcane Meditation up to 50%, added | sim; test m5 |
 | Evocation | 800 + 16 x Spirit + 1.6 x mp5 | sim formula, test m7 |
 | Ignite | 40% of the crit, rolled, one Mage's | sim, test m11 |
@@ -83,20 +86,20 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 
 ### AoE model (`models/aoe.py`, `models/aoe_loops.py`)
 
-The breakeven summary at the defaults (gear 1, no race; `python analysis/aoe_breakeven.py`). Seconds per kill; "dies" means the pull never keeps 25% of your health at any size from 2 to 10.
+The breakeven summary at the defaults: levels 20, 25, 30, 40, 50 and 60, against mobs of your level (gear 1, no race; `python analysis/aoe_breakeven.py`). Seconds per kill; "dies" means the pull never keeps 25% of your health at any size from 2 to 10.
 
 | Level | Single target | Two mobs, Frost Nova and Frostbolt | Blizzard, Arcane Explosion, Flamestrike | Breakeven pull size |
 |---|---|---|---|---|
 | 20 | 28.2 | 30.8 (+9%) | dies | none |
 | 25 | 29.4 | 42.6 (+45%) | dies | none |
 | 30 | 28.4 | 34.2 (+20%) | dies | none |
-| 40 | 25.4 | 31.8 (+25%) | dies | none; from 5 mobs only with Classic's chill and mobs hitting half as hard |
+| 40 | 25.2 | 31.8 (+26%) | dies | none; from 5 mobs only with Classic's chill and mobs hitting half as hard |
 | 50 | 20.5 | 22.9 (+12%) | dies | none; from 6 under the same pair |
 | 60 | 19.8 | 20.8 (+5%) | dies | none; from 7 under the same pair |
 
-- Two mobs at once are slower at every level, but only by 5 to 12% at 50 to 60, and with no time to find a pair they tie at 60 (-2%). On one mob the AoE engine itself runs 3 to 9% slower than the single-target model, so it errs against AoE.
-- No single one of the 37 sensitivity rows clearly flips the verdict: 4 put two mobs 0 to 2% ahead at 50 or 60, ties inside that error. The only pair that clearly flips it is Blizzard's chill at Classic strength (test m3) with mob damage at half the curve (test m16): the Blizzard loop then pays from 5 mobs at 40 (16% faster at 6), 6 at 50 (25% at 8) and 7 at 60 (34% at 10). Both values lie outside the ranges the research register gives them.
-- Why: at 50% for 2 s a freed mob crosses the 16 yd storm in about 4 s, so only about 3 to 6 of a Blizzard's 8 ticks land on each mob, while every mob needs 2.7 to 4.4 full Blizzards. Small pulls run out of mana; from about 6 mobs the pack reaches you before Frost Nova is back.
+- Two mobs at once are about even with single target at 50 and 60, within the engine's own slow bias there (6.4% at 50 and 9.4% at 60 on one mob), and 9 to 45% slower from 20 to 40. With no time to find a pair they are 2% ahead at 60, a tie.
+- No single one of the 39 sensitivity rows clearly flips the verdict, including a Frost Nova that never breaks and mobs 3 levels below you: 5 put two mobs 0 to 2% ahead at 50 or 60, ties inside that bias. The only pair that clearly flips it is Blizzard's chill at Classic strength (test m3) with mob damage at half the curve (test m16): the Blizzard loop then pays from 5 mobs at 40 (16% faster at 6), 6 at 50 (25% at 8) and 7 at 60 (34% at 10). Both values lie outside the ranges the research register gives them.
+- Why: at 50% for 2 s a freed mob crosses the 16 yd storm in about 4 s, so only about 3 to 6 of a Blizzard's 8 ticks land on each mob, while every mob needs 2.7 to 4.4 full Blizzards. Most failed pulls run out of mana; the rest are caught before Frost Nova is back.
 
 Its inputs:
 
@@ -105,6 +108,7 @@ Its inputs:
 | Blizzard chill | Improved Blizzard 15/25/40% plus Permafrost 3/7/10%, 50% for about 2.0 s at 3/3 | client; test m3 |
 | Server target cap | none | client stores none; test m1 |
 | Frost Nova and Frostbite break | 0.5 a damage event | ASSUMPTION, test m12 |
+| Mob level | your own; mobs 3 levels below is a sensitivity row, and flips nothing | ASSUMPTION |
 | Mob health and damage | the Warlock lab curves | test m16 |
 | Blizzard and Flamestrike ticks | never crit | sim; test m9 |
 | Packs | beasts that never flee | ASSUMPTION, test m20 |
@@ -119,31 +123,33 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 | Claim | Command |
 |---|---|
-| Frost levels fastest: this order 104.3 h, Arcane-first 113.7, Fire-first 121.0 (mean 24.9, 26.4, 28.0 s a kill); Fire-first 16.0% slower | `python analysis/leveling_paths.py trees` |
-| A Frost-first order stays first in all 18 sensitivity rows; roots that never break would be 19.0% faster, roots breaking on every hit 2.9% slower; no Spirit regen while drinking costs 4.1 to 5.3%; Mage Armor is worth 1.6% | `python analysis/leveling_paths.py sensitivity` |
-| An Arcane start is 4.6% faster at 10 to 19, but a respec plan saves only 0.44% (upper bound 0.59%) | `python analysis/leveling_paths.py respec` |
+| Frost levels fastest: this order 104.4 h of grinding, Arcane-first 113.9, Fire-first 121.0 (mean 24.9, 26.5, 28.0 s a kill); Fire-first 16.0% slower | `python analysis/leveling_paths.py trees` |
+| A Frost-first order stays first in all 19 sensitivity rows; roots that never break would be 19.2% faster, roots breaking on every hit 2.6% slower; no Spirit regen while drinking costs 4.6 to 5.4%; Mage Armor is worth 1.4% | `python analysis/leveling_paths.py sensitivity` |
+| An Arcane start is 3.8% faster at 10 to 19, but a respec plan saves only 0.36% (upper bound 0.50%) | `python analysis/leveling_paths.py respec` |
 | Rotation by level, level 20 jump (32.9 s to 28.2 s), gear 2 vs gear 1 (the planner's phase texts) | `python analysis/leveling_paths.py phases` |
-| Mana potions save 9.2% of leveling time, 30 an hour, 0.12 to 18 gold an hour; mana gems never pay | `python analysis/leveling_paths.py consumables` |
-| Race leveling: Undead 2.9%, Skyborne 1.8%, Troll 1.4%, Human 1.0%, Gnome 0.9%, Orc 0.4% | `python analysis/leveling_paths.py races` |
+| Near-ties in the planner: Frost Nova at 21 within 0.2%, the wand filler at 24 within 0.4%, Fire Blast at 56 to 60 within about 1%; at 42 and 43 Fire Blast costs 7.7% and 4.3% | exhaustive search over every rotation of the planner build at those levels (the method of `analysis/leveling_search_check.py`) |
+| Mana potions save 9.2% of leveling time (104.4 h against 114.9), 30 an hour, 0.12 to 18 gold an hour at the client's list price; mana gems never pay | `python analysis/leveling_paths.py consumables` |
+| Race leveling: Undead 3.2% (2.9% if Touch of the Grave skips wand shots), Skyborne 1.9%, Troll 1.3%, Human 1.1%, Gnome 0.9%, Orc 0.4% | `python analysis/leveling_paths.py races` |
 | Low ranks at full strength would save about 1.1% from 34 | `python analysis/leveling_paths.py lowranks` |
 | The planner's talent order (25 to 70 minutes on 16 cores) | `python analysis/leveling_planner.py` |
 | Arcane Concentration makes the plan's kills at 60 2.2% faster (19.80 s against 20.25 without it) | `node -e "const L=require('./leveling.js'),C=require('./src/class.js');const t={};C.planner.order.forEach(([k,n])=>t[k]=(t[k]\|\|0)+n);const u=Object.assign({},t,{ArcaneConcentration:0});console.log(L.evaluateUncached(60,t,1,{}).spk,L.evaluateUncached(60,u,1,{}).spk)"` |
 | The leveling search matches an exhaustive search (212 cases, largest gap 0.000%) | `python analysis/leveling_search_check.py` |
-| Raid ranking at the defaults: Frost with Barrage 532.3, Fire with Arcane Blast 502.0 (6.0%), Arcane with Ignite 487.3, Arcane 483.8; the sim builds 12 to 23% behind; 93 dps of free Missiles; Ice Lance 142 dps | `python analysis/raid_specs.py` (first table) |
-| Ice Lance at 0 flips the lead to Fire with Arcane Blast (+3.0%); the tooltip reading lifts the Arcane builds 5 to 8%; Barrage Missiles ending stacks 1.5 to 2.4%; tomes +7% (571); no partial resists leaves a 0.8% lead; the leader-flipping pairs | `python analysis/raid_specs.py` (untested and pairs tables) |
-| Raid buffs worth 3% to Frost and 7% to Fire; 2 minute fight a tie in the model (533 vs 531); Spellblasting Potion 535 and 490; 120 mp5 narrows the lead to 1.9% | `python analysis/raid_specs.py` (settings table) |
-| The dice agree within 1% for the four page builds; the lead is 5.5% under the dice | `python analysis/raid_check.py 1000` |
-| In a 2 minute fight the dice put Frost 1.1% ahead | `python analysis/raid_check.py 1000 frost-mb fire-mb fightLength=120` |
-| With mana unlimited, model and dice agree within 1.4% | `python analysis/raid_check.py 400 mp5=3000` |
+| Raid ranking at the defaults: Frost with Barrage 534.2, Fire with Arcane Blast 510.2 (Frost +4.7%), Arcane with Ignite 495.5, Arcane 486.1; the sim builds 9 to 20% behind; 94 dps of free Missiles; Ice Lance 143 dps | `python analysis/raid_specs.py` (first table) |
+| Flips: Ice Lance at 0 (Fire +3.0%), Fingers of Frost off on bosses (Fire +3.0%), no partial resists (Fire +0.5%); Ice Lance partially resisting leaves 3.0%; the tooltip reading lifts the Arcane builds 5 to 8% and, paired with a flip, puts Arcane with Ignite first by 1.3%; Barrage Missiles ending stacks 1.5 to 2.3%; tomes +7% (573) | `python analysis/raid_specs.py` (untested and pairs tables) |
+| Raid buffs worth about 4% to Frost and 9% to Fire (Kings 0.4% and 1.6%); Moonkin 2 to 4% and a 3.8% lead; gear hit 15% leaves 1.2%; fight length 120 s Fire +0.6% in the model; Spellblasting Potion 540 and 493; 120 mp5 leaves 1.1% | `python analysis/raid_specs.py` (settings table) |
+| The dice agree within 1% for the four page builds; the lead is 4.3% under the dice (531.5 vs 509.7); plans that wait for mana read 2 to 5% high | `python analysis/raid_check.py 1000` |
+| Short fights: at 120 s the dice tie (Frost 526.0, Fire 525.5), at 60 s Fire leads and the model reads 3.1% (Frost) and 5.2% (Fire) high | `python analysis/raid_check.py 1000 frost-mb fire-mb fightLength=120`, then `fightLength=60` |
+| 15% gear hit with a Moonkin is a tie (model Frost +0.2%, dice +0.5%); 700 spell power, 15% crit and 15% hit puts Fire 0.9% ahead | `python analysis/raid_check.py 1000 frost-mb fire-mb gearHit=0.15 moonkin=true`; `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{sp:700,crit:0.15,gearHit:0.15})).slice(0,2).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
+| With mana unlimited, model and dice agree within 1.7% | `python analysis/raid_check.py 400 mp5=3000` |
 | Racial raid gains for the top build: Undead 1.6%, Human with a sword 1.4%, the rest 0.5 to 0.7% | `node -e "const m=require('./model.js'),o=m.DEFAULTS,b=m.specTotal(o,'frost-mb');['human','gnome','skyborne','orc','undead','troll'].forEach(r=>console.log(r,(m.specTotal(Object.assign({},o,{race:r}),'frost-mb')/b*100-100).toFixed(2)))"` |
 | Model vs the ElliotWood sim on the sim's own builds (model side; the sim side needs the sim and its runner, not in this repo) | `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{race:'human',sword:false,topRanks:true,wandDps:0})).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
-| AoE: no pull of 2 to 10 mobs beats single target at 20 to 60; two mobs come closest (+9% to +45%, +5% at 60); the engine runs 3 to 9% slow on one mob; only Classic chill with half mob damage clearly flips it, from 5 to 7 mobs at 40 to 60 | `python analysis/aoe_breakeven.py` (17 to 20 minutes; sections `calibration`, `defaults`, `budget`, `sensitivity`, `pairs`) |
+| AoE: at 20 to 60, against mobs of your level, no pull of 2 to 10 mobs beats single target; two mobs are about even at 50 and 60 (+12%, +5% against a 6.4% and 9.4% engine bias) and 9 to 45% slower below; only Classic chill with half mob damage clearly flips it, from 5 to 7 mobs at 40 to 60 | `python analysis/aoe_breakeven.py` (17 to 28 minutes; sections `calibration`, `defaults`, `budget`, `sensitivity`, `pairs`) |
 | Classic vs Forever values in the proof table (Blizzard chill, Shatter, Fireball and Frostbolt top ranks, low-rank coefficients) | `data/talents.json` and `data/mage_spells.json`; `docs/mage-mechanics.md` |
 | The talent value table (per-rank values; 43 scored talents, 11 not, with reasons) | `data/talents.json`; `node -e "const L=require('./leveling.js');console.log(L.SCORED.length,L.UNSCORED)"` |
 | model.js matches models/raid_model.py | `node tests/parity_test.js` (63 cases) |
-| Every raid calculator option matches Python | `node tests/raid_options_test.js` (2111 checks; regenerate with `python tests/make_raid_fixtures.py`) |
-| Stat weights and the item comparer behave as specified | `node tests/weights_test.js` (492 checks) |
-| leveling.js matches the Python leveling model | `node tests/leveling_parity_test.js` (755 cases; regenerate with `python tests/make_leveling_fixtures.py`) |
+| Every raid calculator option matches Python | `node tests/raid_options_test.js` (2425 checks; regenerate with `python tests/make_raid_fixtures.py`) |
+| Stat weights and the item comparer behave as specified | `node tests/weights_test.js` (569 checks) |
+| leveling.js matches the Python leveling model | `node tests/leveling_parity_test.js` (771 cases; regenerate with `python tests/make_leveling_fixtures.py`) |
 | The AoE model's invariants | `python tests/aoe_test.py` |
 | Talent rules, share links, presets and the page plan are legal at every level | `node tests/builder_test.js` |
 | The page loads, every control works, phone width and both themes | `python src/build.py && python tests/page_check.py` |

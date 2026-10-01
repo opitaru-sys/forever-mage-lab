@@ -6,7 +6,9 @@ Run `python analysis/aoe_breakeven.py` from the repo root. It prints every secti
 
 ## Calibration: the gate
 
-**The engine is trusted only while one mob through it lands within 10% of the single-target model.** The small-pull loop (`nb`) on the planner build, pulled from range, runs one mob through the AoE engine at 20, 30, 40, 50 and 60, and `tests/aoe_test.py` checks its seconds per kill against `character.evaluate()` on the same build. The runner's calibration section prints the same table at every band. A small-pull claim ships only while this passes.
+**The engine is trusted only while one mob through it lands within 10% of the single-target model.** The small-pull loop (`nb`) on the planner build, pulled from range, runs one mob through the AoE engine at 20, 25, 30, 40, 50 and 60, and `tests/aoe_test.py` checks its seconds per kill against `character.evaluate()` on the same build. The runner's calibration section prints the same table at every band. A small-pull claim ships only while this passes.
+
+**The gate is looser than some effects it guards.** The engine runs one mob 3 to 9% slower than the single-target model, never faster, and a two-mob gap of a few percent sits inside that. So the defaults table prints this one-mob bias next to every small-pull row, and a small-pull gap is read net of it.
 
 Getting there took six engine changes, each a real mechanic, not a fudge:
 - single-target spells hit one whole mob;
@@ -59,7 +61,7 @@ Each archetype is a priority list evaluated whenever the Mage is free. Each has 
 | Archetype | Loop | Build |
 |---|---|---|
 | `nb` | Small pulls. Frostbolt the group from range. Frost Nova when free mobs come within 5 yd of melee reach (the single-target model's rule). Step back to 12 or 18 yd while most of the group is frozen. Ice Lance when it out-damages Frostbolt (a Fingers of Frost charge, or the frozen share). Else Frostbolt, one whole mob at a time. Free mobs in melee with Nova down: Cone of Cold and walk while they are slowed, Arcane Explosion (variants), else keep casting. A variant wands the last 20% of a mob, as the single-target model's finisher. | the planner build (no respec) |
-| `blizzard` | Frost Nova the gathered stack, walk out (21 yd, or Blizzard's full reach), Blizzard aimed so the rear of the pack is just inside the far edge at the first tick. Storm again at once if the pack's front is 4 s or more from melee. If it is closer: with Nova ready by then, let it come (variant `wait`); otherwise walk back while the whole pack is slowed (variant `kite`) or storm anyway. When they arrive: Nova if ready, else Cone of Cold, else run if they are slowed, else Blink if they are slowed, else Arcane Explosion. The channel is broken off only for a ready Nova. Arcane Explosion finishes a pack within two Explosions. The 21 yd step keeps the storm's near edge outside the 5 yd melee reach (18 yd left it 2.8 yd from the Mage). | Frost AoE |
+| `blizzard` | Frost Nova the gathered stack, walk out (21 yd, or Blizzard's full reach), Blizzard aimed so the rear of the pack is just inside the far edge at the first tick. Storm again at once if the pack's front is 4 s or more from melee. If it is closer: with Nova ready by then, let it come (variant `wait`); otherwise walk back while the whole pack is slowed (variant `kite`) or storm anyway. When they arrive: Nova if ready, else Cone of Cold, else run if they are slowed, else Blink if they are slowed, else Arcane Explosion. The channel is broken off only for a ready Nova. Arcane Explosion finishes a pack within two Explosions. The 21 yd step keeps the storm's near edge outside the 5 yd melee reach (18 yd left it 2.8 yd from the Mage). Variant `step='short'`: walk only until a storm centred on the frozen pack keeps its near edge just outside melee reach (about 13.5 yd, 1.6 s of the 8 s root), and storm at once, so more of the root falls inside the channel. | Frost AoE |
 | `ae` | Frost Nova, step to 7.5 yd (inside Arcane Explosion's 10 yd, outside melee) or stand, Cone of Cold on cooldown, Arcane Explosion. | Frost AoE |
 | `fs` | Frost Nova, step to 12 or 20 yd, Flamestrike on the pack (only when no burn is up), Blast Wave, Arcane Explosion, Cone of Cold. One variant also casts Flamestrike with mobs in melee. | Fire AoE |
 | `cone` | Frostbolt from range, Frost Nova and step back, Cone of Cold when they come in, run while they are slowed, Blink when they catch up slowed, Frostbolt one mob, Arcane Explosion to finish. | Frost AoE |
@@ -127,7 +129,7 @@ When none survives, it lists why each pull size failed. The sensitivity section 
 | Cone of Cold and Frostbolt chill | 40% + Permafrost's 3/7/10% (50% at 3/3), 6 s and the Frostbolt row's time, x1.33 with Permafrost 3/3 | client via `leveling_sim.fight_consts` (reg `coneOfColdSlow`) | | m3 |
 | Share of a pack Cone of Cold catches | 75% | ASSUMPTION (reg `coneOfColdShape`: a 60 degree cone catches part of a pack) | 50%, 100% | |
 | Frost Nova | 8 s root, 25 s (23 or 21 s with Improved Frost Nova), 10 yd (12 with Arctic Reach) | client (reg `frostNovaRoot`, `frostNovaRadius`) | | |
-| Frost Nova break chance per damage event | 0.5 (the character's `nova_break`) | ASSUMPTION (reg `frostNovaBreakChance`) | 0.1, 1.0 | m12 |
+| Frost Nova break chance per damage event | 0.5 (the character's `nova_break`) | ASSUMPTION (reg `frostNovaBreakChance`) | 0, 0.1, 1.0 | m12 |
 | Frostbite freeze | 5% a rank per chill, 5 s, breaks with the character's `fb_break` (Nova's chance by default, set in `make_char`); the accumulator on Frostbolt, the share on area and armor chills | client 11071, 12494; aura options match Nova's (the single-target model) | moves with the Nova rows | m12, m17 |
 | Frostbite rolls on | every chill, every Blizzard tick | sim (reg `frostbiteFreeze`) | first tick of a cast | m17 |
 | Fingers of Frost, Winter's Chill | 15% a chill for every charge; +2% crit a stack on Frostbolt and Ice Lance | the single-target model's values (`FOF_CHANCE`, `WC_CRIT`) | | m19 |
@@ -147,6 +149,7 @@ When none survives, it lists why each pull size failed. The sensitivity section 
 | Mob melee reach | 5 yd | ASSUMPTION (reg `meleeRange`) | 8 yd | |
 | Mob health | 18 L + 0.62 L^2, averaged at x0.9, x1.0, x1.1 | the Warlock lab (reg `mobHealth`) | x0.8, x1.2 | m16 |
 | Mob damage | 0.035 L^2 a second each in melee | the Warlock lab (reg `mobDps`); UNSOURCED there, and it bears mostly on the AoE side | x0.5, x0.7, x1.5 | m16 |
+| Mob level | the Mage's own level, on both sides | the single-target model's choice | 3 levels below on both sides: health and damage from the curves at L - 3; spell hit and experience a kill left alone (no source for lower mobs; experience falls for both sides alike) | m16 |
 | Mob swing | 2.0 s | ASSUMPTION (reg `mobSwingTime`) | 1.5, 2.5 s | m16 |
 | Creature daze | 20% a hit from behind while the Mage runs, 50% for 4 s | Classic lore (reg `creatureDaze`) | | m20 |
 | Gathering a pack | 8 + 6 (n - 1) s, no damage taken, no mana spent | the Warlock lab's M2 (reg `gatherTime`) | 8 + 4 (n - 1), 8 + 10 (n - 1) | |
@@ -168,7 +171,7 @@ Everything else comes from the imported single-target model: the character (heal
 ## Limits
 
 - **Expected values, not dice.** A pull that survives in expectation can die to a bad streak. The 25% safety floor is the model's only allowance for variance.
-- **One decision path for every outcome.** The cohorts are expected outcomes, but the Mage acts once for all of them. In a minority outcome (Nova broke early, a mob frozen out of range) she does what suits the majority. This is pessimistic, and is part of why one mob runs 3 to 8% slower than the single-target model.
+- **One decision path for every outcome.** The cohorts are expected outcomes, but the Mage acts once for all of them. In a minority outcome (Nova broke early, a mob frozen out of range) she does what suits the majority. This is pessimistic, and is part of why one mob runs 3 to 9% slower than the single-target model.
 - **Loops are scripted, not optimized.** The policy search picks the best of a few variants per archetype. A better player could beat these loops; the Classic-chill row shows how far the loop itself can go.
 - **Not modelled:**
   - Cold Snap, Ice Block and health potions (see Builds).
@@ -176,7 +179,7 @@ Everything else comes from the imported single-target model: the character (heal
   - Evocation mid-pull (its 8 min cooldown would set the cycle).
   - Racial cooldowns.
 - **Gathering is free.** No damage is taken and no mana is spent while gathering (the Warlock lab's assumption).
-- **Every mob is the Mage's level.** AoE grinders often pull mobs a few levels lower, with less health and damage but less experience a kill. The single-target model makes the same choice.
+- **Six levels, and mobs of your level.** The model runs at 20, 25, 30, 40, 50 and 60 only (`LEVELS` in the runner), always against mobs of the Mage's level, as the single-target model does. Its verdict holds at those levels and against those mobs. AoE farmers often pull mobs a few levels lower, with less health and damage but less experience a kill. One sensitivity row puts every mob 3 levels below on both sides (health and damage only); it does not price the lost experience, which needs a level-difference experience formula no research file gives.
 - **Packs are melee beasts.** Casters, runners and social adds are not modelled beyond the flee sensitivity row.
 - **Dungeons are out of scope.** Whether dungeon kills give experience is unknown (m2), and with a tank holding mobs the loop would be a different model whose inputs (tank threat, party XP split) no source gives. The register's default excludes dungeon kills.
 - **One-dimensional geometry.** Positions are distances from the Mage. Cone of Cold's angle is a share of the pack (75%), and Flamestrike's 5 yd radius assumes a stacked pack.

@@ -185,5 +185,6 @@
       try { navigator.clipboard.writeText(v).then(() => done(true), () => { $('bLink').select(); done(false); }); }
       catch (e) { $('bLink').select(); done(false); }
     });
-    if (!core.spent(B.ranks) && hasPlan) B.ranks = core.fromOrder(planAt(state.level), state.level);
+    // a fresh builder starts on the page plan and follows the level, as if its preset had been pressed
+    if (!core.spent(B.ranks) && hasPlan) { B.preset = 'plan'; B.ranks = core.fromOrder(planAt(state.level), state.level); }
   }

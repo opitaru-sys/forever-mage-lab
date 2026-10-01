@@ -10,12 +10,14 @@ body:
       description: The test from the page's "Help test these" list, most important first. Pick the last option for anything else and name it below.
       options:
         - "m4: Ice Lance's spell power scaling"
+        - "m30: Does Fingers of Frost proc on a raid boss?"
         - "m3: Blizzard's chill, and how fast mobs run"
         - "m12: How often damage breaks Frost Nova and Frostbite"
         - "m13: Do low ranks keep full strength above 19?"
         - "m16: How much health normal mobs have, and how hard they hit"
         - "m10: Drinking speed, and Spirit regen while you drink"
         - "m8: Does Arcane Blast raise Arcane Missiles?"
+        - "m29: Does Ice Lance partially resist?"
         - "m28: Do Arcane Missiles end your Arcane Blast stacks?"
         - "m14: Does the five-second rule exist?"
         - "m5: Do Arcane Meditation and Mage Armor add up?"
@@ -34,7 +36,7 @@ body:
         - "m23: Do the racials match their tooltips?"
         - "m24: Do mana gems, runes and potions share a cooldown?"
         - "m19: Does Fingers of Frost shatter a whole Cone of Cold?"
-        - "m25: Are Fire Vulnerability and Winter's Chill personal?"
+        - "m25: Is Fire Vulnerability personal?"
         - "m26: Does a second Flamestrike stop the first?"
         - "m27: How many bottles Conjure Water makes at 60"
         - "Something else: a claim or number on the page (say which below)"

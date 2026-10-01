@@ -151,12 +151,10 @@ def _rep(*p):
     return out
 
 
-# ASSUMPTION: the model's AoE orders, not searched. Frost: the AoE talents as early as the point rules allow after
-# Improved Frostbolt (Improved Blizzard 20 to 22, reg talentLevels), then mana, reach, Nova, Shatter and Ice Barrier at
-# 40. Fire: Improved Flamestrike at 20, Burning Soul (pushback on Flamestrike), Blast Wave at 30. Talents the AoE
-# loop does not read (Master of Elements, Pyroblast, Combustion, the Arcane fillers) only open rows. Cold Snap is
-# bought as Ice Barrier's prerequisite (data/talents.json) and never cast: its 10 min cooldown covers one pull in
-# several, and a pull plan has to survive the pulls without it. Ice Block (5 min) is left out for the same reason.
+# ASSUMPTION: the model's AoE orders, not searched. Frost: AoE talents as early as the point rules allow after Improved
+# Frostbolt (Improved Blizzard 20 to 22, reg talentLevels), then mana, reach, Nova, Shatter, Ice Barrier at 40. Fire:
+# Improved Flamestrike at 20, Burning Soul, Blast Wave at 30. Unread talents only open rows. Cold Snap (Ice Barrier's
+# prerequisite) and Ice Block are never cast: their 10 and 5 min cooldowns cover one pull in several.
 FROST_AOE = _rep(('ImprovedFrostbolt', 5), ('Permafrost', 3), ('Frostbite', 2), ('ImprovedBlizzard', 3),
                  ('Frostbite', 1), ('FrostChanneling', 3), ('ArcticReach', 2), ('ImprovedFrostNova', 2), ('Shatter', 3),
                  ('PiercingIce', 3), ('ColdSnap', 1), ('ImprovedConeOfCold', 2), ('IceBarrier', 1),
@@ -181,14 +179,13 @@ ARCH_START = {'nb': 'range', 'cone': 'range', 'blizzard': 'stacked', 'ae': 'stac
 # cheapest of them.
 ARCH_MAIN = {'nb': ('Frostbolt',), 'blizzard': ('Blizzard', 'ArcaneExplosion'), 'ae': ('ArcaneExplosion',),
              'fs': ('Flamestrike', 'ArcaneExplosion'), 'cone': ('ConeOfCold', 'Frostbolt')}
-POLICIES = {        # loop variants; the best surviving one is kept for each level and pull size (each with and
-    # without drinking a potion or using a gem in the fight, best_pull)
+POLICIES = {        # loop variants; best_pull keeps the best surviving one, each with and without fight potions
     'nb': [dict(gap=12.0, cone=True, melee=True), dict(gap=18.0, cone=True, melee=True),
            dict(gap=18.0, cone=False, melee=False, ib=False), dict(gap=12.0, cone=True, melee=True, ib=False),
            dict(gap=18.0, cone=False, melee=False, ib=False, fin='Wand'),
            dict(gap=12.0, cone=True, melee=True, ib=False, fin='Wand')],
-    'blizzard': [dict(step=21.0, kite=True, wait=True, finish=2.0), dict(step=21.0, kite=False, wait=False, finish=2.0),
-                 dict(step='max', kite=True, wait=True, finish=2.0), dict(step=21.0, kite=True, wait=False, finish=2.0)],
+    'blizzard': [dict(step=s, kite=k, wait=w, finish=2.0) for s, k, w in ((21.0, True, True), (21.0, False, False),
+                 ('max', True, True), (21.0, True, False), ('short', True, True), ('short', False, False))],
     'ae': [dict(gap=7.5), dict(gap=0.0)],
     'fs': [dict(gap=12.0, melee=False), dict(gap=20.0, melee=False), dict(gap=12.0, melee=True)],
     'cone': [dict(gap=9.0, finish=2.0), dict(gap=9.0, finish=0.0)],
@@ -638,12 +635,15 @@ def speed(P, c, dt):
 
 def aim_bz(P):
     """Blizzard's centre: the rear of the pack (90% of the weight) where it will be at the first tick, just inside
-    the far edge of the storm, and within range."""
+    the storm's far edge, within range. Pol step 'short' with half the pack frozen: on the pack, near edge outside
+    melee reach."""
     dt = P.o['bz_first']
     ahead = [Mob.__new__(Mob) for _ in P.mobs]
     for a, c in zip(ahead, P.mobs):
         a.x, a.w = c.x - speed(P, c, dt), c.w
-    return min(P.m + edge(P, ahead, 0.9) - LEAD * BZ_RADIUS, P.m + P.K['bz_range'])
+    short = P.pol.get('step') == 'short' and weight([c for c in P.mobs if c.hold > P.t]) >= 0.5 * weight(P.mobs)
+    cx = P.m + edge(P, ahead, 0.9) - (0.0 if short else LEAD) * BZ_RADIUS
+    return min(max(cx, P.m + P.reach + BZ_RADIUS) if short else cx, P.m + P.K['bz_range'])
 
 
 def aim_fs(P):
@@ -774,8 +774,7 @@ def pushback(P, swings):
 
 # ---------------------------------------------------------------- reading the pack (the loops decide from it)
 def edge(P, mobs, q):
-    """The gap at which q of the cohorts' weight is nearer (a weighted quantile), so that a sliver of expected value
-    never steers the loop. 1e9 when there are none."""
+    """The gap at which q of the cohorts' weight is nearer (a weighted quantile; no sliver steers the loop)."""
     tot = weight(mobs)
     if tot <= 0:
         return 1e9

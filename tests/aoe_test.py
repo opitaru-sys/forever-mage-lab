@@ -7,12 +7,16 @@
 2. A higher slow never makes the Mage take more hits: a free pack walking at the Mage through one Blizzard, and a
    scripted pull, land no more hits when the chill is stronger or lasts longer. The loops themselves make discrete
    choices, so the test also prints (without failing) how often the scored model gets worse with a stronger slow.
+2b. A Frost Nova that holds better never adds hits: in the scripted pull, a lower break chance on Frost Nova (and
+   Frostbite, which make_char ties to it) lands no more hits on the Mage. The test also prints how often the scored
+   Blizzard loop gets worse as the break chance falls, and whether a Nova that never breaks makes any default pull
+   survive (notes, not failures: near the mana edge a loop choice can flip a pull either way).
 3. A failed pull is never scored: run_pull gives spk None when the Mage dies, breakeven() skips it, and better()
    ranks any surviving pull above it. Failures are labelled: caught (health under the floor first) or oom (out of
    mana first).
 4. The embedded values match the gap register (skipped when the register file is not next to the repo).
 5. Calibration: one mob through the AoE engine (the small-pull loop, planner build) lands within 10% of
-   character.evaluate()'s seconds per kill at 20, 30, 40, 50 and 60. Small-pull results are trusted only while this
+   character.evaluate()'s seconds per kill at 20, 25, 30, 40, 50 and 60. Small-pull results are trusted only while this
    passes.
 6. The applied slows: the Blizzard chill the engine applies equals the register's blizzardChillTotal (Improved
    Blizzard 3 + Permafrost 3), at full strength on the share a tick hits; Cone of Cold's is 40% + Permafrost's.
@@ -184,6 +188,35 @@ def note_slow_scored():
     print(f'note: the scored model got worse with a stronger slow in {worse} of {steps} steps (not a failure)')
 
 
+# ---------------------------------------------------------------- 2b. a Nova that holds better never adds hits
+def test_nova_hold_pull():
+    for L in (30, 60):
+        for n in (3, 6):
+            last = 1e9
+            for nb in (1.0, 0.75, 0.5, 0.3, 0.1, 0.0):
+                h = scripted(L, n, dict(nova_break=nb, mob_dps_mult=0.0)).hits
+                check(h <= last + 1e-6, f'scripted pull L{L} n{n}: Nova break {nb} gives {h:.2f} hits > {last:.2f}')
+                last = h
+
+
+def note_nova_scored():
+    """Not an assertion: the scored Blizzard loop as Frost Nova's break chance falls (0.5, 0.3, 0.1, 0.0), at the
+    client's chill and at Classic's, and whether a Nova that never breaks lets any default pull survive."""
+    worse = steps = saved = 0
+    for o in ({}, dict(bz_slow=0.75, bz_chill_s=4.5)):
+        for L, n in ((40, 3), (40, 4), (60, 3), (60, 6)):
+            prev = None
+            for nb in (0.5, 0.3, 0.1, 0.0):
+                r = aoe.best_pull(L, n, 'blizzard', dict(o, nova_break=nb), hp_mults=(1.0,))
+                if prev is not None:
+                    steps += 1
+                    worse += bool(prev['feasible'] and (not r['feasible'] or r['spk'] > prev['spk'] * 1.01))
+                prev = r
+            saved += bool(not o and prev['feasible'])
+    print(f'note: the scored Blizzard loop got worse as Nova broke less often in {worse} of {steps} steps; a Nova '
+          f'that never breaks made {saved} of 4 default pulls survive (not a failure)')
+
+
 # ---------------------------------------------------------------- 3. a failed pull is never scored
 def test_failed_never_scored():
     dead = aoe.run_pull(40, 6, 'ae', aoe.POLICIES['ae'][0], dict(mob_dps_mult=20.0))
@@ -255,7 +288,7 @@ def test_register():
 
 
 # ---------------------------------------------------------------- 5. calibration
-CAL_LEVELS, CAL_TOL = (20, 30, 40, 50, 60), 0.10
+CAL_LEVELS, CAL_TOL = (20, 25, 30, 40, 50, 60), 0.10
 
 
 def calibration(L):
@@ -353,13 +386,14 @@ def test_gather_by_start():
 
 def main():
     for f in (test_more_mobs_event, test_more_mobs_pull, test_slow_hits_channel, test_slow_hits_pull,
-              test_failed_never_scored, test_register, test_applied_slow, test_whole_mob_frostbolt, test_potion_floor,
+              test_nova_hold_pull, test_failed_never_scored, test_register, test_applied_slow, test_whole_mob_frostbolt, test_potion_floor,
               test_gather_by_start, test_calibration):
         n0 = len(FAILS)
         f()
         print(f'{f.__name__}: {"ok" if len(FAILS) == n0 else f"{len(FAILS) - n0} failures"}')
     note_capped_pull()
     note_slow_scored()
+    note_nova_scored()
     print(f'{CHECKS[0]} checks, {len(FAILS)} failures')
     sys.exit(1 if FAILS else 0)
 

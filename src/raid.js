@@ -97,7 +97,7 @@
     });
     const lg = $('raidLegend'); lg.textContent = '';
     C.trees.forEach((n, t) => { const s = el('span'); s.append(el('span', 'sw t' + t), n); lg.appendChild(s); });
-    lg.append(el('span', '', 'Shades: damage by source'), el('span', '', 'Gap is versus the leader'));
+    lg.append(el('span', '', 'Shades: damage by source'), el('span', '', 'Gap: how far the leader is ahead of each build'));
   }
   function syncRaceOptions() { OPTS.forEach(o => { const row = $('row-' + o.id); if (row) row.hidden = !appliesTo(o); }); }
   function syncControls() {
@@ -159,7 +159,8 @@
       if (!dead) name.appendChild(el('span', 'cap parts', partsSummary(r)));
       const track = el('div', 'bar-track'); track.setAttribute('aria-hidden', 'true');
       if (!dead) barParts(r, max).forEach(d => track.appendChild(d));
-      const gap = dead ? 'out' : i === 0 ? 'best' : '−' + ((1 - r.total / max) * 100).toFixed(1) + '%';
+      // the leader's lead over this build, on the same base as the verdict line ('leads ... by')
+      const gap = dead ? 'out' : i === 0 ? 'best' : '−' + ((max / r.total - 1) * 100).toFixed(1) + '%';
       row.append(name, track, el('div', 'bar-val', dead ? 'n/a' : Math.round(r.total) + ' dps'), el('div', 'bar-gap', gap));
       bars.appendChild(row);
     });
@@ -184,7 +185,8 @@
   // ---------------------------------------------------------------- stat weights and item compare
   const W_COLS = [['sp', '+1 spell power', null], ['crit', '+1% crit', 'critInSp'], ['hit', '+1% hit', 'hitInSp'],
     ['int', '+1 Intellect', 'intInSp'], ['spirit', '+1 Spirit', 'spiritInSp'], ['mp5', '+1 mp5', 'mp5InSp']];
-  const fmt = v => (Math.abs(v) >= 10 ? v.toFixed(1) : Math.abs(v) >= 1 ? v.toFixed(2) : v.toFixed(3));
+  // weights under 0.0005 print as 0 (statWeights can return -0 or 1e-15 for a stat a build does not use)
+  const fmt = v => (Math.abs(v) < 0.0005 ? '0' : Math.abs(v) >= 10 ? v.toFixed(1) : Math.abs(v) >= 1 ? v.toFixed(2) : v.toFixed(3));
   function renderWeights(res) {
     const o = modelOpts(state.race), tb = $('weights');
     tb.textContent = '';

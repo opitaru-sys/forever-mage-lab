@@ -55,6 +55,8 @@ Each fight starts from a full pool. It runs until the mob dies, the Mage dies, o
 - Cooldown actions replace drinking and eating time: Evocation, a mana potion, Cannibalize, Rapid Regeneration, Read Ley Line. Rest uses every subset of them. A kill cycle of `spk` uses each one `spk / cooldown` times, so `spk = fight + walk + rest(spk)` is solved by fixed-point iteration. An action counts only if it saves at least 1 s per use.
 - Mana gems cost more mana to conjure than they restore (Agate 530 for 400, up to Ruby 1470 for 1100), so the rest model never uses them.
 
+**Why more breaks can shorten a fight.** At 31, 39 and 40 the best rotation is about 0.7% faster with wand shots breaking roots than without. It is not a bug and not a search miss (31 and 40 are on the exhaustive grid). In those fights the Mage roots the mob with Frost Nova, steps back, and wands it under 20% health. A root that breaks lets the mob walk in sooner, and the kill then comes from something that needs it close: Cone of Cold at 40 (traced: 14.48 s against 15.18 s), or at 31 the mob's first swing into Frost or Ice Armor, whose chill rolls Frostbite and completes a nearly full freeze for a shattered Ice Lance (15.58 s against 16.84 s). Wanding a rooted mob at range is slower than either. Two approximations make the effect sharper than it would be in play: a root held with chance 0.5 moves the mob at half speed instead of either standing or running, and Frostbite fires once its expected count reaches 1. A player who casts Frostbolt at a rooted mob instead of wanding it would skip the slow phase; the model's wand finish has no such rule.
+
 **Data.** Spell values come from `data/mage_spells.json` and talent values from `data/talents.json`. Every embedded row is checked against those files when fixtures are made (`tests/make_leveling_fixtures.py`). That script also checks that every `tv()` lookup in both models names a real talent (a table name in the talent slot reads rank 0 silently: until 1 Oct 2026 Permafrost's extra slow was always 0 that way), and that the chill's slow is 40% plus Permafrost's 3/7/10% at 0 to 3 ranks; `tests/leveling_slow_fixtures.json` carries those values to the parity test.
 - **Base stats by level.** Base mana and spell crit per Intellect come from the beta client's `PlayerExpectedStat` (1.60.1.69893). Base health, Intellect, Spirit and Stamina come from Wowhead's Forever gear planner (the arrays the ElliotWood sim takes its level-60 row from). Copies are in `forever-warlock-lab-drafts/mage-research/leveling/mage_base_stats.json`.
 - **Mob stats.** Mob health, mob damage, the hit table and the 8 s walk are the Warlock lab's, so the two pages stay comparable.
@@ -90,7 +92,7 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 9 | Pull distance | 25 yd to melee (30 yd pull, 5 yd reach), plus the range talents | ASSUMPTION (gap register meleeRange 5); talent values from data/talents.json | `pull_gap` / `pullGap` | |
 | 10 | Mob run speed | 8 yd/s; player 7 yd/s | gap register (sim framework constant; warcraft.wiki.gg) | `mob_speed` / `mobSpeed` | m3 |
 | 11 | Stepping back | a searched choice: never, after Frost Nova, or after any freeze; a step is 2 s of walking and no casting | ASSUMPTION | `kite`, `step_s` / `kite`, `stepS` | |
-| 12 | Frost Nova break | each damage event (hits, DoT and Ignite ticks) breaks the root with chance 0.5 | ASSUMPTION (gap register) | `nova_break` / `novaBreak` | m12 |
+| 12 | Frost Nova break | each damage event (hits, wand shots, DoT and Ignite ticks) breaks the root with chance 0.5 | ASSUMPTION (gap register) | `nova_break` / `novaBreak` | m12 |
 | 13 | Frostbite freeze | breaks like Frost Nova (defaults to `nova_break`) | client: SpellAuraOptions for 12494 equals Frost Nova's (122, 865, 6131, 10230) and Entangling Roots' (339) in 1.15.9 and 1.60.1: ProcChance 100, ProcTypeMask 0x800A22A8, every damage-taken flag; roots that do not break (23694, 19675) have mask 0 or no row | `fb_break` / `fbBreak` (0: never breaks) | m12 |
 | 14 | Spell pushback | each melee hit delays a cast 0.5 s; a channel loses one missile a hit; Burning Soul and Improved Channeling protect; none while Ice Barrier holds | ASSUMPTION (register channelPushback) | `pushback`, `pushback_s` / `pushback`, `pushbackS` | |
 | 15 | Mob swing time | 2.0 s | ASSUMPTION (register mobSwingTime) | `swing` | |
@@ -103,7 +105,7 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 22 | Water and food | client values (Crystal Water 4200 over 30 s at 60) | client | `wowhead_drinks` (25/26) / `wowheadDrinks`; `mountain_water` / `mountainWater` | m10, m27 |
 | 23 | Levels 1 to 3 (no conjured water) and 1 to 5 (no conjured food) | rest at rank 1's rate | ASSUMPTION | | |
 | 24 | Evocation | 8 s at 16x Spirit regen, every 8 min, in rest when it saves time | sim formula | `evocation` | m7 |
-| 25 | Mana potions | on: the best one the level allows, one per 2 min, in rest when it saves 1 s or more | Wowhead Forever tooltips (values, levels); price from the client's BuyPrice (auction prices unknown) | `potions` | |
+| 25 | Mana potions | on: the best one the level allows, one per 2 min, in rest when it saves 1 s or more | Wowhead Forever tooltips (values, levels); price is the client's list price (ItemSparse BuyPrice); no vendor is known to sell them, and auction prices are likely far higher | `potions` | |
 | 26 | Rest cooldown actions | used only when each use saves at least 1 s | ASSUMPTION | | |
 | 27 | Mana gems | on, never used: conjuring costs more than they restore | client | `gems` | m24 |
 | 28 | Ice Lance coefficient | 0.143; the x4 on a frozen target covers the whole hit | sim placeholder (client stores 0) | `il_coef` / `ilCoef` | m4 |
@@ -116,12 +118,12 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 35 | DoT ticks | crit | client flag; sim | | m22 |
 | 36 | Improved Scorch, Winter's Chill | personal | client; sim | | m25 |
 | 37 | Hot Streak stacks | carried to the next pull (20 s against about 10 s of walking and rest) | ASSUMPTION | | |
-| 38 | Wand | 0.9 L + 3 damage a second, no spell power; Wand Specialization +13/25% | Warlock lab; FC-PN | | |
+| 38 | Wand | 0.9 L + 3 damage a second, no spell power; Wand Specialization +13/25%. A shot every 1.5 s, the first as wanding starts, is a damage event: it rolls Frost Nova and Frostbite breaks (their client aura row reacts to every damage-taken flag) and Touch of the Grave | Warlock lab; FC-PN; shot speed and timing ASSUMPTION | `wand_breaks` / `wandBreaks` (False: shots never break roots) | m12 |
 | 39 | Humans | Spirit +5%; +2% crit with a sword from 21 (the Coldflame Saber) | WH | `sword` | m23 |
 | 40 | Gnomes | +5% max mana; Eureka! on the pull's first 3 spells, 2 min | WH, FC-PN | | m23 |
 | 41 | Orcs | Blood Fury +10% spell power for 15 s on the pull, 2 min | WH | | |
 | 42 | Trolls | Beast Slaying +5% on 40% of mobs; Berserking +10% cast speed 10 s, 3 min; Rapid Regeneration in rest | WH; mob share ASSUMPTION (Warlock lab) | `beast_share` / `beastShare` | |
-| 43 | Undead | Touch of the Grave: 10% of damaging spell hits drain 5% of max health (not wand shots: FC-PN 70009 says only damaging spells trigger it); Cannibalize in rest on 40% of corpses | WH; FC-PN; share ASSUMPTION (Warlock lab) | `humanoid_share` / `humanoidShare` | m23 |
+| 43 | Undead | Touch of the Grave: 10% of damaging spell hits and wand shots drain 5% of max health (a 1.5 s wand, ASSUMPTION; the client's 1 s proc cooldown is not modelled: applied exactly, it changed Undead by 0.03%); Cannibalize in rest on 40% of corpses | WH tooltip 1260201 ("Your spells and attacks have a 10% chance"); client 1.60.1.69893 SpellAuraOptions 243733: ProcChance 10, ProcTypeMask 69972 (0x11154), which includes 0x40, the ranged auto-attack (wand) flag. FC-PN 70009 ("only damaging spells") does not clearly exclude Shoot. Corpse share ASSUMPTION (Warlock lab) | `totg_source` ('all'; 'spells': spells only), `humanoid_share` / `totgSource`, `humanoidShare` | m23 |
 | 44 | Skyborne | +1% haste; Elemental Insight +5% on 10% of mobs; Read Ley Line 15 s in rest, doubling Spirit and health regen, not drinks | WH; share and drink effect ASSUMPTION | `elemental_share`, `leyline` ('short', 'long', 'off') | m23 |
 | 45 | Thrill of Adventure | off; ranks 1 to 5 return 1 to 5% of max health and mana a kill | FC-LP | `thrill` | m23 |
 
@@ -146,6 +148,10 @@ Python passes them as keyword arguments to `evaluate` (and `make_char`); the pag
 
 Arctic Reach scores through the pull only. Its Frost Nova and Cone of Cold radius half is not modelled.
 
+## The planner's objective
+
+`analysis/leveling_planner.py` optimizes the mean seconds per kill over levels 10 to 60, every level counted the same (the Warlock lab's objective). The headline numbers are time-weighted hours, which weight the high levels more: the Classic XP table and 45 + 5L XP a mob (ASSUMPTION), grinding only, with no quest XP. `analysis/leveling_hours_check.py` scores the planner's own move and swap neighbourhood in hours instead. On 1 Oct 2026 (with wand shots breaking roots) the best it found was 0.024 hours (0.02%, about 1.5 minutes over 104), from moving Frost Channeling and Elemental Precision around 34 to 38 and Permafrost in for Improved Cone of Cold at 59. The same change gains 0.02% on the level mean too. Time-weighting would not change the order in any way that matters, so the search was not rerun with it.
+
 ## Reproduce
 
 | What | Command |
@@ -153,4 +159,5 @@ Arctic Reach scores through the pull only. Its Frost Nova and Cone of Cold radiu
 | leveling.js matches Python | `node tests/leveling_parity_test.js` (regenerate: `python tests/make_leveling_fixtures.py`) |
 | The search finds the exhaustive best | `python analysis/leveling_search_check.py` |
 | Planner and tree-first talent orders | `python analysis/leveling_planner.py` |
+| Would time-weighting change the planner order | `python analysis/leveling_hours_check.py` |
 | Rotation by level, trees, races, consumables, respec, low ranks, builder checks, sensitivity | `python analysis/leveling_paths.py [section]` |

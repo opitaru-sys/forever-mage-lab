@@ -5,7 +5,7 @@
  * policyLabel(name), SCORED. opts: { race, hpMults, ... } with the camelCase names in OPT_MAP.
  */
 (function (root) {
-  const DT = 0.02, GCD = 1.5, MAX_TIME = 240.0, FIN_BELOW = 0.2, MELEE_GAP = 5.0, WAND_SPEED = 1.5, CONJURE_S = 3.0;
+  const DT = 0.02, GCD = 1.5, MAX_TIME = 240.0, FIN_BELOW = 0.2, MELEE_GAP = 5.0, WAND_SPEED = 1.5, CONJURE_S = 3.0;   // WAND_SPEED: ASSUMPTION
   const MIN_SAVE = 1.0;
 
   // ---------------------------------------------------------------- spell ranks (data/mage_spells.json)
@@ -130,7 +130,8 @@
   // ---------------------------------------------------------------- character (Char defaults as models/leveling_sim.py)
   const CHAR_DEFAULTS = { level: 1, race: 'none', talents: {}, sp: 0.0, crit: 0.05, crit_bonus: 0.0, hit_base: 0.96,
     max_hp: 500.0, max_mana: 500.0, base_mana: 100.0, intellect: 0.0, spirit: 0.0, mreg: 0.0, hreg: 0.0, hreg_combat: 0.0,
-    cast_regen: 0.0, haste: 1.0, dmg_mult: 1.0, wand_dps: 0.0, totg: false, mob_dps: 0.0, mob_speed: 8.0, pull_gap: 25.0,
+    cast_regen: 0.0, haste: 1.0, dmg_mult: 1.0, wand_dps: 0.0, totg: false, totg_wand: true, wand_breaks: true,
+    mob_dps: 0.0, mob_speed: 8.0, pull_gap: 25.0,
     player_speed: 7.0, step_s: 2.0, swing: 2.0, pushback_s: 0.5, nova_break: 0.5, fb_break: 0.5, kite: true, il_coef: 0.143,
     dd_mode: 'scaled', below20: false, low_ranks: 'measured', top_ranks: false, potions: true, gems: true, evocation: true,
     wowhead_drinks: false, spirit_drink: true, mountain_water: false, thrill: 0.0, leyline: 'short', cannibalize: 0.0,
@@ -242,7 +243,7 @@
       chill_until: -1.0, chill_p: 0.0, daze_until: -1.0, daze_p: 0.0, fb: k.fb_chance ? phase : 0.0,
       fof: k.fof_n ? phase : 0.0, wc: 0.0, hs: k.hs ? 3.0 * phase : 0.0, mb: k.mb ? phase : 0.0,
       cc: 0.0, ab: 0, ab_until: -1.0, fv: 0.0, eu: 3, comb_bonus: 0.0, comb_crits: 0.0, wake_used: false,
-      pom_used: false, swing: 0.0, armor_until: -1.0 };
+      pom_used: false, swing: 0.0, armor_until: -1.0, shot_at: 0.0 };
     const holds = [];      // [end time, chance it holds, break chance per damage event, is a freeze]
     const dots = {};
     const ign = [];        // [due time, amount, chance the tick exists]
@@ -258,6 +259,8 @@
     };
     const deal = (name, x) => { st.hp -= x; S.dmg[name] = (S.dmg[name] || 0.0) + x; };
     const heal = x => { st.php = Math.min(ch.max_hp, st.php + x); S.healed += x; };
+    // Undead Touch of the Grave on a landed hit or wand shot: 10%, 5% of max health (its 1 s proc cooldown: not modelled)
+    const totgProc = hit => { const x = 0.1 * hit * 0.05 * ch.max_hp; deal('TouchOfTheGrave', x); heal(x); };
     const spNow = () => (st.t < 15.0 ? ch.sp * (1 + 0.1 * k.p_bf) : ch.sp);
     const abNow = () => (st.t <= st.ab_until ? st.ab : 0);
     const costFull = a => {
@@ -283,11 +286,7 @@
       if (k.moe && (fire || frost) && costPaidFull > 0) {
         st.mana = Math.min(ch.max_mana, st.mana + k.base_cost[name] * k.moe * hit * pcrit * (1 - ccUsed));
       }
-      if (ch.totg) {
-        const x = 0.1 * hit * 0.05 * ch.max_hp;
-        deal('TouchOfTheGrave', x);
-        heal(x);
-      }
+      if (ch.totg) totgProc(hit);
       if (fire && k.impact) holds.push([st.t + 2.0, hit * k.impact, 0.0, false, 'stun']);
       if (frost && k.wc_cap) st.wc = Math.min(k.wc_cap, st.wc + hit * k.wc_chance);
     };
@@ -366,7 +365,10 @@
       if (c.left <= 0) chan = null;
     };
     const act = (a, t) => {
-      if (a === 'Wand') { st.wand = true; st.pulled = true; return; }
+      if (a === 'Wand') {
+        if (!st.wand) st.shot_at = t;   // ASSUMPTION: the first shot leaves as wanding starts, then one every WAND_SPEED
+        st.wand = true; st.pulled = true; return;
+      }
       st.wand = false;
       if (a === 'Step') { st.step = t + ch.step_s; S.casts.Step = (S.casts.Step || 0) + 1; return; }
       const full = costFull(a);
@@ -461,6 +463,11 @@
       if (st.wand && !busy) {
         const hit = Math.min(0.99, ch.hit_base);
         deal('Wand', ch.wand_dps * DT * hit * k.wandspec * ch.dmg_mult);
+        if (t >= st.shot_at - 1e-9) {   // a shot leaves: a damage event (its damage is in the rate above)
+          st.shot_at += WAND_SPEED;
+          if (ch.wand_breaks) breakHolds(hit);
+          if (ch.totg && ch.totg_wand) totgProc(hit);
+        }
         st.engaged = true;
       }
       if (!busy && st.hp > 0) {
@@ -672,7 +679,9 @@
     const keep = {};
     for (const key of ['pull_gap', 'mob_speed', 'player_speed', 'step_s', 'swing', 'pushback_s', 'nova_break',
       'fb_break', 'kite', 'il_coef', 'dd_mode', 'below20', 'low_ranks', 'top_ranks', 'potions',
-      'gems', 'evocation', 'wowhead_drinks', 'spirit_drink', 'mountain_water']) if (o[key] !== undefined) keep[key] = o[key];
+      'gems', 'evocation', 'wowhead_drinks', 'spirit_drink', 'mountain_water', 'wand_breaks']) {
+      if (o[key] !== undefined) keep[key] = o[key];
+    }
     if (keep.pull_gap === undefined) keep.pull_gap = PULL_GAP;
     if (keep.mob_speed === undefined) keep.mob_speed = MOB_SPEED;
     if (keep.step_s === undefined) keep.step_s = STEP_S;
@@ -687,6 +696,7 @@
       intellect: intel, spirit, mreg: (6.25 + spirit / 8) * regen, hreg,
       hreg_combat: race === 'troll' ? 0.1 * hreg : 0.0, cast_regen: castRegen,
       haste: race === 'skyborne' ? 1.01 : 1.0, dmg_mult: dmg, wand_dps: 0.9 * L + 3, totg: race === 'undead',
+      totg_wand: g0(o, 'totg_source', 'all') === 'all',
       mob_dps: mobDps(L) * g0(o, 'mob_dps_mult', 1.0), thrill: 0.01 * g0(o, 'thrill', 0), leyline,
       cannibalize: race === 'undead' ? g0(o, 'humanoid_share', HUMANOIDS) : 0.0,
       rapid_regen: race === 'troll', armor_chill: !mageArmor, armor_slow: g0(o, 'armor_slow', ARMOR_SLOW),
@@ -906,7 +916,7 @@
     stepS: 'step_s', swing: 'swing', pushbackS: 'pushback_s', novaBreak: 'nova_break', fbBreak: 'fb_break', kite: 'kite',
     ilCoef: 'il_coef', ddMode: 'dd_mode', below20: 'below20', lowRanks: 'low_ranks', topRanks: 'top_ranks',
     potions: 'potions', gems: 'gems', evocation: 'evocation', wowheadDrinks: 'wowhead_drinks', spiritDrink: 'spirit_drink',
-    mountainWater: 'mountain_water', mobDpsMult: 'mob_dps_mult' };
+    mountainWater: 'mountain_water', mobDpsMult: 'mob_dps_mult', totgSource: 'totg_source', wandBreaks: 'wand_breaks' };
 
   // Best single-target rotation for a build (models/character.py evaluate): probe every base, then coordSearch the
   // best `top` (6), with two-group changes for the best `pairTop` (2). opts: { race, hpMults, top, pairTop, mods,

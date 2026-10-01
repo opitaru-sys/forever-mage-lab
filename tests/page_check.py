@@ -17,6 +17,8 @@ answered with an empty stylesheet so the check runs offline. It prints which mod
 - the stub banner shows when a stub model is loaded
 - localStorage holds only fml. keys, and saved state survives a reload
 - phone width has no sideways scroll, and the class colors apply in light and dark mode
+- fresh loads (empty storage): the builder starts on the page plan and follows the level, and #t4 and #c-aoe land
+  in view at 390 px even when a web font arrives late and reflows the page (a wide local font served 1.5 s late)
 Then it repeats with fixture content injected into CLASS, so the claim, test, spec card, proof table and planner
 renderers run before the real content exists. Expected numbers come from the page's own talent rules and the
 model's SPECS, so the shell check does not depend on what the models contain.
@@ -27,6 +29,7 @@ import json
 import os
 import sys
 import threading
+import time
 
 from playwright.sync_api import sync_playwright
 
@@ -505,6 +508,62 @@ def phone_and_themes(browser, url):
         context.close()
 
 
+# a wide local font, served late in place of the Google font, so the reflow a real first visit meets happens here too
+LATE_FONT = next((f for f in (r'C:\Windows\Fonts\verdana.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+                              '/System/Library/Fonts/Supplemental/Verdana.ttf') if os.path.exists(f)), None)
+
+
+def fresh_load(browser, url):
+    errors = []
+    context, page = open_page(browser, url, errors, viewport={'width': 1280, 'height': 900})
+
+    def follows():
+        assert_eq(page.locator('#bPresets button[data-id="plan"]').get_attribute('aria-pressed'), 'true', 'page plan marked on a fresh load')
+        page.fill('#lvlNum', '45')
+        page.dispatch_event('#lvlNum', 'change')
+        assert_eq(text(page, '#bPts'), points_text(page, 45, '() => { const c = (%s)(); return c.fromOrder(c.expand(CLASS.planner.order), 45); }' % CORE_JS),
+                  'the builder follows the level to 45')
+        assert 'About the same as the page plan' in text(page, '#bVs'), 'builder vs plan at 45: %r' % text(page, '#bVs')
+        assert not errors, '; '.join(errors)
+    check('a fresh builder starts on the page plan and follows the level', follows)
+    context.close()
+
+    origin = url.rsplit('/', 1)[0]
+    for target in ('t4', 'c-aoe'):
+        errors = []
+        context = browser.new_context(viewport={'width': 390, 'height': 800}, is_mobile=True, has_touch=True)
+
+        def route(r):
+            u = r.request.url
+            if u.endswith('/__late_font.ttf'):
+                time.sleep(1.5)
+                with open(LATE_FONT, 'rb') as f:
+                    return r.fulfill(status=200, content_type='font/ttf', body=f.read())
+            if u.startswith('http://127.0.0.1'):
+                return r.continue_()
+            if 'fonts.googleapis.com' in u:
+                css = '@font-face{font-family:"Source Sans 3";src:url("%s/__late_font.ttf")}' % origin if LATE_FONT else ''
+                return r.fulfill(status=200, content_type='text/css', body=css)
+            errors.append('external request: ' + u)
+            return r.fulfill(status=204, body='')
+        context.route('**/*', route)
+        page = context.new_page()
+        page.on('console', lambda m: errors.append('console %s: %s' % (m.type, m.text)) if m.type == 'error' else None)
+        page.on('pageerror', lambda e: errors.append('page error: %s' % e))
+
+        def lands(target=target, page=page, errors=errors):
+            page.goto(url + '#' + target, wait_until='load')
+            page.evaluate('() => document.fonts.ready')
+            page.wait_for_timeout(300)
+            if LATE_FONT:
+                assert page.evaluate("() => document.fonts.check('16px \"Source Sans 3\"')"), 'the late font did not load'
+            box = page.locator('#' + target).bounding_box()
+            assert box and -2 <= box['y'] < 800, '#%s lands %r px from the top of an 800 px phone screen' % (target, box and round(box['y']))
+            assert not errors, '; '.join(errors)
+        check('#%s from a fresh load lands in view at 390 px after a late web font' % target, lands)
+        context.close()
+
+
 def main():
     if not os.path.exists(os.path.join(ROOT, 'index.html')):
         sys.exit('index.html is missing: run python src/build.py first')
@@ -516,6 +575,7 @@ def main():
             todo = base_run(browser, url)
             fixture_run(browser, url)
             phone_and_themes(browser, url)
+            fresh_load(browser, url)
         finally:
             browser.close()
             httpd.shutdown()

@@ -180,7 +180,7 @@ OPTION_CASES = [dict(potions=False), dict(gems=False), dict(evocation=False), di
                 dict(downrank=False), dict(gear_int=0.5, gear_sta=2.0, gear_spi=1.0), dict(armor_slow=0.0),
                 dict(step_s=1.0), dict(pull_gap=10.0), dict(player_speed=5.0), dict(swing=1.5), dict(pushback_s=1.0),
                 dict(travel=12.0), dict(level_diff=1), dict(low_ranks='full'), dict(low_ranks='tbc'),
-                dict(low_ranks='classic'), dict(nova_break=0.2), dict(top=2), dict(pair_top=0),
+                dict(low_ranks='classic'), dict(nova_break=0.2), dict(top=2), dict(pair_top=0), dict(wand_breaks=False),
                 dict(mob_dps_mult=6.0, kite=False, potions=False)]   # the last makes some builds die: infeasible path
 # builds that take the range talents (they lengthen the pull)
 RANGE_BUILDS = [(22, 'arcane-geometry', dict(ArcaneFocus=3, WandSpecialization=2, ArcaneGeometry=2, ArcaneConcentration=5)),
@@ -192,6 +192,7 @@ RANGE_BUILDS = [(22, 'arcane-geometry', dict(ArcaneFocus=3, WandSpecialization=2
                                           WintersChill=5, FrostChanneling=2))]
 RACE_OPTIONS = [('human', dict(sword=False)), ('skyborne', dict(leyline='long')), ('skyborne', dict(leyline='off')),
                 ('troll', dict(beast_share=1.0)), ('undead', dict(humanoid_share=1.0)),
+                ('undead', dict(totg_source='spells')),
                 ('skyborne', dict(elemental_share=1.0))]
 
 

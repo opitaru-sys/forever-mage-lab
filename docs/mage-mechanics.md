@@ -176,13 +176,13 @@ The changes that shape the verdicts:
 - **Hot Streak:** 3 stacks give a 1.5 s Pyroblast, spent by the next Pyroblast, 20 s.
 - **Arcane Blast's buff** (+10% a stack, 4 stacks, 8 s) reaches Frostbolt, Fireball, Fire Blast, Scorch, Pyroblast, Ice Lance, Frostfire Bolt, Arcane Explosion, Cone of Cold, Frost Nova and Blast Wave by the client masks, but not Arcane Missiles, Blizzard or Flamestrike, whatever the tooltip's "all your other spells" says (test m8). The sim's Arcane rotation spends the stacks on Frostbolt. In the sim, the Arcane Missiles channel ends the stacks; the client masks suggest it does not (test m28).
 - **Missile Barrage** proc rates of 40% and 20% are hardcoded in the sim; the talent row also carries a 50% proc chance that could halve them (test m18).
-- **Fingers of Frost** is the only Shatter source on a boss in the sim, which assumes bosses cannot be frozen.
+- **Fingers of Frost** is the only Shatter source on a boss in the sim, which assumes bosses cannot be frozen. The sim still rolls Fingers of Frost off Frostbolt's chill on a boss, though bosses cannot be chilled; the calculator follows it as an assumption (test m30).
 - **Ice Lance's coefficient** is unknown: the client row reads 0, the sim uses 0.143 and says 0.429 or 0.572 are as likely (test m4).
 - **Hit cap.** No Forever source. The sim builds raid targets at level 63 on the Classic table: 17% miss against a +3 target with a 1% floor, so 16% hit caps (test m15).
-- **Partial resists.** A level 63 boss resists about 6% of non-binary spell damage on average in the sim (`core/spell_resistances.go`). Frostbolt, Ice Lance and Blast Wave are binary.
+- **Partial resists.** A level 63 boss resists about 6% of non-binary spell damage on average in the sim (`core/spell_resistances.go`). Frostbolt and Blast Wave are binary; the sim flags Ice Lance as binary too, which is untested (test m29).
 - **Damage over time can crit** in Forever: Fireball, Pyroblast and Frostfire Bolt carry the periodic-crit flag, which the Classic client does not (test m22).
 - **Raids** open 9 December: The Barrow Deeps (10 players), Hyjal Summit (20) and Onyxia's Lair (40). Raid data is encrypted in the client until then, so Fire or Frost immunity of any boss is unknown.
-- **Raid buffs** (Forever tooltips): Greater Blessing of Wisdom 40 mp5, Mana Spring Totem 25 mp5 (party), Prayer of Spirit +40 Spirit, Gift of the Wild +16 to all attributes. Both factions have Paladins and Shamans (Undead Paladins, Dwarf Shamans; FC racials).
+- **Raid buffs** (Forever tooltips): Greater Blessing of Wisdom 40 mp5, Greater Blessing of Kings +10% to all stats (25898; one Blessing per Paladin, so Kings next to Wisdom takes a second Paladin), Mana Spring Totem 25 mp5 (party), Prayer of Spirit +40 Spirit, Gift of the Wild +16 to all attributes, and Moonkin Form +3% critical strike chance to party members within 45 yd (24858). Both factions have Paladins and Shamans (Undead Paladins, Dwarf Shamans; FC racials).
 
 ## 8. AoE mechanics
 
@@ -214,7 +214,7 @@ Mage races: Human, Gnome and Skyborne High Order (needs a Heroic pack) for the A
 | Orc | Shatter Curse | remove curses and banes, -15% magic damage taken for 8 s, 3 min | WH 1299026 |
 | Orc | Hardiness | stuns on you last 20% shorter | WH 20573 |
 | Orc | Axe Specialization | +1% crit with an axe; Mages cannot equip axes | WH 20574 |
-| Undead | Touch of the Grave (caster version) | 10% of damaging spells drain 5% of your max health from the target, 1 s cooldown; only damaging spells trigger it (70009) | WH 1260201, FC patch notes |
+| Undead | Touch of the Grave (caster version) | "Your spells and attacks" have a 10% chance to drain 5% of your max health from the target, 1 s cooldown; the client's proc mask includes ranged auto-attacks, so wand shots count (build 70009's notes say only damaging spells; test m23) | WH 1260201, client SpellAuraOptions, FC patch notes |
 | Undead | Cannibalize | 7% health and 7% mana every 2 s for 10 s from a humanoid or undead corpse, 2 min (Classic: health only) | WH 20577 |
 | Undead | Will of the Forsaken | remove charm, fear and sleep, 2 min | WH 7744 |
 | Troll | Berserking | +10% cast and attack speed for 10 s, 3 min; flat (Classic scaled 10 to 30% with missing health) | WH 20554 |
@@ -230,7 +230,7 @@ The Mage-only research skill (FC Battle Mage). Comprehend Scroll from level 6; S
 
 ## 11. Open questions
 
-Each open value ships as a calculator or model option and an in-game test; the page's "Help test these" list has the steps, most important first. Test ids: m1 target cap, m2 dungeon XP, m3 Blizzard chill and mob speed, m4 Ice Lance coefficient, m5 casting regen stacking, m6 top-rank tomes, m7 Evocation, m8 Arcane Blast mask, m9 tick crits, m10 drinking and Spirit, m11 Ignite, m12 root breaks, m13 low ranks at 30+, m14 five-second rule, m15 miss chance, m16 mob health and damage, m17 Frostbite from chills, m18 Missile Barrage rate, m19 Fingers of Frost on AoE, m20 pack behavior, m21 Arcane Blast cost, m22 DoT crits, m23 racials, m24 shared cooldowns, m25 personal debuffs, m26 Flamestrike overlap, m27 bottles at 60, m28 Barrage Missiles and Arcane Blast stacks.
+Each open value ships as a calculator or model option and an in-game test; the page's "Help test these" list has the steps, most important first. Test ids: m1 target cap, m2 dungeon XP, m3 Blizzard chill and mob speed, m4 Ice Lance coefficient, m5 casting regen stacking, m6 top-rank tomes, m7 Evocation, m8 Arcane Blast mask, m9 tick crits, m10 drinking and Spirit, m11 Ignite, m12 root breaks, m13 low ranks at 30+, m14 five-second rule, m15 miss chance, m16 mob health and damage, m17 Frostbite from chills, m18 Missile Barrage rate, m19 Fingers of Frost on AoE, m20 pack behavior, m21 Arcane Blast cost, m22 DoT crits, m23 racials, m24 shared cooldowns, m25 personal debuffs, m26 Flamestrike overlap, m27 bottles at 60, m28 Barrage Missiles and Arcane Blast stacks, m29 Ice Lance partial resists, m30 Fingers of Frost on a raid boss.
 
 ## Sources
 
