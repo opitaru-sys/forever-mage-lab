@@ -103,6 +103,7 @@ a{color:var(--accent);text-underline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .label,.k,th,.lab,.chip,.tag,.when,.eyebrow,legend{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .note{color:var(--muted);font-size:14px}
+main [id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
 section{scroll-margin-top:calc(var(--nav-h) + 12px);display:flex;flex-direction:column;gap:18px;padding-block:32px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
 
@@ -858,6 +859,8 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
         body: 'Cast Ice Lance 30 times on a target that is not frozen, then add a known amount of spell damage (Minor Wizard Oil gives +8; +16 or more gives a cleaner result) and cast 30 more. Divide the change in the average non-crit hit by the spell damage you added. The game\'s data reads 0, the sim guesses 0.143, and 0.429 or 0.572 are as likely. At 0, Fire with Arcane Blast becomes the group spec.' },
       { id: 't30', when: 'Test m30 · Level 60, a raid boss · raids (9 Dec)', title: 'Does Fingers of Frost proc on a raid boss?',
         body: 'With Fingers of Frost talented, cast 20 Frostbolts at a raid boss and count the Fingers of Frost buffs you gain: about 3 if it procs at 15% a landed chill, none if bosses block it, since they cannot be chilled. The sim and the calculator assume it procs. If it does not, Frost with Barrage falls to 450 dps and Fire with Arcane Blast leads.' },
+      { id: 't31', when: 'Test m31 · Level 29 and up · beta at 30', title: 'Can a Frostbolt in flight share a Fingers of Frost charge with Ice Lance?',
+        body: 'With Fingers of Frost talented and one charge left, cast Frostbolt from range and cast Ice Lance while the Frostbolt is still in the air. If that Ice Lance hits for about four times its normal damage, one charge covered both spells, and Frost gets more from every proc than the calculator assumes: it spends each charge on one Ice Lance. Also note whether the charge disappears when the Frostbolt finishes casting or when it lands. Asked by a reader, WelshBen.' },
       { id: 't3', when: 'Test m3 · Level 20 and up · beta now', title: 'Blizzard\'s chill, and how fast mobs run.',
         body: 'Time an unslowed melee mob running 25 yards to you: about 3.1 seconds means 8 yards a second. Then respec off the page plan into Permafrost 3/3 and Improved Blizzard 1/3, all 11 points at 20 (Improved Frostbolt 5, Permafrost 3, two more points in the top two rows, Improved Blizzard 1). Time the mob walking through your Blizzard, and note in the combat log when Chilled (12484) lands and fades. With Permafrost 3/3 the client predicts 25% slower at Improved Blizzard 1/3 and 50% at 3/3, for about 2 seconds. This decides AoE leveling.' },
       { id: 't12', when: 'Test m12 · Level 20 and up · beta now', title: 'How often damage breaks Frost Nova and Frostbite.',
@@ -1004,7 +1007,7 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
     // text slots, filled into elements with data-text. Supports **bold** and [label](#anchor or https://...). {name} is the class name.
     text: {
       title: 'Forever Mage Lab',
-      eyebrow: 'WoW: Forever · Mage · beta data · v1 · 1 Oct 2026',
+      eyebrow: 'WoW: Forever · Mage · beta data · v1.1 · 1 Oct 2026',
       lede: 'What to press, which talents to take and which race to play, at every level from 1 to 60. **The short answer:** level as Frost, and at 60 play Frost with Missile Barrage in groups, a close call over Fire.',
       trust: 'Built with Claude, with separate Claude sessions reviewing the models. Open source. [How it was checked](#method) · [What changed](#changelog)',
       navYou: 'Your {name}',
@@ -1043,6 +1046,7 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
         'The research, models and this page were built with Claude, Anthropic\'s AI model. Separate Claude sessions then reviewed the models from their own checks, and their fixes are in. The calculator and the level planner run JavaScript ports of the Python models that reproduce them exactly: 63 raid cases, 2425 raid option checks, 569 stat weight checks and 771 leveling cases.',
       ],
       changelog: [
+        '**v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.',
         '**v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 28 in-game tests.',
       ],
       sources: [
@@ -4434,28 +4438,68 @@ window.FML_ICONS = {"ability_mage_frostfirebolt": "data:image/jpeg;base64,/9j/4A
 
 
   // ---------------------------------------------------------------- deep links: #lvl-24, #go-undead-24, #race-undead, #b-... builds, or any element id
-  let opened = null;   // the last deep-link target and the scroll position it left, to redo once web fonts reflow the page
-  function openTo(node) {
-    for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  // A deep link keeps its target pinned while the page settles. On a first visit the web fonts swap in after the
+  // deep-link scroll and reflow the whole page (about 600 px at 390 px wide on the live page), and a smooth scroll keeps
+  // running to a destination measured before that reflow. So a link opened on page load jumps without animation, and
+  // for PIN_MS after any deep link, every layout change (the body resizing, a web font finishing, the load event)
+  // puts the target back: instantly, without refocusing. The reader's first wheel, touch, key or pointer press ends it.
+  const PIN_MS = 8000, READER_INPUT = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
+  let pin = null;
+  function jumpTo(node) {
+    const st = document.documentElement.style, was = st.scrollBehavior;
+    st.scrollBehavior = 'auto';                 // instant, whatever the stylesheet's smooth scrolling says
     node.scrollIntoView({ block: 'start' });
-    if (node.matches('input, select, button')) node.focus({ preventScroll: true });
-    opened = { node, y: window.scrollY };
+    st.scrollBehavior = was;
   }
-  function handleHash() {
+  function settle() { if (pin) jumpTo(pin.node); }
+  function unpin() {
+    if (!pin) return;
+    clearTimeout(pin.timer);
+    if (pin.ro) pin.ro.disconnect();
+    if (document.fonts) document.fonts.removeEventListener('loadingdone', settle);
+    window.removeEventListener('load', settle);
+    READER_INPUT.forEach(t => window.removeEventListener(t, unpin, true));
+    pin = null;
+  }
+  function pinTo(node) {
+    unpin();
+    const p = { node, timer: setTimeout(unpin, PIN_MS), height: -1 };
+    pin = p;
+    READER_INPUT.forEach(t => window.addEventListener(t, unpin, { capture: true, passive: true }));
+    window.addEventListener('load', settle);
+    if (document.fonts) document.fonts.addEventListener('loadingdone', settle);
+    if ('ResizeObserver' in window) {
+      p.ro = new ResizeObserver(entries => {        // the first call only records the height
+        const h = Math.round(entries[entries.length - 1].contentRect.height);
+        if (pin === p && p.height >= 0 && h !== p.height) settle();
+        p.height = h;
+      });
+      p.ro.observe(document.body);
+    }
+  }
+  // onLoad: the link the page was opened with (jump); otherwise a link followed on the page (the stylesheet's scrolling)
+  function openTo(node, onLoad) {
+    for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+    if (onLoad) jumpTo(node); else node.scrollIntoView({ block: 'start' });
+    if (node.matches('input, select, button')) node.focus({ preventScroll: true });
+    pinTo(node);
+  }
+  function handleHash(onLoad) {
+    const now = onLoad === true;               // the hashchange listener passes an event, the first call passes true
     let h = '';
     try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
     if (!h) return;
     let m = h.match(/^lvl-(\d{1,2})$/);
-    if (m) { setLevel(Number(m[1]), false); openTo($('you')); return; }
+    if (m) { setLevel(Number(m[1]), false); openTo($('you'), now); return; }
     // #go-<race>-<level> or #go-<level>: arriving from a sibling class page. A race that is not one of ours keeps yours;
     // the level is clamped to 1 to 60. The go- prefix cannot match a b- or race- hash.
     m = h.match(/^go-(?:([a-z]+)-)?(\d{1,2})$/);
-    if (m) { if (m[1] && isRace(m[1])) setRace(m[1], false); setLevel(Number(m[2]), false); openTo($('you')); return; }
-    if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder')); } return; }
+    if (m) { if (m[1] && isRace(m[1])) setRace(m[1], false); setLevel(Number(m[2]), false); openTo($('you'), now); return; }
+    if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder'), now); } return; }
     m = h.match(/^race-([a-z]+)$/);
-    if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you')); return; }
+    if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you'), now); return; }
     const target = document.getElementById(h);
-    if (target) openTo(target);
+    if (target) openTo(target, now);
   }
 
   // ---------------------------------------------------------------- wiring
@@ -4504,15 +4548,7 @@ window.FML_ICONS = {"ability_mage_frostfirebolt": "data:image/jpeg;base64,/9j/4A
   buildRaidControls(); buildRaceSegs(); buildLevelChips(); wirePage(); wireRaid(); wireBuilder();
   syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
   watchSections();
-  handleHash();
-  // On a fresh load the deep-link scroll runs before the web fonts arrive, and their reflow moves the target (591 px at
-  // 390 px wide in review). Scroll to it again once they are ready: scroll only, no second focus, and not if the reader
-  // has scrolled since.
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      if (opened && Math.abs(window.scrollY - opened.y) < 2) opened.node.scrollIntoView({ block: 'start' });
-    });
-  }
+  handleHash(true);
 })();
 </script>
 

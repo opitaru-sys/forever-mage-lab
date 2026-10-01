@@ -156,6 +156,7 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 ## Changelog
 
+- **v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.
 - **v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 28 in-game tests.
 
 ## How to rebuild the page

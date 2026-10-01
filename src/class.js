@@ -386,6 +386,8 @@
         body: 'Cast Ice Lance 30 times on a target that is not frozen, then add a known amount of spell damage (Minor Wizard Oil gives +8; +16 or more gives a cleaner result) and cast 30 more. Divide the change in the average non-crit hit by the spell damage you added. The game\'s data reads 0, the sim guesses 0.143, and 0.429 or 0.572 are as likely. At 0, Fire with Arcane Blast becomes the group spec.' },
       { id: 't30', when: 'Test m30 · Level 60, a raid boss · raids (9 Dec)', title: 'Does Fingers of Frost proc on a raid boss?',
         body: 'With Fingers of Frost talented, cast 20 Frostbolts at a raid boss and count the Fingers of Frost buffs you gain: about 3 if it procs at 15% a landed chill, none if bosses block it, since they cannot be chilled. The sim and the calculator assume it procs. If it does not, Frost with Barrage falls to 450 dps and Fire with Arcane Blast leads.' },
+      { id: 't31', when: 'Test m31 · Level 29 and up · beta at 30', title: 'Can a Frostbolt in flight share a Fingers of Frost charge with Ice Lance?',
+        body: 'With Fingers of Frost talented and one charge left, cast Frostbolt from range and cast Ice Lance while the Frostbolt is still in the air. If that Ice Lance hits for about four times its normal damage, one charge covered both spells, and Frost gets more from every proc than the calculator assumes: it spends each charge on one Ice Lance. Also note whether the charge disappears when the Frostbolt finishes casting or when it lands. Asked by a reader, WelshBen.' },
       { id: 't3', when: 'Test m3 · Level 20 and up · beta now', title: 'Blizzard\'s chill, and how fast mobs run.',
         body: 'Time an unslowed melee mob running 25 yards to you: about 3.1 seconds means 8 yards a second. Then respec off the page plan into Permafrost 3/3 and Improved Blizzard 1/3, all 11 points at 20 (Improved Frostbolt 5, Permafrost 3, two more points in the top two rows, Improved Blizzard 1). Time the mob walking through your Blizzard, and note in the combat log when Chilled (12484) lands and fades. With Permafrost 3/3 the client predicts 25% slower at Improved Blizzard 1/3 and 50% at 3/3, for about 2 seconds. This decides AoE leveling.' },
       { id: 't12', when: 'Test m12 · Level 20 and up · beta now', title: 'How often damage breaks Frost Nova and Frostbite.',
@@ -532,7 +534,7 @@
     // text slots, filled into elements with data-text. Supports **bold** and [label](#anchor or https://...). {name} is the class name.
     text: {
       title: 'Forever Mage Lab',
-      eyebrow: 'WoW: Forever · Mage · beta data · v1 · 1 Oct 2026',
+      eyebrow: 'WoW: Forever · Mage · beta data · v1.1 · 1 Oct 2026',
       lede: 'What to press, which talents to take and which race to play, at every level from 1 to 60. **The short answer:** level as Frost, and at 60 play Frost with Missile Barrage in groups, a close call over Fire.',
       trust: 'Built with Claude, with separate Claude sessions reviewing the models. Open source. [How it was checked](#method) · [What changed](#changelog)',
       navYou: 'Your {name}',
@@ -571,6 +573,7 @@
         'The research, models and this page were built with Claude, Anthropic\'s AI model. Separate Claude sessions then reviewed the models from their own checks, and their fixes are in. The calculator and the level planner run JavaScript ports of the Python models that reproduce them exactly: 63 raid cases, 2425 raid option checks, 569 stat weight checks and 771 leveling cases.',
       ],
       changelog: [
+        '**v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.',
         '**v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 28 in-game tests.',
       ],
       sources: [

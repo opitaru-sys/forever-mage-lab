@@ -96,6 +96,7 @@ a{color:var(--accent);text-underline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .label,.k,th,.lab,.chip,.tag,.when,.eyebrow,legend{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .note{color:var(--muted);font-size:14px}
+main [id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
 section{scroll-margin-top:calc(var(--nav-h) + 12px);display:flex;flex-direction:column;gap:18px;padding-block:32px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
 
@@ -1026,28 +1027,68 @@ window.FML_ICONS = /*ICONS*/;
 /*BUILDER*/
 
   // ---------------------------------------------------------------- deep links: #lvl-24, #go-undead-24, #race-undead, #b-... builds, or any element id
-  let opened = null;   // the last deep-link target and the scroll position it left, to redo once web fonts reflow the page
-  function openTo(node) {
-    for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+  // A deep link keeps its target pinned while the page settles. On a first visit the web fonts swap in after the
+  // deep-link scroll and reflow the whole page (about 600 px at 390 px wide on the live page), and a smooth scroll keeps
+  // running to a destination measured before that reflow. So a link opened on page load jumps without animation, and
+  // for PIN_MS after any deep link, every layout change (the body resizing, a web font finishing, the load event)
+  // puts the target back: instantly, without refocusing. The reader's first wheel, touch, key or pointer press ends it.
+  const PIN_MS = 8000, READER_INPUT = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
+  let pin = null;
+  function jumpTo(node) {
+    const st = document.documentElement.style, was = st.scrollBehavior;
+    st.scrollBehavior = 'auto';                 // instant, whatever the stylesheet's smooth scrolling says
     node.scrollIntoView({ block: 'start' });
-    if (node.matches('input, select, button')) node.focus({ preventScroll: true });
-    opened = { node, y: window.scrollY };
+    st.scrollBehavior = was;
   }
-  function handleHash() {
+  function settle() { if (pin) jumpTo(pin.node); }
+  function unpin() {
+    if (!pin) return;
+    clearTimeout(pin.timer);
+    if (pin.ro) pin.ro.disconnect();
+    if (document.fonts) document.fonts.removeEventListener('loadingdone', settle);
+    window.removeEventListener('load', settle);
+    READER_INPUT.forEach(t => window.removeEventListener(t, unpin, true));
+    pin = null;
+  }
+  function pinTo(node) {
+    unpin();
+    const p = { node, timer: setTimeout(unpin, PIN_MS), height: -1 };
+    pin = p;
+    READER_INPUT.forEach(t => window.addEventListener(t, unpin, { capture: true, passive: true }));
+    window.addEventListener('load', settle);
+    if (document.fonts) document.fonts.addEventListener('loadingdone', settle);
+    if ('ResizeObserver' in window) {
+      p.ro = new ResizeObserver(entries => {        // the first call only records the height
+        const h = Math.round(entries[entries.length - 1].contentRect.height);
+        if (pin === p && p.height >= 0 && h !== p.height) settle();
+        p.height = h;
+      });
+      p.ro.observe(document.body);
+    }
+  }
+  // onLoad: the link the page was opened with (jump); otherwise a link followed on the page (the stylesheet's scrolling)
+  function openTo(node, onLoad) {
+    for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+    if (onLoad) jumpTo(node); else node.scrollIntoView({ block: 'start' });
+    if (node.matches('input, select, button')) node.focus({ preventScroll: true });
+    pinTo(node);
+  }
+  function handleHash(onLoad) {
+    const now = onLoad === true;               // the hashchange listener passes an event, the first call passes true
     let h = '';
     try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
     if (!h) return;
     let m = h.match(/^lvl-(\d{1,2})$/);
-    if (m) { setLevel(Number(m[1]), false); openTo($('you')); return; }
+    if (m) { setLevel(Number(m[1]), false); openTo($('you'), now); return; }
     // #go-<race>-<level> or #go-<level>: arriving from a sibling class page. A race that is not one of ours keeps yours;
     // the level is clamped to 1 to 60. The go- prefix cannot match a b- or race- hash.
     m = h.match(/^go-(?:([a-z]+)-)?(\d{1,2})$/);
-    if (m) { if (m[1] && isRace(m[1])) setRace(m[1], false); setLevel(Number(m[2]), false); openTo($('you')); return; }
-    if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder')); } return; }
+    if (m) { if (m[1] && isRace(m[1])) setRace(m[1], false); setLevel(Number(m[2]), false); openTo($('you'), now); return; }
+    if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder'), now); } return; }
     m = h.match(/^race-([a-z]+)$/);
-    if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you')); return; }
+    if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you'), now); return; }
     const target = document.getElementById(h);
-    if (target) openTo(target);
+    if (target) openTo(target, now);
   }
 
   // ---------------------------------------------------------------- wiring
@@ -1096,14 +1137,6 @@ window.FML_ICONS = /*ICONS*/;
   buildRaidControls(); buildRaceSegs(); buildLevelChips(); wirePage(); wireRaid(); wireBuilder();
   syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
   watchSections();
-  handleHash();
-  // On a fresh load the deep-link scroll runs before the web fonts arrive, and their reflow moves the target (591 px at
-  // 390 px wide in review). Scroll to it again once they are ready: scroll only, no second focus, and not if the reader
-  // has scrolled since.
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      if (opened && Math.abs(window.scrollY - opened.y) < 2) opened.node.scrollIntoView({ block: 'start' });
-    });
-  }
+  handleHash(true);
 })();
 </script>

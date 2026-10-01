@@ -11,6 +11,7 @@ body:
       options:
         - "m4: Ice Lance's spell power scaling"
         - "m30: Does Fingers of Frost proc on a raid boss?"
+        - "m31: Can a Frostbolt in flight share a Fingers of Frost charge with Ice Lance?"
         - "m3: Blizzard's chill, and how fast mobs run"
         - "m12: How often damage breaks Frost Nova and Frostbite"
         - "m13: Do low ranks keep full strength above 19?"

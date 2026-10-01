@@ -56,6 +56,22 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass
 
+    def do_GET(self):
+        if not self.path.startswith('/__late_font/'):
+            return super().do_GET()
+        time.sleep(int(self.path.split('/')[2]) / 1000)   # /__late_font/<delay ms>/<face>.ttf: arrives after the deep-link scroll
+        with open(LATE_FONT, 'rb') as f:
+            data = f.read()
+        try:
+            self.send_response(200)
+            self.send_header('Content-Type', 'font/ttf')
+            self.send_header('Content-Length', str(len(data)))
+            self.send_header('Cache-Control', 'no-store')
+            self.end_headers()
+            self.wfile.write(data)
+        except ConnectionError:
+            pass                                         # the page closed before its font arrived
+
 
 def serve():
     httpd = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(QuietHandler, directory=ROOT))
@@ -124,6 +140,8 @@ def points_text(page, L, build_js):
 
 def open_page(browser, url, errors, **ctx):
     init = ctx.pop('init', None)
+    fonts_css = ctx.pop('fonts_css', '')
+    wait = ctx.pop('wait', 'load')
     context = browser.new_context(**ctx)
     if init:
         context.add_init_script(init)
@@ -133,14 +151,14 @@ def open_page(browser, url, errors, **ctx):
         if u.startswith('http://127.0.0.1'):
             return r.continue_()
         if 'fonts.googleapis.com' in u:
-            return r.fulfill(status=200, content_type='text/css', body='')
+            return r.fulfill(status=200, content_type='text/css', body=fonts_css)
         errors.append('external request: ' + u)
         return r.fulfill(status=204, body='')
     context.route('**/*', route)
     page = context.new_page()
     page.on('console', lambda m: errors.append('console %s: %s' % (m.type, m.text)) if m.type == 'error' else None)
     page.on('pageerror', lambda e: errors.append('page error: %s' % e))
-    page.goto(url, wait_until='load')
+    page.goto(url, wait_until=wait)
     return context, page
 
 
@@ -508,9 +526,82 @@ def phone_and_themes(browser, url):
         context.close()
 
 
-# a wide local font, served late in place of the Google font, so the reflow a real first visit meets happens here too
+# Late web fonts. A wide local font is served for every Google font face, a set delay after each is asked for, by the
+# local server. A real first visit meets the same reflow: on the live page the fonts swapped in about 0.9 s into the
+# load, during the deep-link scroll, and moved a #t4 target about 600 px off screen at 390 px wide.
 LATE_FONT = next((f for f in (r'C:\Windows\Fonts\verdana.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
                               '/System/Library/Fonts/Supplemental/Verdana.ttf') if os.path.exists(f)), None)
+LATE_MS_DEEP, LATE_MS_READER = 600, 2000      # like the live page; and late enough for a reader to scroll first
+LATE_FACES = [('Cinzel', 600, 'normal'), ('Cinzel', 700, 'normal'), ('Source Sans 3', 400, 'normal'), ('Source Sans 3', 600, 'normal'),
+              ('Source Sans 3', 700, 'normal'), ('Source Sans 3', 400, 'italic'), ('JetBrains Mono', 400, 'normal'), ('JetBrains Mono', 600, 'normal')]
+# the page height before any web font, to prove the late fonts really reflowed the page
+H0_JS = "addEventListener('DOMContentLoaded', () => { window.__h0 = document.documentElement.scrollHeight; });"
+
+
+def late_font_css(origin, delay_ms):
+    return ''.join('@font-face{font-family:"%s";font-style:%s;font-weight:%d;font-display:swap;src:url("%s/__late_font/%d/%d.ttf")}'
+                   % (fam, style, w, origin, delay_ms, i) for i, (fam, w, style) in enumerate(LATE_FACES))
+
+
+def where(page, target):
+    return page.evaluate("""id => { const n = document.getElementById(id), nav = document.querySelector('.toc').getBoundingClientRect();
+        return { top: Math.round(n.getBoundingClientRect().top), nav: Math.round(nav.bottom), y: Math.round(scrollY),
+          max: document.documentElement.scrollHeight - innerHeight, h: innerHeight, h0: window.__h0 || 0,
+          h1: document.documentElement.scrollHeight, late: document.fonts.check('16px "Source Sans 3"') }; }""", target)
+
+
+def on_target(p):
+    """Just under the sticky nav, or as close as the end of the page allows, and in view."""
+    if p['nav'] - 1 <= p['top'] <= p['nav'] + 40:
+        return True
+    return p['y'] >= p['max'] - 1 and p['nav'] - 1 <= p['top'] < p['h']
+
+
+def deep_links(browser, url):
+    origin = url.rsplit('/', 1)[0]
+    css = late_font_css(origin, LATE_MS_DEEP) if LATE_FONT else ''
+    b_link = 'b-60-' + '0' * 54 + '-1'
+    for frag, target, width in (('t4', 't4', 390), ('t31', 't31', 390), ('c-aoe', 'c-aoe', 390), (b_link, 'builder', 390), ('t4', 't4', 1280)):
+        def stays(frag=frag, target=target, width=width):
+            assert LATE_FONT, 'no local font file to serve as a late web font'
+            errors, phone = [], width < 500
+            context, page = open_page(browser, url + '#' + frag, errors, viewport={'width': width, 'height': 900},
+                                      is_mobile=phone, has_touch=phone, fonts_css=css, init=H0_JS)
+            try:
+                page.wait_for_timeout(1000)
+                p1 = where(page, target)
+                page.wait_for_timeout(4000)
+                p5 = where(page, target)
+                assert p5['late'] and p5['h1'] != p5['h0'], 'the late fonts did not reflow the page, so this run proves nothing: %r' % p5
+                for when, p in (('1 s', p1), ('5 s', p5)):
+                    assert on_target(p), 'at load + %s #%s is at %d px, the nav ends at %d px (scrollY %d)' % (when, target, p['top'], p['nav'], p['y'])
+                assert not errors, '; '.join(errors)
+            finally:
+                context.close()
+        check('#%s stays on target at %d px, 1 s and 5 s after load, with late web fonts' % (target, width), stays)
+
+    def reader():
+        assert LATE_FONT, 'no local font file to serve as a late web font'
+        errors = []
+        context, page = open_page(browser, url + '#t4', errors, viewport={'width': 390, 'height': 900}, fonts_css=late_font_css(origin, LATE_MS_READER), init=H0_JS,
+                                  wait='domcontentloaded')
+        try:
+            page.wait_for_timeout(500)
+            p0 = where(page, 't4')
+            assert not p0['late'], 'the fonts came before the reader scrolled, so this run proves nothing'
+            page.mouse.move(195, 450)
+            page.mouse.wheel(0, -700)
+            page.wait_for_timeout(400)
+            p_wheel = where(page, 't4')
+            assert p_wheel['top'] > p_wheel['nav'] + 300, 'the wheel did not scroll: #t4 at %d px' % p_wheel['top']
+            page.wait_for_timeout(4100)
+            p5 = where(page, 't4')
+            assert p5['late'] and p5['h1'] != p5['h0'], 'the late fonts did not reflow the page after the wheel: %r' % p5
+            assert p5['top'] > p5['nav'] + 150, 'snapped back to #t4 after the reader scrolled away: %d px' % p5['top']
+            assert not errors, '; '.join(errors)
+        finally:
+            context.close()
+    check('a reader scroll during the first seconds is not fought', reader)
 
 
 def fresh_load(browser, url):
@@ -528,41 +619,6 @@ def fresh_load(browser, url):
     check('a fresh builder starts on the page plan and follows the level', follows)
     context.close()
 
-    origin = url.rsplit('/', 1)[0]
-    for target in ('t4', 'c-aoe'):
-        errors = []
-        context = browser.new_context(viewport={'width': 390, 'height': 800}, is_mobile=True, has_touch=True)
-
-        def route(r):
-            u = r.request.url
-            if u.endswith('/__late_font.ttf'):
-                time.sleep(1.5)
-                with open(LATE_FONT, 'rb') as f:
-                    return r.fulfill(status=200, content_type='font/ttf', body=f.read())
-            if u.startswith('http://127.0.0.1'):
-                return r.continue_()
-            if 'fonts.googleapis.com' in u:
-                css = '@font-face{font-family:"Source Sans 3";src:url("%s/__late_font.ttf")}' % origin if LATE_FONT else ''
-                return r.fulfill(status=200, content_type='text/css', body=css)
-            errors.append('external request: ' + u)
-            return r.fulfill(status=204, body='')
-        context.route('**/*', route)
-        page = context.new_page()
-        page.on('console', lambda m: errors.append('console %s: %s' % (m.type, m.text)) if m.type == 'error' else None)
-        page.on('pageerror', lambda e: errors.append('page error: %s' % e))
-
-        def lands(target=target, page=page, errors=errors):
-            page.goto(url + '#' + target, wait_until='load')
-            page.evaluate('() => document.fonts.ready')
-            page.wait_for_timeout(300)
-            if LATE_FONT:
-                assert page.evaluate("() => document.fonts.check('16px \"Source Sans 3\"')"), 'the late font did not load'
-            box = page.locator('#' + target).bounding_box()
-            assert box and -2 <= box['y'] < 800, '#%s lands %r px from the top of an 800 px phone screen' % (target, box and round(box['y']))
-            assert not errors, '; '.join(errors)
-        check('#%s from a fresh load lands in view at 390 px after a late web font' % target, lands)
-        context.close()
-
 
 def main():
     if not os.path.exists(os.path.join(ROOT, 'index.html')):
@@ -576,6 +632,7 @@ def main():
             fixture_run(browser, url)
             phone_and_themes(browser, url)
             fresh_load(browser, url)
+            deep_links(browser, url)
         finally:
             browser.close()
             httpd.shutdown()
