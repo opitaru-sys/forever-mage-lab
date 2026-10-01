@@ -2,6 +2,8 @@
   // Spliced into the page script by src/build.py, so it shares the page's scope. Controls are rendered from
   // MageModel.OPTIONS, results come from rank(), weights from statWeights() and the comparer from compareItems()
   // (CONTRACTS section 3). Settings are saved under <prefix>calc1; the race lives in state.race, not here.
+  // Speed: a slider drag ('input') re-ranks the bars, the verdict, the comparer and the race card only. Stat weights
+  // (all specs, about 200 to 500 ms) and the race table wait for 'change', when the drag ends.
   // Reads from the page: C, state, store, obj, $, el, icon, rich, clamp, announce, renderRaceCard, renderRaceTable.
   // Provides: modelOpts, raidGain, buildRaidControls, wireRaid, syncRaceOptions, renderRaid.
   // Optional OPTIONS fields the page understands beyond the contract: race ('human' or a list: show only for those
@@ -29,7 +31,7 @@
   const modelOpts = race => Object.assign({}, M.DEFAULTS, calc, { race });
   const appliesTo = o => !o.race || [].concat(o.race).includes(state.race);
   const shown = o => tidy(calc[o.id] * scaleOf(o));
-  const afterCalc = () => { renderRaid(); renderRaceCard(); renderRaceTable(); };
+  const afterCalc = light => { renderRaid(light); renderRaceCard(); if (!light) renderRaceTable(); };
   const settled = () => { saveCalc(); announce($('raidVerdict').textContent); };
 
   // ---------------------------------------------------------------- controls
@@ -40,14 +42,14 @@
     r.type = 'range'; r.id = 'opt-' + o.id;
     n.type = 'number'; n.id = 'opt-' + o.id + 'N'; n.inputMode = 'decimal'; n.setAttribute('aria-label', o.label + ', typed');
     [r, n].forEach(i => { i.min = tidy(o.min * s); i.max = tidy(o.max * s); i.step = o.step ? tidy(o.step * s) : 'any'; });
-    const setV = v => {
+    const setV = (v, light) => {
       const num = Number(v);
       if (v === '' || !Number.isFinite(num)) return;
-      calc[o.id] = snap(o, num / s); afterCalc();
+      calc[o.id] = snap(o, num / s); afterCalc(light);
     };
-    r.addEventListener('input', e => setV(e.target.value));
-    r.addEventListener('change', settled);
-    n.addEventListener('change', e => { setV(e.target.value); e.target.value = shown(o); settled(); });
+    r.addEventListener('input', e => setV(e.target.value, true));
+    r.addEventListener('change', () => { afterCalc(false); settled(); });
+    n.addEventListener('change', e => { setV(e.target.value, false); e.target.value = shown(o); settled(); });
     const lab = el('label', '', o.label); lab.htmlFor = r.id;
     row.append(untestedChip(lab, o), r, n);
     if (o.hint) row.appendChild(rich(el('span', 'hint'), o.hint));
@@ -132,13 +134,18 @@
       return d;
     });
   }
+  // the race card and table: the top build with no racials, ranked once per settings change, then one specTotal()
+  // per race (specTotal equals rank()'s total for a spec)
+  let gainKey = '', gainTop = null;
   function raidGain(race) {
-    const base = M.rank(modelOpts('none')), top = base.find(x => x.viable !== false);
-    const mine = top && M.rank(modelOpts(race)).find(x => x.id === top.id);
-    return top && mine && top.total ? (mine.total / top.total - 1) * 100 : 0;
+    const key = JSON.stringify(calc);
+    if (key !== gainKey) { gainTop = M.rank(modelOpts('none')).find(x => x.viable !== false) || null; gainKey = key; }
+    if (!gainTop || !gainTop.total) return 0;
+    const mine = M.specTotal(modelOpts(race), gainTop.id);
+    return Number.isFinite(mine) ? (mine / gainTop.total - 1) * 100 : 0;
   }
   let lastOrder = [];
-  function renderRaid() {
+  function renderRaid(light) {
     const res = M.rank(modelOpts(state.race)), live = res.filter(r => r.viable !== false);
     const max = (live[0] && live[0].total) || 1;
     const bars = $('bars'); bars.textContent = '';
@@ -159,7 +166,8 @@
     if (moved) setTimeout(() => document.querySelectorAll('.bar-row.moved').forEach(x => x.classList.remove('moved')), 700);
     lastOrder = res.map(r => r.id);
     renderVerdict(live);
-    syncControls(); renderWeights(res); renderCompare(res);
+    syncControls(); renderCompare(res);
+    if (!light) renderWeights(res);
   }
   function renderVerdict(live) {
     const a = live[0], b = live[1];

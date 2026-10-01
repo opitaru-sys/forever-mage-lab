@@ -8,7 +8,8 @@
   function fillText() {
     document.querySelectorAll('[data-text]').forEach(n => {
       const k = n.dataset.text;
-      rich(n, typeof T[k] === 'string' ? T[k] : 'TODO-CONTENT: ' + k);
+      if (typeof T[k] !== 'string') console.error('CLASS.text has no string for the slot "' + k + '".');
+      rich(n, typeof T[k] === 'string' ? T[k] : '');
     });
     const ci = $('classIco'); ci.alt = C.name + ' class icon';
     if (ICONS[C.icon]) ci.src = ICONS[C.icon]; else ci.hidden = true;
@@ -49,7 +50,7 @@
   function renderSpecCards() {
     const box = $('specCards'); box.textContent = '';
     C.specCards.forEach(s => box.appendChild(specCard(s)));
-    if (!C.specCards.length) box.appendChild(rich(el('p'), 'TODO-CONTENT: spec cards.'));
+    if (!C.specCards.length) console.error('CLASS.specCards is empty.');
   }
 
   // a data table: head [...], rows [[row header, cell, ...], ...], align optional per column ('r' right aligned)
@@ -73,12 +74,12 @@
   function renderProof() {
     const rule = C.proof.rule, rb = $('ruleBody');
     rb.textContent = '';
-    rich($('rule'), rule ? rule.title : 'TODO-CONTENT: the one rule the page rests on');
+    rich($('rule'), rule ? rule.title : '');
     if (rule) {
       if (rule.intro) rb.appendChild(rich(el('p'), rule.intro));
       rb.append(el('p', 'note swipe', 'Swipe the table sideways for all columns.'), tableBlock(rule.title, rule));
       if (rule.so) rb.appendChild(rich(el('p'), rule.so));
-    } else rb.appendChild(rich(el('p'), 'TODO-CONTENT: the Classic versus Forever table behind the verdicts.'));
+    } else console.error('CLASS.proof.rule is missing.');
 
     const box = $('claimList'); box.textContent = '';
     CLAIM_GROUPS.forEach(([g, chip, label]) => {
@@ -93,7 +94,7 @@
         box.appendChild(d);
       });
     });
-    if (!C.claims.length) box.appendChild(rich(el('p'), 'TODO-CONTENT: the claims, once the models have run.'));
+    if (!C.claims.length) console.error('CLASS.claims is empty.');
 
     const tv = C.proof.talentValues, tvb = $('talentValues');
     tvb.textContent = '';
@@ -101,7 +102,7 @@
       if (tv.intro) tvb.appendChild(rich(el('p'), tv.intro));
       tvb.append(el('p', 'note swipe', 'Swipe the table sideways for all columns.'), tableBlock('Talent point values', tv));
       if (tv.note) tvb.appendChild(rich(el('p', 'note'), tv.note));
-    } else tvb.appendChild(rich(el('p'), 'TODO-CONTENT: what each talent point is worth, from the leveling model.'));
+    } else console.error('CLASS.proof.talentValues is missing.');
   }
 
   function renderTests() {
@@ -119,7 +120,7 @@
       });
       ul.appendChild(li);
     });
-    if (!C.tests.length) ul.appendChild(rich(el('li', 'empty'), 'TODO-CONTENT: the in-game tests, merged from the research notes.'));
+    if (!C.tests.length) console.error('CLASS.tests is empty.');
   }
 
   const listInto = (id, items) => { const ul = $(id); ul.textContent = ''; items.forEach(t => ul.appendChild(rich(el('li'), t))); };

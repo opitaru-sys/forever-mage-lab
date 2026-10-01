@@ -99,8 +99,7 @@ a{color:var(--accent);text-underline-offset:2px}
 section{scroll-margin-top:calc(var(--nav-h) + 12px);display:flex;flex-direction:column;gap:18px;padding-block:32px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
 
-/* content placeholders and the stub banner */
-.todo{background:var(--amber-soft);color:var(--amber);outline:1px dashed var(--amber);outline-offset:2px;border-radius:3px}
+/* the stub banner */
 .stubbar{margin-block:12px 0}
 .stubbar>p{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:10px 14px;font-size:15px;font-weight:600}
 
@@ -112,6 +111,13 @@ section{scroll-margin-top:calc(var(--nav-h) + 12px);display:flex;flex-direction:
 @media (max-width:760px){.hero-band::before{font-size:84px;bottom:-14px}}
 .race-badge{align-self:flex-start;display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--race);border:1px solid var(--race);border-radius:999px;padding:3px 10px;background:var(--surface)}
 .race-badge i{width:8px;height:8px;border-radius:50%;background:var(--faction);display:inline-block}
+/* class switch: the sibling class pages, carrying your race and level; looks and focuses like the other chips */
+.classnav{align-self:flex-start;display:flex;flex-wrap:wrap;gap:6px}
+.classnav a,.classnav span{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:3px 13px 3px 4px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-size:14px;font-weight:600;line-height:1.2;text-decoration:none}
+.classnav a:hover{border-color:var(--accent)}
+.classnav [aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.classnav .ico.s{width:26px;height:26px;border-radius:50%}
+@media (max-width:560px){.classnav a,.classnav span{min-height:40px}}
 .eyebrow{color:var(--muted)}
 .lede{font-size:19px;max-width:62ch}
 .trust{font-size:14.5px;color:var(--muted)}
@@ -278,7 +284,6 @@ tr.top th{font-weight:700}
 .tt ul{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:2px}
 .tt .split{font-family:var(--mono);color:var(--tt-gold);font-size:13px}
 .tt a{color:var(--tt-link);font-size:14px}
-.tt .todo{color:var(--amber)}
 
 /* raid */
 .raid-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
@@ -474,6 +479,7 @@ window.FML_TALENT_TEXT = /*TALENT_TEXT*/;
 
 <header class="hero-band" data-watermark="">
 <div class="wrap hero">
+  <nav class="classnav" id="classNav" aria-label="Class"></nav>
   <span class="eyebrow" data-text="eyebrow"></span>
   <div class="title-row"><img class="ico l" id="classIco" alt=""><h1 data-text="title">Forever Mage Lab</h1></div>
   <p class="lede" data-text="lede"></p>
@@ -773,7 +779,6 @@ window.FML_ICONS = /*ICONS*/;
       i = m.index + m[0].length;
     }
     if (i < text.length) node.appendChild(document.createTextNode(text.slice(i)));
-    node.classList.toggle('todo', text.includes('TODO-CONTENT'));
     return node;
   }
 
@@ -787,6 +792,30 @@ window.FML_ICONS = /*ICONS*/;
   let announceTimer = null;
   const announce = msg => { const s = $('srStatus'); clearTimeout(announceTimer); s.textContent = ''; announceTimer = setTimeout(() => { s.textContent = msg; }, 80); };
   const NUM_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+  // ---------------------------------------------------------------- class switch (CLASS.siblings): the other class pages, in name order
+  // Each sibling link carries #go-<race>-<level>, or #go-<level> when that class has no such race. The current class is
+  // a chip with aria-current, not a link. Only https sibling URLs are used.
+  const SIBLINGS = (C.siblings || []).filter(s => /^https:\/\/[^\s"'<>#]+$/.test(s.url) && Array.isArray(s.races));
+  const sibLinks = [];
+  function buildClassNav() {
+    const nav = $('classNav'), me = el('span');
+    nav.textContent = '';
+    me.setAttribute('aria-current', 'page'); me.append(icon(C.icon, 's', ''), C.name);
+    const chips = [[C.name, me]].concat(SIBLINGS.map(s => {
+      const a = el('a'); a.append(icon(s.icon, 's', ''), s.name);
+      sibLinks.push([s, a]);
+      return [s.name, a];
+    }));
+    chips.sort((x, y) => x[0].localeCompare(y[0])).forEach(([, n]) => nav.appendChild(n));
+  }
+  function syncClassNav() {
+    sibLinks.forEach(([s, a]) => {
+      const keep = s.races.includes(state.race);
+      a.href = s.url + '#go-' + (keep ? state.race + '-' : '') + state.level;
+      a.title = 'The ' + s.name + ' page at level ' + state.level + (keep ? ', as ' + RACES[state.race].label : '');
+    });
+  }
 
   // ---------------------------------------------------------------- race pickers (built once, kept in sync), race card and table
   function buildRaceSegs() {
@@ -811,6 +840,7 @@ window.FML_ICONS = /*ICONS*/;
     const ni = $('navRaceIco'); if (ICONS[r.icon]) { ni.src = ICONS[r.icon]; ni.hidden = false; } else ni.hidden = true;
     document.querySelectorAll('.race-seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.race === state.race)));
     syncRaceOptions();
+    syncClassNav();
   }
   function setRace(id, speak) {
     if (!isRace(id)) return;
@@ -824,7 +854,7 @@ window.FML_ICONS = /*ICONS*/;
     if (sub) d.appendChild(rich(el('span', 'sub'), sub));
     return d;
   };
-  const levelWord = r => (typeof r.levelPct !== 'number' ? 'TODO-CONTENT' : r.levelPct >= 3 ? 'Faster' : r.levelPct > 0 ? 'Slight edge' : 'Neutral');
+  const levelWord = r => (typeof r.levelPct !== 'number' ? 'Not modeled' : r.levelPct >= 3 ? 'Faster' : r.levelPct > 0 ? 'Slight edge' : 'Neutral');
   const pct = g => (g >= 0 ? '+' : '') + g.toFixed(1) + '%';
   function renderRaceCard() {
     const r = RACES[state.race], card = $('raceCard');
@@ -893,6 +923,7 @@ window.FML_ICONS = /*ICONS*/;
   }
   function setLevel(L, speak) {
     state.level = Math.round(clamp(L, 1, 60, state.level)); store.set('level', state.level);
+    syncClassNav();
     renderPlanner();
     builderFollowLevel();
     renderBuilder();
@@ -919,7 +950,7 @@ window.FML_ICONS = /*ICONS*/;
     const ul = $('pTal'); ul.textContent = '';
     Object.entries(t.got).forEach(([k, c]) => ul.appendChild(el('li', k === t.fresh ? 'fresh' : '', TBY[k].n + ' ' + c)));
     if (!t.pts) ul.appendChild(el('li', '', 'None yet'));
-    else if (!hasPlan) ul.appendChild(rich(el('li'), 'TODO-CONTENT: the talent order comes from the leveling model.'));
+    else if (!hasPlan) ul.appendChild(el('li', '', 'No talent plan yet'));
     rich($('pGear'), byFrom(C.planner.gear, L).text);
     rich($('pRace'), RACES[state.race].label + ' tip: ' + RACES[state.race].tip);
     renderDungeons(L);
@@ -993,7 +1024,7 @@ window.FML_ICONS = /*ICONS*/;
 
 /*BUILDER*/
 
-  // ---------------------------------------------------------------- deep links: #lvl-24, #race-undead, #b-... builds, or any element id
+  // ---------------------------------------------------------------- deep links: #lvl-24, #go-undead-24, #race-undead, #b-... builds, or any element id
   function openTo(node) {
     for (let p = node; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
     node.scrollIntoView({ block: 'start' });
@@ -1005,6 +1036,10 @@ window.FML_ICONS = /*ICONS*/;
     if (!h) return;
     let m = h.match(/^lvl-(\d{1,2})$/);
     if (m) { setLevel(Number(m[1]), false); openTo($('you')); return; }
+    // #go-<race>-<level> or #go-<level>: arriving from a sibling class page. A race that is not one of ours keeps yours;
+    // the level is clamped to 1 to 60. The go- prefix cannot match a b- or race- hash.
+    m = h.match(/^go-(?:([a-z]+)-)?(\d{1,2})$/);
+    if (m) { if (m[1] && isRace(m[1])) setRace(m[1], false); setLevel(Number(m[2]), false); openTo($('you')); return; }
     if (/^b-/.test(h)) { if (decodeBuild(h)) { renderBuilder(); openTo($('builder')); } return; }
     m = h.match(/^race-([a-z]+)$/);
     if (m && isRace(m[1])) { setRace(m[1], false); openTo($('you')); return; }
@@ -1054,7 +1089,7 @@ window.FML_ICONS = /*ICONS*/;
     new IntersectionObserver(entries => { entries.forEach(en => { strip.hidden = !en.isIntersecting; }); }, { threshold: 0.05 }).observe($('raid'));
   }
 
-  renderContent();
+  renderContent(); buildClassNav();
   buildRaidControls(); buildRaceSegs(); buildLevelChips(); wirePage(); wireRaid(); wireBuilder();
   syncRace(); renderRaceCard(); renderRaceTable(); renderPlanner(); renderRaid(); renderBuilder();
   watchSections();

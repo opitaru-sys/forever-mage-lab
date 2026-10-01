@@ -2,8 +2,9 @@
 # Add a name here, then run: python assets/icons/fetch_icons.py
 # Lines starting with # are comments.
 
-# class
+# class, and the sibling classes in the class switch
 classicon_mage
+classicon_warlock
 
 # race portraits (Human, Gnome, Skyborne High Order, Orc, Undead, Troll)
 race_human_male

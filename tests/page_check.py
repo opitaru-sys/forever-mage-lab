@@ -12,6 +12,8 @@ answered with an empty stylesheet so the check runs offline. It prints which mod
 - hostile input: #race-constructor style hashes, and garbage or prototype-key values in every fml. storage key;
   after each, a reload must still initialize the page with no errors
 - the copied builder link decodes at every level, including 1 to 9
+- the class switch: the current class is a chip, each sibling link carries #go-<race>-<level> (no race when the
+  sibling lacks it), and incoming #go- links set race and level, reject malformed input and never break a reload
 - the stub banner shows when a stub model is loaded
 - localStorage holds only fml. keys, and saved state survives a reload
 - phone width has no sideways scroll, and the class colors apply in light and dark mode
@@ -178,7 +180,8 @@ def base_run(browser, url):
         missing = page.evaluate("""() => {
           const C = window.CLASS, I = window.FML_ICONS;
           const names = [C.icon, ...C.treeIcons, ...Object.values(C.talentIcons), ...Object.values(C.spellIcons),
-            ...Object.values(C.races).flatMap(r => [r.icon, ...r.racials.map(x => x[2])]), ...C.specCards.map(s => s.icon)];
+            ...Object.values(C.races).flatMap(r => [r.icon, ...r.racials.map(x => x[2])]), ...C.specCards.map(s => s.icon),
+            ...(C.siblings || []).map(s => s.icon)];
           return names.filter(n => !I[n]);
         }""")
         assert not missing, 'icons named but not embedded: %s' % missing
@@ -376,6 +379,69 @@ def base_run(browser, url):
             assert not errors, 'after a click in round %d: %s' % (i, '; '.join(errors))
     check('garbage and prototype-key storage values never break init', garbage)
 
+    def class_switch():
+        assert page.locator('#classNav').is_visible(), 'class switch visible'
+        cur = page.locator('#classNav [aria-current="page"]')
+        assert_eq(cur.count(), 1, 'one current class chip')
+        assert_eq(cur.evaluate('e => e.tagName'), 'SPAN', 'the current class is a chip, not a link')
+        assert_eq(cur.text_content().strip(), page.evaluate('() => CLASS.name'), 'current class name')
+        sibs = page.evaluate('() => CLASS.siblings')
+        assert_eq(page.locator('#classNav a').count(), len(sibs), 'one link per sibling class')
+        wl = [s for s in sibs if s['id'] == 'warlock'][0]
+        link = page.locator('#classNav a', has_text=wl['name'])
+        href = lambda: link.get_attribute('href')
+        page.click('.race-seg[data-compact="0"] button[data-race="undead"]')
+        page.fill('#lvlNum', '33'); page.dispatch_event('#lvlNum', 'change')
+        assert_eq(href(), wl['url'] + '#go-undead-33', 'href after race and level')
+        page.click('.race-seg[data-compact="0"] button[data-race="skyborne"]')
+        assert_eq(href(), wl['url'] + '#go-33', 'a race the sibling lacks is left out')
+        page.click('#lvlUp')
+        assert_eq(href(), wl['url'] + '#go-34', 'href follows the level')
+        page.click('.race-seg[data-compact="0"] button[data-race="orc"]')
+        assert_eq(href(), wl['url'] + '#go-orc-34', 'href follows the race')
+        set_hash(page, '#lvl-12')
+        assert_eq(href(), wl['url'] + '#go-orc-12', 'href follows a #lvl- link')
+        no_errors('class switch')
+    check('class switch links carry race and level', class_switch)
+
+    def go_links():
+        def at(race, level, what):
+            assert_eq((race_now(page), text(page, '#lvlBig')), (race, level), what)
+        page.click('.race-seg[data-compact="0"] button[data-race="human"]')
+        set_hash(page, '#go-undead-24')
+        at('undead', '24', '#go-undead-24')
+        assert_eq(storage(page).get('fml.race'), '"undead"', 'race saved')
+        assert_eq(storage(page).get('fml.level'), '24', 'level saved')
+        set_hash(page, '#go-skyborne-30')
+        at('skyborne', '30', '#go-skyborne-30')
+        set_hash(page, '#go-40')
+        at('skyborne', '40', '#go-40 sets the level only')
+        set_hash(page, '#go-constructor-24')
+        at('skyborne', '24', '#go-constructor-24 keeps the race and sets the level')
+        assert_eq(storage(page).get('fml.race'), '"skyborne"', 'constructor not saved')
+        page.evaluate("() => history.replaceState(null, '', location.pathname + '#go-constructor-25')")
+        page.reload(wait_until='load')
+        initialized(page, errors, 'reload on #go-constructor-25')
+        at('skyborne', '25', 'reload on #go-constructor-25')
+        set_hash(page, '#go-hasownproperty-26')
+        at('skyborne', '26', 'prototype name keeps the race')
+        set_hash(page, '#go-99')
+        at('skyborne', '60', '#go-99 clamps to 60')
+        set_hash(page, '#go-0')
+        at('skyborne', '1', '#go-0 clamps to 1')
+        for bad in ('#go-troll-24%0A', '#go-troll-24%0D', '#go-troll-24%0D%0A', '#go-troll-24x', '#go-troll-245', '#go--24',
+                    '#go-Troll-24', '#go-troll-24-', '#xgo-troll-24', '#go-__proto__-24', '#go-troll', '#go-', '#go-troll-%32%34%20'):
+            set_hash(page, bad)
+            at('skyborne', '1', bad + ' changes nothing')
+        set_hash(page, '#go-troll-12')
+        at('troll', '12', 'a good #go- link after the bad ones takes effect')
+        set_hash(page, '#b-12-' + '0' * 54 + '-1')
+        assert_eq(text(page, '#bPts'), '0 of 3 points', 'the #b- route still works next to #go-')
+        set_hash(page, '#race-gnome')
+        assert_eq(race_now(page), 'gnome', 'the #race- route still works next to #go-')
+        no_errors('#go- links')
+    check('incoming #go- links from a sibling class page', go_links)
+
     todo = page.locator('.todo').count()
     context.close()
     return todo
@@ -426,6 +492,9 @@ def phone_and_themes(browser, url):
             wide = page.evaluate('() => document.documentElement.scrollWidth - document.documentElement.clientWidth')
             assert wide <= 0, 'page scrolls sideways by %dpx at 375px' % wide
             assert page.locator('#bTabs').is_visible(), 'tree tabs show on phones'
+            box = page.locator('#classNav').bounding_box()
+            assert page.locator('#classNav').is_visible() and box['x'] >= 0 and box['x'] + box['width'] <= 375, 'class switch fits the phone width'
+            assert_eq(page.locator('.toc a[href^="http"], .toc .classnav').count(), 0, 'the class switch stays out of the section nav')
             assert_eq(page.locator('.btree.on').count(), 1, 'one tree at a time')
             page.locator('#bTabs button').nth(2).click()
             assert page.locator('.btree.t2').is_visible()

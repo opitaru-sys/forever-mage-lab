@@ -3,12 +3,41 @@ description: Report what you saw testing a claim from this lab in the actual For
 title: "[Test result] "
 labels: ["test-result"]
 body:
-  - type: input
+  - type: dropdown
     id: which-test
     attributes:
       label: Which test
-      description: The test number or name from the page's "Help test these" list, or the claim you were checking.
-      placeholder: "e.g. Test 3, or Ice Lance spell power scaling"
+      description: The test from the page's "Help test these" list, most important first. Pick the last option for anything else and name it below.
+      options:
+        - "m4: Ice Lance's spell power scaling"
+        - "m3: Blizzard's chill, and how fast mobs run"
+        - "m12: How often damage breaks Frost Nova and Frostbite"
+        - "m13: Do low ranks keep full strength above 19?"
+        - "m16: How much health normal mobs have, and how hard they hit"
+        - "m10: Drinking speed, and Spirit regen while you drink"
+        - "m8: Does Arcane Blast raise Arcane Missiles?"
+        - "m28: Do Arcane Missiles end your Arcane Blast stacks?"
+        - "m14: Does the five-second rule exist?"
+        - "m5: Do Arcane Meditation and Mage Armor add up?"
+        - "m7: How much mana Evocation returns"
+        - "m6: Where the top-rank tomes come from"
+        - "m18: Missile Barrage's real proc rate"
+        - "m2: Do dungeon kills give experience?"
+        - "m1: Is there a hidden AoE target cap?"
+        - "m9: Can Blizzard and Flamestrike ticks crit?"
+        - "m17: Do armor and Blizzard chills trigger Frostbite?"
+        - "m11: Is Ignite shared, and does it roll?"
+        - "m15: Your miss chance against mobs three levels up"
+        - "m20: How open-world packs behave"
+        - "m21: Arcane Blast's cost at each stack"
+        - "m22: Do Fireball and Pyroblast burns crit?"
+        - "m23: Do the racials match their tooltips?"
+        - "m24: Do mana gems, runes and potions share a cooldown?"
+        - "m19: Does Fingers of Frost shatter a whole Cone of Cold?"
+        - "m25: Are Fire Vulnerability and Winter's Chill personal?"
+        - "m26: Does a second Flamestrike stop the first?"
+        - "m27: How many bottles Conjure Water makes at 60"
+        - "Something else: a claim or number on the page (say which below)"
     validations:
       required: true
   - type: input

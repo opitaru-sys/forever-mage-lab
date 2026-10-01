@@ -133,7 +133,7 @@
         : (diff > 0 ? diff.toFixed(1) + '% faster' : (-diff).toFixed(1) + '% slower') + ' than the page plan at level ' + L + ' (' + plan.spk.toFixed(1) + ' s per kill).';
       if (!same) vs.classList.add(diff > 0 ? 'up' : 'down');
     } else if (hasPlan) vs.textContent = 'No comparison with the page plan at level ' + L + ': the model returned no score.';
-    else rich(vs, 'TODO-CONTENT: the comparison with the page plan comes with the leveling order.');
+    else vs.textContent = 'No page plan to compare with.';
     let rot = 'n/a';
     if (ok && mine.policy !== undefined && mine.policy !== null) {
       try { rot = String(window.LevelingModel.policyLabel(mine.policy)); }
