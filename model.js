@@ -49,6 +49,8 @@
   const PRAYER_SPIRIT = 40;        // Prayer of Spirit rank 1 (27681): +40 Spirit
   const GOTW_STAT = 16;            // Gift of the Wild rank 2 (21850): +16 all attributes
   const MAGEBLOOD_MP5 = 12;        // Mageblood Elixir (20007): 12 mana every 5 s
+  const KINGS = 0.10;              // Greater Blessing of Kings (25898): total stats +10%; one Blessing per Paladin
+  const MOONKIN_CRIT = 0.03;       // Moonkin Form (24858): party members within 45 yd +3% critical strike chance
   const FIVE_SEC = 5;              // the five-second rule
   const IDLE_BLOCK = 15;           // ASSUMPTION: mana is waited out in 15 s blocks; the first 5 s regen at the casting rate
   const ITERATIONS = 10;
@@ -112,13 +114,26 @@
   const DEFAULTS = {
     sp: 500, crit: 0.10, gearHit: 0.11, int: 300, spirit: 120, mp5: 0,
     race: 'none', sword: true, maxHp: 4000, fightLength: 300, fireImmune: false, targets: 1,
-    potion: 'mana', runes: true, gems: true, mageblood: true, raidBuffs: 'all', wandDps: 57,
+    potion: 'mana', runes: true, gems: true, mageblood: true, raidBuffs: 'all', kings: true, moonkin: false,
+    wandDps: 57,
     iceLanceCoef: 0.143, abMask: 'client', amSpends: false, regenStack: 'add', evocation: 1, igniteMunch: 0,
-    downrank: 'top', topRanks: false, levelResist: true, mbRate: 1,
+    downrank: 'top', topRanks: false, levelResist: true, mbRate: 1, iceLanceBinary: true, fingersOnBoss: true,
   };
 
   const opt = (o, k) => (o && o[k] !== undefined && o[k] !== null ? o[k] : DEFAULTS[k]);
   const uses = (cd, T, lag) => (T <= (lag || 0) ? 0 : Math.floor((T - (lag || 0)) / cd) + 1);
+  // Seconds left in the fight after each press of a cooldown used on cooldown from the pull.
+  function pressLeft(cd, T) {
+    const out = [];
+    const n = uses(cd, T, 0);
+    for (let k = 0; k < n; k++) out.push(T - k * cd);
+    return out;
+  }
+  // Eureka! spells a fight holds: 3 per press, fewer when the fight ends before 3 more casts.
+  function eurekaCasts(T, casts) {
+    const rate = T > 0 ? casts / T : 0.0;
+    return pressLeft(ITEM_CD, T).reduce((a, left) => a + Math.min(3.0, left * rate), 0.0);
+  }
   function uptime(dur, cd, T) {
     let up = 0;
     const n = uses(cd, T, 0);
@@ -139,11 +154,13 @@
     const bSpirit = buffs !== 'none' ? PRAYER_SPIRIT + GOTW_STAT : 0.0;
     const bInt = buffs !== 'none' ? GOTW_STAT : 0.0;
     const intIn = opt(o, 'int');                  // the sheet, own Arcane Brilliance included, raid buffs not
-    const int0 = intIn + bInt;
+    const kings = buffs !== 'none' && opt(o, 'kings') ? 1 + KINGS : 1.0;   // a Paladin's Blessing, like Wisdom
+    const int0 = (intIn + bInt) * kings;
     const intEff = int0 * (1 + 0.02 * r('ArcaneMind'));
     let crit = opt(o, 'crit') + (intEff - intIn) * CRIT_PER_INT + 0.01 * r('ArcaneInstability');
     if (race === 'human' && opt(o, 'sword')) crit += 0.02;
-    const spirit = (opt(o, 'spirit') + bSpirit) * (race === 'human' ? 1.05 : 1.0);
+    if (opt(o, 'moonkin')) crit += MOONKIN_CRIT;   // Moonkin Form in your party
+    const spirit = (opt(o, 'spirit') + bSpirit) * kings * (race === 'human' ? 1.05 : 1.0);
     const maxMana = (BASE_MANA + INT_MANA_OFFSET + INT_MANA * intEff) * (race === 'gnome' ? 1.05 : 1.0);
     let sp = opt(o, 'sp');
     const potion = opt(o, 'potion');
@@ -186,7 +203,8 @@
       wcAvg: wc ? (state.wcAvg === null ? WC_PER_STACK * wc : state.wcAvg) : 0.0,
       eta: state.eta, pyroTicks: state.pyroTicks,
       mb: r('MissileBarrage') ? opt(o, 'mbRate') : 0.0,
-      fof: r('IceLance') && r('FingersOfFrost') ? r('FingersOfFrost') : 0,
+      fof: r('IceLance') && r('FingersOfFrost') && opt(o, 'fingersOnBoss') ? r('FingersOfFrost') : 0,
+      ilBinary: !!opt(o, 'iceLanceBinary'),
       shatter: SHATTER[r('Shatter')],
       hs: r('HotStreak') && r('Pyroblast') && fireOk ? 1 : 0,
       resist: opt(o, 'levelResist'), downrank: opt(o, 'downrank'), tomes: opt(o, 'topRanks'),
@@ -219,6 +237,8 @@
     if (frostIsh(sch)) b += 0.02 * r('PiercingIce');
     return b;
   }
+  // No partial resists: the sim's binary flag; Ice Lance's is an option (iceLanceBinary).
+  const isBinary = (S, key) => (key === 'iceLance' ? S.ilBinary : SPELL_META[key].binary);
   function pctMult(S, sch, binary) {
     let m = 1.0;
     if (S.fv && fireIsh(sch)) m *= 1 + FV_PER_STACK * FV_STACKS;
@@ -281,7 +301,7 @@
     const c = critOf(S, key, sch, !!p.frozen);
     const k = critBonus(S, sch);
     const fl = flatMult(S, sch, key === 'arcaneBlast' ? 0 : stacks);   // the buff's damage mask leaves Arcane Blast out
-    const pc = pctMult(S, sch, meta.binary);
+    const pc = pctMult(S, sch, isBinary(S, key));
     const coef = coefOf(S, key, row, row[7]);
     const base = (row[6] + coef * S.sp) * fl * pc * mult;
     const direct = base * (1 + c * k) * h;
@@ -449,7 +469,8 @@
     });
     if (best === null) return null;
     const [src, key] = best;
-    const act = newAction('Presence of Mind: ' + SPELL_META[key].name, uses(POM_CD, S.T, 0),
+    const pom = pressLeft(POM_CD, S.T).reduce((a, left) => a + Math.min(1.0, left / GCD), 0.0);   // needs a cast's time
+    const act = newAction('Presence of Mind: ' + SPELL_META[key].name, pom,
       { kind: 'pom', key, rank: src.spec.rank || 0 });
     act.d = src.d; act.m = src.m;
     act.t = src.t - (src.mainCast - GCD);
@@ -681,14 +702,19 @@
 
   // ---------------------------------------------------------------- fixed point
   // Expected extra crits from one Combustion: 4 crits minus what those hits would crit anyway.
-  function combExtra(c) {
+  // maxHits: the Fire hits the fight has left after the press (a fraction counts that share of the next hit);
+  // undefined or null means no limit.
+  function combExtra(c, maxHits) {
+    const lim = maxHits === undefined || maxHits === null ? null : maxHits;
     let probs = [1.0, 0.0, 0.0, 0.0];
-    let expectedHits = 0.0;
+    let extra = 0.0;
     for (let i = 1; i < 60; i++) {
       const openP = probs[0] + probs[1] + probs[2] + probs[3];
       if (openP < 1e-12) break;
-      expectedHits += openP;
+      if (lim !== null && i > lim + 1 - 1e-12) break;
       const p = Math.min(1.0, c + COMB_CRIT * Math.min(COMB_MAX, i));
+      const share = lim === null ? 1.0 : Math.min(1.0, lim - (i - 1));
+      extra += share * openP * (p - c);
       const nxt = [0.0, 0.0, 0.0, 0.0];
       for (let j = 0; j < 4; j++) {
         nxt[j] += probs[j] * (1 - p);
@@ -696,7 +722,7 @@
       }
       probs = nxt;
     }
-    return COMB_CRITS - c * expectedHits;
+    return extra;
   }
   const initialState = () => ({ wcAvg: null, eta: 1.0 / 3.0, pyroTicks: 4.0, drift: 0.75, euMana: 0.0 });
   function planTotals(acts, x, fixed) {
@@ -726,7 +752,7 @@
       st.pyroTicks = s;
     } else st.pyroTicks = 4.0;
     if (tot.time > 0) st.drift = tot.time2 / (2 * tot.time);
-    if (S.race === 'gnome' && tot.casts > 0) st.euMana = uses(ITEM_CD, T, 0) * 3 * EUREKA * tot.cost / tot.casts;
+    if (S.race === 'gnome' && tot.casts > 0) st.euMana = eurekaCasts(T, tot.casts) * EUREKA * tot.cost / tot.casts;
     return st;
   }
   // What a player casts when mana is no object, to open room for the first potion: among the uncapped actions within
@@ -813,10 +839,11 @@
         const net = pd - pyro.t * before / T;
         value += tot.hsHits / tot.fireHits * S.eta * Math.max(0.0, net);
       }
-      parts.Combustion = uses(COMB_CD, T, 0) * combExtra(cBar) * value;
+      const hits = tot.fireHits / T;   // Fire hits a second: the last press only gets the hits left after it
+      parts.Combustion = pressLeft(COMB_CD, T).reduce((a, left) => a + combExtra(cBar, left * hits), 0.0) * value;
     }
     let racial = 0.0;
-    if (S.race === 'gnome' && tot.casts > 0) racial = uses(ITEM_CD, T, 0) * 3 * EUREKA * tot.direct / tot.casts;
+    if (S.race === 'gnome' && tot.casts > 0) racial = eurekaCasts(T, tot.casts) * EUREKA * tot.direct / tot.casts;
     if (S.race === 'undead') {
       const pl = TOTG_CHANCE * tot.landed / T;
       racial = pl / (1 + pl) * TOTG_HP * opt(S.o, 'maxHp') * T;
@@ -957,7 +984,11 @@
       hint: 'Fire builds drop out; the others stop casting Fire spells. Frostfire Bolt is treated as blocked too (ASSUMPTION).' },
     { id: 'raidBuffs', label: 'Raid buffs', type: 'seg',
       choices: [['all', 'All, with Mana Spring'], ['noTotem', 'No Shaman in your group'], ['none', 'None']],
-      hint: 'Greater Blessing of Wisdom 40 mp5, Prayer of Spirit +40 Spirit, Gift of the Wild +16 Intellect and Spirit, and Mana Spring Totem 25 mp5 (your party only). Forever tooltip values. Both factions have Paladins and Shamans in Forever (Undead Paladins, Dwarf Shamans). Arcane Brilliance is yours, already in Intellect.' },
+      hint: 'Greater Blessing of Wisdom 40 mp5, Prayer of Spirit +40 Spirit, Gift of the Wild +16 Intellect and Spirit, and Mana Spring Totem 25 mp5 (your party only). Forever tooltip values. Both factions have Paladins and Shamans in Forever (Undead Paladins, Dwarf Shamans). Arcane Brilliance is yours, already in Intellect. Blessing of Kings and Moonkin Form have their own switches.' },
+    { id: 'kings', label: 'Greater Blessing of Kings (+10% stats)', type: 'toggle',
+      hint: 'Total Intellect and Spirit +10% (Forever tooltip 25898). A Paladin gives one Blessing per player, so Kings next to Wisdom needs a second Paladin, which a raid usually has; both factions have Paladins in Forever. Counts only while raid buffs are on.' },
+    { id: 'moonkin', label: 'Moonkin Form in your party (+3% crit)', type: 'toggle',
+      hint: 'A Moonkin Druid gives party members within 45 yards +3% critical strike chance (Forever tooltip 24858), counted here for spells. Off by default: it depends on your party, not the raid.' },
     { id: 'potion', label: 'Potion (2 min cooldown)', type: 'seg',
       choices: [['mana', 'Major Mana Potion'], ['blast', 'Major Spellblasting Potion'], ['none', 'None']],
       hint: 'Major Mana Potion: 1350 to 2250 mana. Major Spellblasting Potion: +47 spell damage for 30 s. They share one cooldown, and both cost gold.' },
@@ -991,12 +1022,16 @@
       choices: [[1, '40% / 20% (tooltip)'], [0.5, '20% / 10%']],
       hint: 'Arcane Blast 40%, Fireball, Frostbolt and Frostfire Bolt 20%, per the tooltip and the sim. The talent row also carries a 50% chance that could halve them. [test m18](#tests).' },
     { id: 'amSpends', label: 'Barrage Missiles end Arcane Blast stacks', type: 'toggle', untested: true, group: 'Untested',
-      hint: "Off: Missiles leave the stacks alone, in line with the client masks, which leave Missiles out of the buff. On: as the sim plays (its Missiles channel ends the stacks), Barrage Missiles can close a Blast cycle in place of the spender and reset Arcane Blast's cost. No game source either way yet. [test m28](#tests)." },
+      hint: "The Arcane Blast tooltip (rank 5, 1239700) says the stacks last 8 sec or until any other damage spell is cast, and the sim ends them when Missiles channel: on follows both, so Barrage Missiles can close a Blast cycle in place of the spender and reset Arcane Blast's cost. Off follows a reading of the client masks, which leave Missiles out of the buff. [test m28](#tests)." },
     { id: 'topRanks', label: 'Top-rank tomes (Frostbolt 11, Fireball 12, Missiles 8)', type: 'toggle', untested: true,
       group: 'Untested',
       hint: "The tomes' only known source is Ruins of Ahn'Qiraj, not on the Forever roadmap, so the default uses the trainer ranks. [test m6](#tests)." },
     { id: 'levelResist', label: 'Partial resists from boss level (6%)', type: 'toggle', untested: true, group: 'Untested',
-      hint: 'On, as the sim does: a level 63 boss resists 6% of non-binary spells on average (Frostbolt, Ice Lance and Blast Wave are binary). The Warlock page leaves this out, so damage here reads about 6% lower on non-binary spells than a like-for-like Warlock number. No test yet.' },
+      hint: 'On, as the sim does: a level 63 boss resists 6% of non-binary spells on average (Frostbolt and Blast Wave are binary; Ice Lance has its own switch). The Warlock page leaves this out, so damage here reads about 6% lower on non-binary spells than a like-for-like Warlock number. No test yet.' },
+    { id: 'iceLanceBinary', label: 'Ice Lance ignores partial resists', type: 'toggle', untested: true, group: 'Untested',
+      hint: "On, as the sim flags it (ASSUMPTION). Its client row reads as a damage effect and a dummy with no slow, so by the Classic rule it would partially resist like Fireball: off takes the 6% average off its damage. [test m29](#tests)." },
+    { id: 'fingersOnBoss', label: 'Fingers of Frost procs on a boss', type: 'toggle', untested: true, group: 'Untested',
+      hint: "On, as the sim does (ASSUMPTION): Frostbolt's chill rolls Fingers of Frost even though bosses cannot be chilled or frozen. Off means no Fingers, so no 4x Ice Lances; the Frost builds lean on it most. [test m30](#tests)." },
   ];
 
   // ---------------------------------------------------------------- the page API

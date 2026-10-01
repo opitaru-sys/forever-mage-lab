@@ -34,6 +34,9 @@ CASES = [
     {'potion': 'none', 'runes': False, 'gems': False}, {'mageblood': False}, {'potion': 'none', 'mageblood': False},
     {'raidBuffs': 'noTotem'}, {'raidBuffs': 'none'}, {'raidBuffs': 'none', 'mageblood': False, 'runes': False},
     {'wandDps': 0}, {'wandDps': 90}, {'wandDps': 0, 'raidBuffs': 'none'},
+    {'kings': False}, {'moonkin': True}, {'kings': False, 'moonkin': True, 'race': 'human'},
+    {'iceLanceBinary': False}, {'fingersOnBoss': False}, {'fingersOnBoss': False, 'iceLanceCoef': 0.429},
+    {'fightLength': 90}, {'fightLength': 179}, {'fightLength': 360, 'race': 'gnome'}, {'fightLength': 181, 'race': 'gnome'},
     {'iceLanceCoef': 0}, {'iceLanceCoef': 0.429}, {'iceLanceCoef': 0.572},
     {'abMask': 'tooltip'}, {'abMask': 'tooltip', 'mbRate': 0.5},
     {'amSpends': True}, {'amSpends': True, 'abMask': 'tooltip'}, {'amSpends': True, 'mbRate': 0.5},
@@ -47,7 +50,7 @@ CASES = [
     {'race': 'undead', 'iceLanceCoef': 0.572, 'abMask': 'tooltip', 'evocation': 0.5, 'topRanks': True, 'sp': 700},
 ]
 WEIGHT_CASES = [{}, {'gearHit': 0.08}, {'race': 'human', 'sp': 700, 'crit': 0.15}, {'mp5': 80, 'topRanks': True},
-                {'raidBuffs': 'none', 'wandDps': 0}]
+                {'raidBuffs': 'none', 'wandDps': 0}, {'kings': False, 'moonkin': True, 'fightLength': 180}]
 ITEM_CASES = [
     ({}, {'sp': 30, 'crit': 0.01, 'hit': 0, 'int': 10, 'spirit': 0, 'mp5': 0},
      {'sp': 20, 'crit': 0.0, 'hit': 0.01, 'int': 20, 'spirit': 10, 'mp5': 5}),

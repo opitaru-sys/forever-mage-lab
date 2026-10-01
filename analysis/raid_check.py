@@ -372,7 +372,8 @@ class Fight:
         k = R.crit_bonus(self.S, sch)
         coef = R.coef_of(self.S, key, row, row[7])
         eu = 1 + R.EUREKA if self.eureka > 0 else 1.0
-        base = (row[6] + coef * sp) * self.flat(sch, stacks_for_damage) * self.pct(sch, meta['binary']) * mult * eu
+        pc = self.pct(sch, R.is_binary(self.S, key))
+        base = (row[6] + coef * sp) * self.flat(sch, stacks_for_damage) * pc * mult * eu
         crit = self.rng.random() < c
         amount = base * (1 + k) if crit else base
         self.deal(amount, label or meta['name'])
@@ -380,7 +381,7 @@ class Fight:
         if len(row) >= 12 and dot_ticks:
             label = label or meta['name']
             tcoef = R.coef_of(self.S, key, row, row[11])
-            per = (row[8] + tcoef * sp) * self.flat(sch, stacks_for_damage) * self.pct(sch, meta['binary']) * eu
+            per = (row[8] + tcoef * sp) * self.flat(sch, stacks_for_damage) * pc * eu
             period = row[10] / 1000.0
             self.dots[key] = [self.t + period, row[9], per, c, k, period, label]
         if crit and R.fire_ish(sch) and self.S['ignite'] > 0:

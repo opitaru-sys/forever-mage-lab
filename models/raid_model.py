@@ -73,6 +73,8 @@ MANA_SPRING_MP5 = 25.0      # Mana Spring Totem rank 4 (10497): 10 mana every 2 
 PRAYER_SPIRIT = 40.0        # Prayer of Spirit rank 1 (27681): +40 Spirit, party and raid
 GOTW_STAT = 16.0            # Gift of the Wild rank 2 (21850): +16 all attributes, party and raid (Classic 12)
 MAGEBLOOD_MP5 = 12.0        # Mageblood Elixir (20007): 12 mana every 5 s, 1 hour
+KINGS = 0.10                # Greater Blessing of Kings (25898): total stats +10%, 1 hour; one Blessing per Paladin
+MOONKIN_CRIT = 0.03         # Moonkin Form (24858): party members within 45 yd +3% critical strike chance
 FIVE_SEC = 5.0              # the five-second rule: full Spirit regen once 5 s pass without spending mana
 IDLE_BLOCK = 15.0           # ASSUMPTION: a Mage waits out mana in 15 s blocks (wanding); the first 5 s of each
                             # regen at the casting rate, so idle regen runs at (15 - 5) / 15 of full
@@ -142,9 +144,11 @@ ISCORCH = (0.0, 0.33, 0.67, 1.0)                 # Improved Scorch apply chance 
 DEFAULTS = {
     'sp': 500, 'crit': 0.10, 'gearHit': 0.11, 'int': 300, 'spirit': 120, 'mp5': 0,
     'race': 'none', 'sword': True, 'maxHp': 4000, 'fightLength': 300, 'fireImmune': False, 'targets': 1,
-    'potion': 'mana', 'runes': True, 'gems': True, 'mageblood': True, 'raidBuffs': 'all', 'wandDps': 57,
+    'potion': 'mana', 'runes': True, 'gems': True, 'mageblood': True, 'raidBuffs': 'all', 'kings': True,
+    'moonkin': False, 'wandDps': 57,
     'iceLanceCoef': 0.143, 'abMask': 'client', 'amSpends': False, 'regenStack': 'add', 'evocation': 1.0,
     'igniteMunch': 0.0, 'downrank': 'top', 'topRanks': False, 'levelResist': True, 'mbRate': 1.0,
+    'iceLanceBinary': True, 'fingersOnBoss': True,
 }
 
 
@@ -158,6 +162,17 @@ def uses(cd, T, lag=0.0):
     if T <= lag:
         return 0
     return int(math.floor((T - lag) / cd)) + 1
+
+
+def press_left(cd, T):
+    """Seconds left in the fight after each press of a cooldown used on cooldown from the pull."""
+    return [T - k * cd for k in range(uses(cd, T))]
+
+
+def eureka_casts(T, casts):
+    """Eureka! spells a fight holds: 3 per press, fewer when the fight ends before 3 more casts."""
+    rate = casts / T if T > 0 else 0.0
+    return sum(min(3.0, left * rate) for left in press_left(ITEM_CD, T))
 
 
 def uptime(dur, cd, T):
@@ -189,12 +204,15 @@ def context(o, tal, fv_plan, state):
     b_spirit = PRAYER_SPIRIT + GOTW_STAT if buffs != 'none' else 0.0
     b_int = GOTW_STAT if buffs != 'none' else 0.0
     int_in = float(opt(o, 'int'))                 # the sheet, own Arcane Brilliance included, raid buffs not
-    int0 = int_in + b_int
+    kings = 1 + KINGS if (buffs != 'none' and opt(o, 'kings')) else 1.0   # a Paladin's Blessing, like Wisdom
+    int0 = (int_in + b_int) * kings
     int_eff = int0 * (1 + 0.02 * r('ArcaneMind'))
     crit = float(opt(o, 'crit')) + (int_eff - int_in) * CRIT_PER_INT + 0.01 * r('ArcaneInstability')
     if race == 'human' and opt(o, 'sword'):
         crit += 0.02                                  # Human Sword Specialization: +2% crit with a sword
-    spirit = (float(opt(o, 'spirit')) + b_spirit) * (1.05 if race == 'human' else 1.0)   # The Human Spirit
+    if opt(o, 'moonkin'):
+        crit += MOONKIN_CRIT                          # Moonkin Form in your party
+    spirit = (float(opt(o, 'spirit')) + b_spirit) * kings * (1.05 if race == 'human' else 1.0)   # The Human Spirit
     max_mana = (BASE_MANA + INT_MANA_OFFSET + INT_MANA * int_eff) * (1.05 if race == 'gnome' else 1.0)
     sp = float(opt(o, 'sp'))
     potion = opt(o, 'potion')
@@ -244,7 +262,8 @@ def context(o, tal, fv_plan, state):
         'eta': state['eta'],
         'pyro_ticks': state['pyro_ticks'],
         'mb': float(opt(o, 'mbRate')) if r('MissileBarrage') else 0.0,
-        'fof': r('FingersOfFrost') if (r('IceLance') and r('FingersOfFrost')) else 0,
+        'fof': r('FingersOfFrost') if (r('IceLance') and r('FingersOfFrost') and opt(o, 'fingersOnBoss')) else 0,
+        'il_binary': bool(opt(o, 'iceLanceBinary')),
         'shatter': AP_TO_SHATTER[r('Shatter')],
         'hs': 1 if (r('HotStreak') and r('Pyroblast') and fire_ok) else 0,
         'resist': opt(o, 'levelResist'),
@@ -291,6 +310,13 @@ def flat_mult(S, sch, stacks):
     if frost_ish(sch):
         b += 0.02 * r('PiercingIce')
     return b
+
+
+def is_binary(S, key):
+    """No partial resists: the sim's binary flag; Ice Lance's is an option (iceLanceBinary)."""
+    if key == 'iceLance':
+        return S['il_binary']
+    return SPELL_META[key]['binary']
 
 
 def pct_mult(S, sch, binary):
@@ -375,7 +401,7 @@ def spell_cast(S, key, row, stacks=0, frozen=False, cc_in=0.0, ticks=0.0, t=None
     c = crit_of(S, key, sch, frozen)
     k = crit_bonus(S, sch)
     fl = flat_mult(S, sch, 0 if key == 'arcaneBlast' else stacks)   # the buff's damage mask leaves Arcane Blast out
-    pc = pct_mult(S, sch, meta['binary'])
+    pc = pct_mult(S, sch, is_binary(S, key))
     coef = coef_of(S, key, row, row[7])
     base = (row[6] + coef * S['sp']) * fl * pc * mult
     direct = base * (1 + c * k) * h
@@ -593,7 +619,8 @@ def pom_action(S, candidates):
     if best is None:
         return None
     src, key = best
-    act = new_action('Presence of Mind: ' + SPELL_META[key]['name'], cap=float(uses(POM_CD, S['T'])),
+    pom = sum(min(1.0, left / GCD) for left in press_left(POM_CD, S['T']))   # the last press needs a cast's time
+    act = new_action('Presence of Mind: ' + SPELL_META[key]['name'], cap=pom,
                      spec={'kind': 'pom', 'key': key, 'rank': src['spec'].get('rank', 0)})
     act['d'], act['m'] = src['d'], src['m']
     act['t'] = src['t'] - (src['mainCast'] - GCD)
@@ -861,24 +888,28 @@ def solve_lp(acts, T_free, M):
 
 
 # ---------------------------------------------------------------- fixed point
-def comb_extra(c):
-    """Expected extra crits from one Combustion: 4 crits minus what the same hits would crit anyway.
-    Hit i after the press has c + 10% x i (up to 10 stacks); the aura ends at the 4th crit."""
+def comb_extra(c, max_hits=None):
+    """Expected extra crits from one Combustion: the crits it adds over what the same hits would crit anyway.
+    Hit i after the press has c + 10% x i (up to 10 stacks); the aura ends at the 4th crit. max_hits: the Fire hits
+    the fight has left after the press (a fraction counts that share of the next hit); None means no limit."""
     probs = [1.0, 0.0, 0.0, 0.0]        # P(j crits so far, window open)
-    expected_hits = 0.0
+    extra = 0.0
     for i in range(1, 60):
         open_p = sum(probs)
         if open_p < 1e-12:
             break
-        expected_hits += open_p
+        if max_hits is not None and i > max_hits + 1 - 1e-12:
+            break
         p = min(1.0, c + COMB_CRIT * min(COMB_MAX, i))
+        share = 1.0 if max_hits is None else min(1.0, max_hits - (i - 1))
+        extra += share * open_p * (p - c)
         nxt = [0.0, 0.0, 0.0, 0.0]
         for j in range(4):
             nxt[j] += probs[j] * (1 - p)
             if j + 1 < 4:
                 nxt[j + 1] += probs[j] * p
         probs = nxt
-    return COMB_CRITS - c * expected_hits
+    return extra
 
 
 def initial_state():
@@ -917,7 +948,7 @@ def next_state(S, tot, state):
     if tot['time'] > 0:
         st['drift'] = tot['time2'] / (2 * tot['time'])
     if S['race'] == 'gnome' and tot['casts'] > 0:
-        st['eu_mana'] = uses(ITEM_CD, T) * 3 * EUREKA * tot['cost'] / tot['casts']
+        st['eu_mana'] = eureka_casts(T, tot['casts']) * EUREKA * tot['cost'] / tot['casts']
     return st
 
 
@@ -1042,10 +1073,11 @@ def solve_once(S):
             before = sum(parts.values())
             net = sum(pyro['parts'].values()) - pyro['t'] * before / T
             value += tot['hsHits'] / tot['fireHits'] * S['eta'] * max(0.0, net)
-        parts['Combustion'] = uses(COMB_CD, T) * comb_extra(c_bar) * value
+        hits = tot['fireHits'] / T          # Fire hits a second: the last press only gets the hits left after it
+        parts['Combustion'] = sum(comb_extra(c_bar, left * hits) for left in press_left(COMB_CD, T)) * value
     racial = 0.0
     if S['race'] == 'gnome' and tot['casts'] > 0:
-        racial = uses(ITEM_CD, T) * 3 * EUREKA * tot['direct'] / tot['casts']
+        racial = eureka_casts(T, tot['casts']) * EUREKA * tot['direct'] / tot['casts']
     if S['race'] == 'undead':
         pl = TOTG_CHANCE * tot['landed'] / T
         racial = pl / (1 + pl) * TOTG_HP * float(opt(S['o'], 'maxHp')) * T

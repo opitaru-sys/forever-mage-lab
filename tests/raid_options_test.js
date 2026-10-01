@@ -71,7 +71,7 @@ m.OPTIONS.forEach(op => {
 });
 ['sp', 'crit', 'gearHit', 'int', 'spirit', 'mp5', 'race', 'fightLength'].forEach(k => check('stat input listed: ' + k, ids.has(k)));
 ['iceLanceCoef', 'abMask', 'amSpends', 'regenStack', 'evocation', 'igniteMunch', 'downrank', 'mbRate', 'topRanks',
-  'levelResist']
+  'levelResist', 'iceLanceBinary', 'fingersOnBoss']
   .forEach(k => check('untested flag: ' + k, m.OPTIONS.find(op => op.id === k).untested === true));
 console.log(`options: ${m.OPTIONS.length} checked, ${moved.size} moved by the cases`);
 

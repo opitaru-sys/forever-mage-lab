@@ -4,15 +4,15 @@ What it answers: which Mage build does the most single-target damage on a raid b
 
 ## Method
 
-1. **Character.** Spell power, crit, hit per school, mana pool, regen while casting and haste come from the options and the talent build (`data/talents.json` keys, `{key: rank}`). Raid buffs (option `raidBuffs`) and the Mageblood Elixir (option `mageblood`) add to Intellect, Spirit and mp5 on top of the sheet values the reader enters.
+1. **Character.** Spell power, crit, hit per school, mana pool, regen while casting and haste come from the options and the talent build (`data/talents.json` keys, `{key: rank}`). Raid buffs (option `raidBuffs`), Greater Blessing of Kings (`kings`, +10% total Intellect and Spirit, only with raid buffs on), the Mageblood Elixir (`mageblood`) and a Moonkin in the party (`moonkin`, +3% crit, off by default) add to the sheet values the reader enters.
 2. **Actions.** Every castable spell and rank is an action with its expected damage, time and mana per use. An action carries its own procs as expected follow-up casts:
-   - Frostbolt and Frostfire Bolt: a landed chill gives Fingers of Frost 15% of the time, and its 1 or 2 charges go to Ice Lance (x4 damage, +Shatter crit).
+   - Frostbolt and Frostfire Bolt: a landed chill gives Fingers of Frost 15% of the time, and its 1 or 2 charges go to Ice Lance (x4 damage, +Shatter crit). This follows the sim, which rolls Fingers on a boss although bosses cannot be chilled or frozen (ASSUMPTION; option `fingersOnBoss`).
    - Fireball, Frostbolt, Frostfire Bolt (20%) and Arcane Blast (40%): Missile Barrage, then a free Arcane Missiles, a missile every 0.5 s.
    - Fireball, Frostfire Bolt, Fire Blast and Scorch crits: a Hot Streak stack; a Pyroblast at 3 stacks (1.5 s cast). The share of crits that become Pyroblasts accounts for stacks lapsing after 20 s.
    - Every Fire crit: Ignite, 40% of the crit, rolled over as the sim does.
    - Clearcasting (the next spell free) and Master of Elements (30% of base cost back on a Fire or Frost crit) as expected mana.
    - Arcane Blast is cast in cycles: n Blasts (n = 1 to 4, each +175% cost), a spender that takes the +10% per stack (Frostbolt, Fireball or Frostfire Bolt), then Missiles if Barrage came up. With `abMask: 'tooltip'` or `amSpends` on, a cycle can also end on the Barrage Missiles in place of the spender.
-   - Cooldown spells (Fire Blast, Blast Wave, Presence of Mind, Evocation) are actions with a cap on uses.
+   - Cooldown spells (Fire Blast, Blast Wave, Presence of Mind, Evocation) are actions with a cap on uses. A press counts only for the share of the fight left to cash it: Presence of Mind needs a global cooldown after the press, Evocation its 8 s channel.
    - **The wand.** Waiting out mana is an action too: it shoots the wand (`wandDps`, Wand Specialization +13/25%, the hit and partial resist rules) and spends no mana, so Spirit regen runs in full once the five-second rule clears. The model assumes the waiting comes in 15 s blocks, so a third of it regenerates at the casting rate (ASSUMPTION, `IDLE_BLOCK`). It shows in the plan as "Wand, full regen".
 3. **The linear program.** Split the fight's time across actions to maximise damage, with the mana spent no more than the budget. Two constraints (time and mana) mean the optimum mixes at most two uncapped actions. The solver enumerates vertices (the uncapped actions on the upper hull of mana per second against damage per second, and each capped action at 0, at its cap, or in the basis), which ports to JavaScript unchanged. Every vertex it accepts has non-negative uses and fits both constraints, so there are no infeasible plans; the wand action makes one always exist.
 4. **The mana budget.** Pool + regen while casting over the fight + potions, runes and gems + Evocation (an action) + Eureka's savings.
@@ -20,13 +20,13 @@ What it answers: which Mage build does the most single-target damage on a raid b
    - **Runes and gems share one cooldown.** The slots are filled in the better of two orders: runes in every slot, or the Ruby first and then runes (with runes off, the gems in size order). At the defaults runes win, so the gems switch changes nothing unless runes are off.
    - **Stranded mana.** Whatever arrives too late to spend at the top action's rate before the fight ends is taken off the budget (a backward pass over the schedule). This is conservative: Fire Blast could spend some of it.
    - **Skipping an item.** The opening forces the top action for its length. With high mp5 or a short fight the regen above that action is small, the opening runs long, and an item can cost more than it brings. The model tries four item sets (all, no potion, no runes or gems, none) and keeps the best, as a player would skip that item. Without this, 10 more mp5 could lower a Fire build by 2.8%.
-   - `analysis/raid_windows.py` solves the same program in windows between potions, under the income curve (mana cannot be spent before it arrives): every spec lands within 0.4% of the one-budget total, so the one budget stands. Two land slightly above it (Fire with Arcane Blast +0.14%, Arcane with Ignite +0.08%) because the one budget strands mana at the top action's rate and the windows let Fire Blast spend it.
+   - `analysis/raid_windows.py` solves the same program in windows between potions, under the income curve (mana cannot be spent before it arrives): every spec lands within 0.5% of the one-budget total, so the one budget stands. Two land slightly above it (Fire with Arcane Blast +0.13%, Arcane with Ignite +0.01%) because the one budget strands mana at the top action's rate and the windows let Fire Blast spend it.
 5. **Fire Vulnerability.** A build with Improved Scorch is solved twice, with and without keeping 5 stacks (5 Scorches at the pull, then one every 27 s), and keeps the higher.
 6. **Fixed point.** Some inputs depend on the plan: the Winter's Chill ramp (stack-casts lost while stacks build), the Hot Streak conversion rate, Pyroblast DoT overlap, cooldown drift (a cooldown up mid-cast waits for it; an Arcane Blast cycle counts as one block), Eureka's mana. The model solves, updates them, and repeats 10 times, damping from the third pass. The opening action and the item set are chosen on the first three passes and then kept, so two choices near a tie cannot trade places on every pass. It settles within 0.005 dps on every fixture case (`tests/make_raid_fixtures.py` checks).
-7. **Combustion** adds a fixed number of crits per press (4 minus what those hits would crit anyway, from a small chain over the rising crit chance). It is booked after the program at the plan's average value of a Fire crit (crit bonus, Ignite, and a Hot Streak stack's share of a Pyroblast), so it cannot feed back into the plan.
-8. **Races.** Averaged over the fight: Blood Fury and Berserking by uptime, Eureka! on 3 average casts per 2 min, Touch of the Grave as the Warlock page models it.
+7. **Combustion** adds a fixed number of crits per press (4 minus what those hits would crit anyway, from a small chain over the rising crit chance). Presses come every 3 minutes from the pull, and each counts only the Fire hits the fight has left after it (the plan's Fire hits per second times the time left), so a press at the last second adds nothing. It is booked after the program at the plan's average value of a Fire crit (crit bonus, Ignite, and a Hot Streak stack's share of a Pyroblast), so it cannot feed back into the plan.
+8. **Races.** Averaged over the fight: Blood Fury and Berserking by uptime (a press near the end counts only its seconds), Eureka! on 3 average casts per 2 min (fewer when the fight ends first), Touch of the Grave as the Warlock page models it. Arcane Power and the Spellblasting Potion count by uptime the same way.
 
-**More resources never cost more than 0.23%.** A sweep of mp5, Spirit, Intellect, the potion, runes, gems, Mageblood, raid buffs and the wand over fight lengths of 60 to 600 s finds no cell where more of a resource lowers a spec by more than 0.23%. Those small dips come from the forced opening and the 2 minute item grid.
+**More resources never cost more than 0.23%.** A sweep of mp5, Spirit, Intellect, the potion, runes, gems, Mageblood, raid buffs, Kings, Moonkin and the wand over fight lengths of 60 to 600 s finds no cell where more of a resource lowers a spec by more than 0.23%. Those small dips come from the forced opening and the 2 minute item grid.
 
 ## Validation
 
@@ -34,12 +34,13 @@ What it answers: which Mage build does the most single-target damage on a raid b
 
 | Check | Result |
 |---|---|
-| Mana not binding (mp5 3000, 400 fights), every spec | model within 1.4% of the dice |
-| Defaults (1000 fights), the four page builds | model -0.2% to +1.0% from the dice |
-| Defaults (1000 fights), the sim builds | model +1.6% (Arcane), +2.7% (Fire), +4.6% (Frost) above the dice |
-| 120 s fights | model +1.5% (Frost with Barrage) and +3.0% (Fire with Arcane Blast) above the dice |
+| Mana not binding (mp5 3000, 400 fights), every spec | model within 1.7% of the dice |
+| Defaults (1000 fights), the four page builds | model +0.1% to +0.8% above the dice |
+| Defaults (1000 fights), the sim builds | model +1.4% (Arcane), +2.6% (Fire), +4.7% (Frost) above the dice |
+| 120 s fights | model +1.3% (Frost with Barrage) and +2.0% (Fire with Arcane Blast) above the dice |
+| 60 s fights | model +3.1% (Frost with Barrage), +5.2% (Fire with Arcane Blast), +8.1% (Fire sim) above the dice |
 
-The known limit: plans with a lot of wand time (the Frost and Fire sim builds wait 17 and 36 s of 300) and mana-starved short fights are optimistic. The model treats the fight's mana as one budget spent evenly and ignores the spread of spending, and a plan that sits exactly at its mana limit loses to bad runs of procs. When the model skips an item (high mp5) the dice still drink it, so there the dice can come out above the model.
+The known limits: short fights and plans with a lot of wand time are optimistic. Steady-state rates miss the ramp at the pull and the ticks lost at the end (Ignite, DoTs, the cast in flight), which weighs most in a 60 s fight and most on Fire. The model treats the fight's mana as one budget spent evenly and ignores the spread of spending, and a plan that sits exactly at its mana limit loses to bad runs of procs. When the model skips an item (high mp5) the dice still drink it, so there the dice can come out above the model.
 
 ## Assumptions
 
@@ -61,7 +62,9 @@ The known limit: plans with a lot of wand time (the Frost and Fire sim builds wa
 | Mana Spring Totem 25 mp5 (10 every 2 s), party only | `raidBuffs: 'all'` | Forever tooltip, spell 10497 |
 | Prayer of Spirit +40 Spirit | `raidBuffs` | Forever tooltip, spell 27681 |
 | Gift of the Wild +16 all attributes | `raidBuffs` | Forever tooltip, spell 21850 |
-| Paladins and Shamans on both factions | `raidBuffs` | ForeverChanges racials (Undead Paladin, Dwarf Shaman) |
+| Paladins and Shamans on both factions | `raidBuffs`, `kings` | ForeverChanges racials (Undead Paladin, Dwarf Shaman) |
+| Greater Blessing of Kings: total stats +10%; one Blessing per Paladin, so Kings next to Wisdom takes a second Paladin | `kings`, on with raid buffs | Forever tooltip, spell 25898 |
+| Moonkin Form: party members within 45 yd +3% critical strike chance, counted for spells | `moonkin`, off | Forever tooltip, spell 24858 |
 | Arcane Brilliance is the reader's own, already in Intellect | `int` | option hint |
 | Mageblood Elixir 12 mp5 | `mageblood` | Forever tooltip, 20007 |
 | Evocation: 8 s at +1500% regen, 8 min | mana | client 12051; the sim's formula 800 + 16 x Spirit + 1.6 x mp5; option `evocation` (test m7) |
@@ -72,13 +75,15 @@ The known limit: plans with a lot of wand time (the Frost and Fire sim builds wa
 | Spell hit cap: 16% from gear plus talents vs level 63 | hit | Classic table, UNVERIFIED (test m15); capped counts as 100% landed, as on the Warlock page. The sim keeps a 1% miss floor, so it lands 99% at the cap |
 | Arcane Focus covers Arcane, Elemental Precision Fire and Frost | hit | client masks; sim |
 | 6% average partial resist from a level 63 boss on non-binary spells | on by default (`levelResist`) | sim `core/spell_resistances.go:81` and `:96-101`. The Warlock page leaves it out, so non-binary damage here reads about 6% lower than a like-for-like Warlock number |
-| Frostbolt, Ice Lance and Blast Wave are binary (no partial resists) | `levelResist` | sim |
+| Frostbolt and Blast Wave are binary (no partial resists) | `levelResist` | sim |
+| Ice Lance is binary | `iceLanceBinary`, on | ASSUMPTION: the sim's flag (`ice_lance.go:29`, per the final review); the review reads its client row as a damage effect and a dummy with no slow, so the Classic rule would let it partially resist (test m29) |
 | Spell crit 150%; Ice Shards and Arcane Mind +100% of the bonus | crit | sim `spell.go` |
 | Damage talents add (Fire Power, Piercing Ice, Arcane Instability, Arcane Power, Blast stacks) | damage | sim DamageDone_Flat mods add |
 | Fire Vulnerability +3% a stack, 5, personal, multiplies | Fire damage | client 22959; sim `scorch.go` |
 | One Scorch every 27 s keeps it | upkeep | ASSUMPTION (the sim refreshes at 5 s left) |
 | Winter's Chill +2% crit a stack on your Frostbolt and Ice Lance, 15 s | crit | client 12579; sim |
 | Fingers of Frost 15% per landed chill, charges = rank | Ice Lance | curve; sim |
+| Fingers of Frost procs on a boss | `fingersOnBoss`, on | ASSUMPTION: the sim lets the chill roll it although bosses cannot be chilled or frozen; 142 of Frost with Barrage's dps rides on it (test m30) |
 | Shatter 17/33/50% crit while Fingers is up | Ice Lance crit | curve; sim |
 | Ice Lance x4 on frozen, whole hit | damage | sim `ice_lance.go` |
 | Ice Lance coefficient 0.143 | damage | sim estimate; client row reads 0; option `iceLanceCoef` (test m4) |
@@ -89,7 +94,7 @@ The known limit: plans with a lot of wand time (the Frost and Fire sim builds wa
 | Arcane Concentration 10% per landed hit, 1 s cooldown | mana | curve; sim |
 | Missile Barrage 40% (Arcane Blast), 20% (Fireball, Frostbolt, Frostfire Bolt) | Missiles | sim; option `mbRate` (test m18) |
 | Arcane Blast buff: +10% damage a stack to other spells, not Missiles | damage | client masks; option `abMask` (test m8) |
-| Arcane Missiles neither gain nor end Arcane Blast stacks | Blast cycles | client masks; the sim ends them (`arcane_missiles.go:66-68`); option `amSpends` (test m28) |
+| Arcane Missiles neither gain nor end Arcane Blast stacks | Blast cycles, `amSpends` off | a reading of the client masks. The rank 5 tooltip (1239700) says the stacks last "8 sec or until any other damage spell is cast" and the sim ends them (`arcane_missiles.go:66-68`), so both point to on (test m28) |
 | Arcane Blast costs 15% of base mana, +175% a stack | mana | client; the rounding of 181.95 is UNVERIFIED (test m21) |
 | Arcane Power +30% damage and cost, 15 s, 3 min | damage | client 12042 |
 | Presence of Mind: the biggest cast-time spell instant, 3 min | time | client 12043 |
@@ -112,6 +117,7 @@ The known limit: plans with a lot of wand time (the Frost and Fire sim builds wa
 | fightLength | 300 | 60 to 600 | |
 | fireImmune | off | | |
 | raidBuffs | all | all, noTotem, none | |
+| kings, moonkin | on, off | | |
 | potion | mana | mana, blast, none | |
 | runes, gems, mageblood | on, on, on | | |
 | wandDps | 57 | 0 to 120 (0 = no wand) | |
@@ -125,12 +131,14 @@ The known limit: plans with a lot of wand time (the Frost and Fire sim builds wa
 | mbRate | 1 | 1, 0.5 | m18 |
 | topRanks | off | | m6 |
 | levelResist | on | | none yet |
+| iceLanceBinary | on | | m29 |
+| fingersOnBoss | on | | m30 |
 
 `targets` stays at 1 in DEFAULTS and is not on the page: no Mage build has a cleave plan (every Mage multi-target spell is an AoE, which the AoE model covers). Blizzard and Flamestrike tick crits are not an option for the same reason: no raid spec casts them.
 
 ## Defaults
 
-Spell power 500, crit 10% and gear hit 11% match the Warlock page, so the two classes compare at the same gear point. Intellect 300 and Spirit 120 match the ElliotWood sim runner's grid. mp5 0 from gear, with every raid buff and the Mageblood Elixir on, because a raiding Mage has them and consumables count. The partial resists from boss level are on, as the sim has them, so this page's damage is not directly comparable with the Warlock page: about 6% lower on non-binary spells.
+Spell power 500, crit 10% and gear hit 11% match the Warlock page, so the two classes compare at the same gear point. Intellect 300 and Spirit 120 match the ElliotWood sim runner's grid. mp5 0 from gear, with the raid buffs, Greater Blessing of Kings and the Mageblood Elixir on, because a raiding Mage has them and consumables count. Moonkin Form is off: it depends on the party, not the raid. The partial resists from boss level are on, as the sim has them, so this page's damage is not directly comparable with the Warlock page: about 6% lower on non-binary spells.
 
 ## Specs
 
