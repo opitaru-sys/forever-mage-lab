@@ -1,0 +1,3306 @@
+{
+ "generated_by": "tests/make_raid_fixtures.py",
+ "settled_within": 0.0029,
+ "cases": [
+  {
+   "opts": {},
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "human"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 539.6966
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 513.8528
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 499.5584
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 491.4504
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 478.9125
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 457.7078
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 424.8888
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "human",
+    "sword": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 503.134
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 489.5269
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7901
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 471.8208
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.4658
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 414.8485
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "gnome"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 535.9465
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 506.6324
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 492.4286
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 487.1484
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 478.5694
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 453.8051
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 418.1614
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "skyborne"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 536.1265
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 504.4693
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 493.6121
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 487.378
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 469.1978
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 453.388
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.318
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "orc"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 535.8527
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 505.4343
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 490.769
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 487.1504
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 470.9114
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 453.4396
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 414.5064
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "undead"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 540.6071
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 510.0582
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 495.0361
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 492.144
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 475.538
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 458.4308
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 421.6375
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "undead",
+    "maxHp": 6000
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 544.7738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 514.1023
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 498.9179
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 496.3295
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 479.4167
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 462.4622
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 426.8314
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "troll"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 534.8446
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 503.6379
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 492.6833
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 486.1486
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 468.7268
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 452.3831
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2954
+    }
+   ]
+  },
+  {
+   "opts": {
+    "sp": 300,
+    "crit": 0.05
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 421.6976
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 390.7899
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 380.1238
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 378.6102
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 369.9752
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 354.0492
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 304.0877
+    }
+   ]
+  },
+  {
+   "opts": {
+    "sp": 900,
+    "crit": 0.25
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 799.326
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 798.6752
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 776.7436
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 749.9594
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 715.3807
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 706.8942
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 697.0674
+    }
+   ]
+  },
+  {
+   "opts": {
+    "gearHit": 0.0
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 466.3677
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 442.5648
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 430.538
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 429.6165
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 405.5494
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 400.7217
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 363.3722
+    }
+   ]
+  },
+  {
+   "opts": {
+    "gearHit": 0.16
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 518.7981
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 500.6624
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.9351
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.5701
+    }
+   ]
+  },
+  {
+   "opts": {
+    "gearHit": 0.05,
+    "crit": 0.15
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 513.4811
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 491.7207
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 479.4397
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 472.8761
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 449.8551
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 440.152
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 408.0279
+    }
+   ]
+  },
+  {
+   "opts": {
+    "int": 200
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 494.8525
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 482.9005
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 480.8531
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.0962
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 445.6444
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 393.968
+    }
+   ]
+  },
+  {
+   "opts": {
+    "int": 450,
+    "spirit": 250
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 526.8022
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 505.359
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 503.7452
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 485.5198
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 477.9627
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 452.5794
+    }
+   ]
+  },
+  {
+   "opts": {
+    "spirit": 60
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2588
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 488.135
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.6308
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 481.4619
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.6952
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 439.4512
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 386.042
+    }
+   ]
+  },
+  {
+   "opts": {
+    "mp5": 40
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 508.1674
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 494.5894
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 493.3858
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 484.049
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 451.0717
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 437.5121
+    }
+   ]
+  },
+  {
+   "opts": {
+    "mp5": 150
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 522.3688
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 507.7317
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 503.7915
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 485.5242
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 484.603
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 451.7366
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fightLength": 60
+   },
+   "rank": [
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 579.6799
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 556.2744
+    },
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 528.7924
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 523.929
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 509.1062
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 504.2504
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 476.1349
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fightLength": 120
+   },
+   "rank": [
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 532.9091
+    },
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 530.9683
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 517.6409
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 506.4262
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 504.6193
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 488.6708
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 455.3535
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fightLength": 180
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 531.6936
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 526.8716
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 500.1921
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 496.6038
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 490.2091
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 484.0534
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 451.8777
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fightLength": 450
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.5639
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 495.0694
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 485.1169
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.8728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.6017
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 429.4155
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 365.9685
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fightLength": 600
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 531.925
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 494.311
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.9107
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 482.0631
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.0803
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 424.6374
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 362.4347
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fireImmune": true
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.4809
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 447.7236
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 439.349
+    },
+    {
+     "id": "fire-mb",
+     "viable": false,
+     "total": 0.0
+    },
+    {
+     "id": "fire-sim",
+     "viable": false,
+     "total": 0.0
+    }
+   ]
+  },
+  {
+   "opts": {
+    "fireImmune": true,
+    "race": "orc",
+    "topRanks": true
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 574.2772
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 521.1876
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 479.7526
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 472.9108
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 468.1329
+    },
+    {
+     "id": "fire-mb",
+     "viable": false,
+     "total": 0.0
+    },
+    {
+     "id": "fire-sim",
+     "viable": false,
+     "total": 0.0
+    }
+   ]
+  },
+  {
+   "opts": {
+    "potion": "blast"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 534.8334
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 492.7261
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 490.1931
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 483.5238
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 454.0883
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 413.5595
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 354.3907
+    }
+   ]
+  },
+  {
+   "opts": {
+    "potion": "none"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 528.1571
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 486.2768
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.6927
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 476.9839
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 448.2866
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 408.5077
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 349.3225
+    }
+   ]
+  },
+  {
+   "opts": {
+    "runes": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 500.561
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 485.7234
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.706
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 461.1397
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.1809
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 399.1575
+    }
+   ]
+  },
+  {
+   "opts": {
+    "gems": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "runes": false,
+    "gems": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 529.9928
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 489.6076
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.6927
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 479.1826
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.1046
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 432.3626
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 369.6912
+    }
+   ]
+  },
+  {
+   "opts": {
+    "potion": "none",
+    "runes": false,
+    "gems": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 512.9469
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.6927
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 467.0882
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 464.2554
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 446.6507
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 355.3807
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 308.3306
+    }
+   ]
+  },
+  {
+   "opts": {
+    "mageblood": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 500.1214
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 485.4246
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7317
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 459.2803
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.1539
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 402.9996
+    }
+   ]
+  },
+  {
+   "opts": {
+    "potion": "none",
+    "mageblood": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 526.1117
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.5858
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 482.1936
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 474.7218
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 447.8112
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 397.8823
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 340.9676
+    }
+   ]
+  },
+  {
+   "opts": {
+    "raidBuffs": "noTotem"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 496.7957
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.6823
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 483.4211
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 450.0716
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 449.9206
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 394.0476
+    }
+   ]
+  },
+  {
+   "opts": {
+    "raidBuffs": "none"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 514.72
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 482.1533
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 469.1095
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 467.2298
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 446.4517
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 389.883
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 337.8734
+    }
+   ]
+  },
+  {
+   "opts": {
+    "raidBuffs": "none",
+    "mageblood": false,
+    "runes": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 492.5705
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 482.0117
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 463.415
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 456.5323
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 445.2272
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 369.1476
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 316.8876
+    }
+   ]
+  },
+  {
+   "opts": {
+    "wandDps": 0
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 464.846
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 405.1616
+    }
+   ]
+  },
+  {
+   "opts": {
+    "wandDps": 90
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 469.4796
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 414.7743
+    }
+   ]
+  },
+  {
+   "opts": {
+    "wandDps": 0,
+    "raidBuffs": "none"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 514.4698
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 482.1533
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 469.1095
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 467.2298
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 446.4517
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 378.371
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 322.8932
+    }
+   ]
+  },
+  {
+   "opts": {
+    "iceLanceCoef": 0
+   },
+   "rank": [
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 485.8762
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 419.7833
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "iceLanceCoef": 0.429
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 625.0689
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 563.7753
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "iceLanceCoef": 0.572
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 671.4665
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 611.7726
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "abMask": "tooltip"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 513.6319
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 508.5991
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 507.5022
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 486.7753
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "abMask": "tooltip",
+    "mbRate": 0.5
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 522.098
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 486.8949
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 474.0649
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 467.4536
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 439.6345
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "amSpends": true
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 500.7244
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 497.9744
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 490.9448
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 461.2494
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "amSpends": true,
+    "abMask": "tooltip"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 513.6319
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 508.5991
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 507.5022
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 486.7753
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "amSpends": true,
+    "mbRate": 0.5
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 522.098
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 483.9564
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 469.1108
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 460.0493
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 428.0043
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "regenStack": "max"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 529.6708
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 484.9706
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.479
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 476.7115
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 448.8619
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "regenStack": "full"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.97
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 499.0445
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 452.2956
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    }
+   ]
+  },
+  {
+   "opts": {
+    "evocation": 0.5
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 492.9014
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2728
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 440.19
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 389.7025
+    }
+   ]
+  },
+  {
+   "opts": {
+    "evocation": 0
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 492.9019
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2728
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 418.5542
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 373.0347
+    }
+   ]
+  },
+  {
+   "opts": {
+    "igniteMunch": 0.15
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 496.0273
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 484.6303
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 404.6163
+    }
+   ]
+  },
+  {
+   "opts": {
+    "igniteMunch": 0.3
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 490.0845
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 481.9881
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 395.9041
+    }
+   ]
+  },
+  {
+   "opts": {
+    "downrank": "full"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 532.2738
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 501.9711
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 487.2724
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 485.4464
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 483.7728
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 455.1839
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 450.3681
+    }
+   ]
+  },
+  {
+   "opts": {
+    "downrank": "full",
+    "topRanks": true
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 570.7023
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 517.7177
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 516.6769
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 505.5639
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 503.7595
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 476.6453
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 454.1071
+    }
+   ]
+  },
+  {
+   "opts": {
+    "downrank": "full",
+    "raidBuffs": "none"
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 517.7159
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 482.1533
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 480.4258
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 467.2374
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 459.7848
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 446.4517
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 415.5885
+    }
+   ]
+  },
+  {
+   "opts": {
+    "topRanks": true
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 570.7023
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 517.7177
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 516.6746
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 505.5639
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 476.6453
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 469.9794
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 409.0224
+    }
+   ]
+  },
+  {
+   "opts": {
+    "levelResist": false
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 538.2353
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 534.0107
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 518.3749
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 505.5536
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 471.5443
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.9679
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 437.4996
+    }
+   ]
+  },
+  {
+   "opts": {
+    "mbRate": 0.5
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 522.098
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 483.5637
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 467.7806
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 465.4939
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 458.7159
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 425.2086
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 411.2496
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "gnome",
+    "potion": "blast",
+    "regenStack": "max",
+    "fightLength": 240
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 535.0873
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 497.2548
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 488.1184
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 481.2799
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 459.3898
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 450.8056
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 385.7695
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "troll",
+    "downrank": "full",
+    "levelResist": false,
+    "igniteMunch": 0.15,
+    "mp5": 60
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 540.8349
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 539.2292
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 531.1584
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 508.0888
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 500.0656
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 496.446
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 475.576
+    }
+   ]
+  },
+  {
+   "opts": {
+    "race": "undead",
+    "iceLanceCoef": 0.572,
+    "abMask": "tooltip",
+    "evocation": 0.5,
+    "topRanks": true,
+    "sp": 700
+   },
+   "rank": [
+    {
+     "id": "frost-mb",
+     "viable": true,
+     "total": 868.172
+    },
+    {
+     "id": "frost-sim",
+     "viable": true,
+     "total": 699.2525
+    },
+    {
+     "id": "arcane",
+     "viable": true,
+     "total": 641.9776
+    },
+    {
+     "id": "arcane-fire",
+     "viable": true,
+     "total": 632.1713
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 623.6543
+    },
+    {
+     "id": "arcane-sim",
+     "viable": true,
+     "total": 613.6137
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 477.1158
+    }
+   ]
+  }
+ ],
+ "weights": [
+  {
+   "opts": {},
+   "weights": {
+    "frost-mb": {
+     "sp": 0.4772,
+     "crit": 3.7114,
+     "hit": 0.0,
+     "int": 0.0624,
+     "spirit": -0.0,
+     "mp5": 0.0,
+     "critInSp": 7.7777,
+     "hitInSp": 0.0,
+     "intInSp": 0.1307,
+     "spiritInSp": -0.0,
+     "mp5InSp": 0.0
+    },
+    "fire-mb": {
+     "sp": 0.4619,
+     "crit": 5.0082,
+     "hit": 4.5767,
+     "int": 0.126,
+     "spirit": 0.1856,
+     "mp5": 0.1544,
+     "critInSp": 10.8426,
+     "hitInSp": 9.9084,
+     "intInSp": 0.2727,
+     "spiritInSp": 0.4019,
+     "mp5InSp": 0.3342
+    },
+    "arcane": {
+     "sp": 0.4483,
+     "crit": 3.7295,
+     "hit": 0.0,
+     "int": 0.0703,
+     "spirit": 0.002,
+     "mp5": 0.0038,
+     "critInSp": 8.3197,
+     "hitInSp": 0.0,
+     "intInSp": 0.1569,
+     "spiritInSp": 0.0045,
+     "mp5InSp": 0.0086
+    },
+    "arcane-fire": {
+     "sp": 0.4662,
+     "crit": 4.7514,
+     "hit": 4.0373,
+     "int": 0.1447,
+     "spirit": 0.1699,
+     "mp5": 0.1537,
+     "critInSp": 10.1916,
+     "hitInSp": 8.66,
+     "intInSp": 0.3104,
+     "spiritInSp": 0.3644,
+     "mp5InSp": 0.3296
+    },
+    "frost-sim": {
+     "sp": 0.4174,
+     "crit": 3.512,
+     "hit": 0.0309,
+     "int": 0.2804,
+     "spirit": 0.4607,
+     "mp5": 0.7084,
+     "critInSp": 8.4132,
+     "hitInSp": 0.074,
+     "intInSp": 0.6716,
+     "spiritInSp": 1.1037,
+     "mp5InSp": 1.6969
+    },
+    "arcane-sim": {
+     "sp": 0.4095,
+     "crit": 3.6053,
+     "hit": 0.0,
+     "int": 0.0722,
+     "spirit": 0.0111,
+     "mp5": 0.0177,
+     "critInSp": 8.8034,
+     "hitInSp": 0.0,
+     "intInSp": 0.1763,
+     "spiritInSp": 0.0272,
+     "mp5InSp": 0.0433
+    },
+    "fire-sim": {
+     "sp": 0.4342,
+     "crit": 4.9741,
+     "hit": 0.0641,
+     "int": 0.2561,
+     "spirit": 0.4104,
+     "mp5": 0.6866,
+     "critInSp": 11.4549,
+     "hitInSp": 0.1476,
+     "intInSp": 0.5899,
+     "spiritInSp": 0.945,
+     "mp5InSp": 1.5811
+    }
+   }
+  },
+  {
+   "opts": {
+    "gearHit": 0.08
+   },
+   "weights": {
+    "frost-mb": {
+     "sp": 0.462,
+     "crit": 3.5906,
+     "hit": 6.0305,
+     "int": 0.0603,
+     "spirit": 0.0,
+     "mp5": 0.0,
+     "critInSp": 7.7726,
+     "hitInSp": 13.0544,
+     "intInSp": 0.1306,
+     "spiritInSp": 0.0,
+     "mp5InSp": 0.0
+    },
+    "fire-mb": {
+     "sp": 0.4469,
+     "crit": 4.499,
+     "hit": 5.4209,
+     "int": 0.1211,
+     "spirit": 0.1329,
+     "mp5": 0.149,
+     "critInSp": 10.0668,
+     "hitInSp": 12.1295,
+     "intInSp": 0.2709,
+     "spiritInSp": 0.2974,
+     "mp5InSp": 0.3335
+    },
+    "arcane": {
+     "sp": 0.4347,
+     "crit": 3.6166,
+     "hit": 4.8396,
+     "int": 0.0683,
+     "spirit": 0.002,
+     "mp5": 0.003,
+     "critInSp": 8.3201,
+     "hitInSp": 11.1337,
+     "intInSp": 0.157,
+     "spiritInSp": 0.0046,
+     "mp5InSp": 0.0069
+    },
+    "arcane-fire": {
+     "sp": 0.4515,
+     "crit": 4.5745,
+     "hit": 5.2539,
+     "int": 0.1389,
+     "spirit": 0.1539,
+     "mp5": 0.1469,
+     "critInSp": 10.131,
+     "hitInSp": 11.6356,
+     "intInSp": 0.3076,
+     "spiritInSp": 0.3408,
+     "mp5InSp": 0.3254
+    },
+    "frost-sim": {
+     "sp": 0.403,
+     "crit": 3.3892,
+     "hit": 5.7211,
+     "int": 0.2699,
+     "spirit": 0.4436,
+     "mp5": 0.6814,
+     "critInSp": 8.4095,
+     "hitInSp": 14.1955,
+     "intInSp": 0.6697,
+     "spiritInSp": 1.1007,
+     "mp5InSp": 1.6909
+    },
+    "arcane-sim": {
+     "sp": 0.3972,
+     "crit": 3.4969,
+     "hit": 4.514,
+     "int": 0.07,
+     "spirit": 0.0108,
+     "mp5": 0.0172,
+     "critInSp": 8.8035,
+     "hitInSp": 11.3639,
+     "intInSp": 0.1763,
+     "spiritInSp": 0.0271,
+     "mp5InSp": 0.0432
+    },
+    "fire-sim": {
+     "sp": 0.4207,
+     "crit": 5.8357,
+     "hit": 4.3688,
+     "int": 0.2475,
+     "spirit": 0.3973,
+     "mp5": 0.665,
+     "critInSp": 13.8722,
+     "hitInSp": 10.3852,
+     "intInSp": 0.5884,
+     "spiritInSp": 0.9444,
+     "mp5InSp": 1.5808
+    }
+   }
+  },
+  {
+   "opts": {
+    "race": "human",
+    "sp": 700,
+    "crit": 0.15
+   },
+   "weights": {
+    "frost-mb": {
+     "sp": 0.5011,
+     "crit": 4.395,
+     "hit": 0.0,
+     "int": 0.0738,
+     "spirit": 0.0,
+     "mp5": -0.0,
+     "critInSp": 8.7705,
+     "hitInSp": 0.0,
+     "intInSp": 0.1473,
+     "spiritInSp": 0.0,
+     "mp5InSp": -0.0
+    },
+    "fire-mb": {
+     "sp": 0.4983,
+     "crit": 5.8941,
+     "hit": 5.5063,
+     "int": 0.202,
+     "spirit": 0.3243,
+     "mp5": 0.3286,
+     "critInSp": 11.8272,
+     "hitInSp": 11.0492,
+     "intInSp": 0.4053,
+     "spiritInSp": 0.6508,
+     "mp5InSp": 0.6594
+    },
+    "arcane": {
+     "sp": 0.4894,
+     "crit": 4.6654,
+     "hit": 0.0,
+     "int": 0.0862,
+     "spirit": 0.0,
+     "mp5": 0.0,
+     "critInSp": 9.5334,
+     "hitInSp": 0.0,
+     "intInSp": 0.1762,
+     "spiritInSp": 0.0,
+     "mp5InSp": 0.0
+    },
+    "arcane-fire": {
+     "sp": 0.5004,
+     "crit": 5.8989,
+     "hit": 3.5529,
+     "int": 0.174,
+     "spirit": 0.1138,
+     "mp5": 0.173,
+     "critInSp": 11.7877,
+     "hitInSp": 7.0998,
+     "intInSp": 0.3477,
+     "spiritInSp": 0.2273,
+     "mp5InSp": 0.3458
+    },
+    "frost-sim": {
+     "sp": 0.4444,
+     "crit": 4.2007,
+     "hit": 0.0262,
+     "int": 0.3505,
+     "spirit": 0.6096,
+     "mp5": 0.8958,
+     "critInSp": 9.4526,
+     "hitInSp": 0.0589,
+     "intInSp": 0.7887,
+     "spiritInSp": 1.3718,
+     "mp5InSp": 2.0158
+    },
+    "arcane-sim": {
+     "sp": 0.4522,
+     "crit": 4.5169,
+     "hit": 0.0,
+     "int": 0.0835,
+     "spirit": -0.0006,
+     "mp5": -0.0009,
+     "critInSp": 9.9895,
+     "hitInSp": 0.0,
+     "intInSp": 0.1846,
+     "spiritInSp": -0.0013,
+     "mp5InSp": -0.0021
+    },
+    "fire-sim": {
+     "sp": 0.4732,
+     "crit": 6.0574,
+     "hit": 0.065,
+     "int": 0.3331,
+     "spirit": 0.5795,
+     "mp5": 0.9254,
+     "critInSp": 12.8001,
+     "hitInSp": 0.1374,
+     "intInSp": 0.7039,
+     "spiritInSp": 1.2246,
+     "mp5InSp": 1.9556
+    }
+   }
+  },
+  {
+   "opts": {
+    "mp5": 80,
+    "topRanks": true
+   },
+   "weights": {
+    "frost-mb": {
+     "sp": 0.4772,
+     "crit": 3.9987,
+     "hit": 0.0,
+     "int": 0.0672,
+     "spirit": 0.0,
+     "mp5": 0.0,
+     "critInSp": 8.3798,
+     "hitInSp": 0.0,
+     "intInSp": 0.1408,
+     "spiritInSp": 0.0,
+     "mp5InSp": 0.0
+    },
+    "fire-mb": {
+     "sp": 0.4738,
+     "crit": 6.4201,
+     "hit": 7.4497,
+     "int": 0.1317,
+     "spirit": 0.2687,
+     "mp5": 0.1995,
+     "critInSp": 13.5492,
+     "hitInSp": 15.7222,
+     "intInSp": 0.278,
+     "spiritInSp": 0.567,
+     "mp5InSp": 0.4209
+    },
+    "arcane": {
+     "sp": 0.4631,
+     "crit": 4.1995,
+     "hit": 0.0,
+     "int": 0.0776,
+     "spirit": 0.0,
+     "mp5": 0.0,
+     "critInSp": 9.0675,
+     "hitInSp": 0.0,
+     "intInSp": 0.1676,
+     "spiritInSp": 0.0,
+     "mp5InSp": 0.0
+    },
+    "arcane-fire": {
+     "sp": 0.4628,
+     "crit": 5.1716,
+     "hit": 3.1066,
+     "int": 0.1454,
+     "spirit": 0.0776,
+     "mp5": 0.1249,
+     "critInSp": 11.1756,
+     "hitInSp": 6.7133,
+     "intInSp": 0.3142,
+     "spiritInSp": 0.1676,
+     "mp5InSp": 0.27
+    },
+    "frost-sim": {
+     "sp": 0.4428,
+     "crit": 3.9972,
+     "hit": 0.0011,
+     "int": 0.2414,
+     "spirit": 0.3127,
+     "mp5": 0.4696,
+     "critInSp": 9.027,
+     "hitInSp": 0.0026,
+     "intInSp": 0.5452,
+     "spiritInSp": 0.7062,
+     "mp5InSp": 1.0606
+    },
+    "arcane-sim": {
+     "sp": 0.408,
+     "crit": 3.8174,
+     "hit": 0.0,
+     "int": 0.07,
+     "spirit": 0.0,
+     "mp5": 0.0,
+     "critInSp": 9.3553,
+     "hitInSp": 0.0,
+     "intInSp": 0.1716,
+     "spiritInSp": 0.0,
+     "mp5InSp": 0.0001
+    },
+    "fire-sim": {
+     "sp": 0.4866,
+     "crit": 5.7054,
+     "hit": 0.0,
+     "int": 0.2113,
+     "spirit": 0.2725,
+     "mp5": 0.4846,
+     "critInSp": 11.7252,
+     "hitInSp": 0.0,
+     "intInSp": 0.4342,
+     "spiritInSp": 0.56,
+     "mp5InSp": 0.9958
+    }
+   }
+  },
+  {
+   "opts": {
+    "raidBuffs": "none",
+    "wandDps": 0
+   },
+   "weights": {
+    "frost-mb": {
+     "sp": 0.4612,
+     "crit": 3.5942,
+     "hit": 0.0,
+     "int": 0.3793,
+     "spirit": 0.6727,
+     "mp5": 0.4282,
+     "critInSp": 7.7931,
+     "hitInSp": 0.0,
+     "intInSp": 0.8223,
+     "spiritInSp": 1.4586,
+     "mp5InSp": 0.9285
+    },
+    "fire-mb": {
+     "sp": 0.4567,
+     "crit": 3.8551,
+     "hit": 3.0423,
+     "int": 0.1493,
+     "spirit": 0.251,
+     "mp5": 0.267,
+     "critInSp": 8.4409,
+     "hitInSp": 6.6613,
+     "intInSp": 0.3269,
+     "spiritInSp": 0.5496,
+     "mp5InSp": 0.5846
+    },
+    "arcane": {
+     "sp": 0.4579,
+     "crit": 3.847,
+     "hit": 0.0,
+     "int": 0.0737,
+     "spirit": 0.0036,
+     "mp5": 0.0057,
+     "critInSp": 8.4014,
+     "hitInSp": 0.0,
+     "intInSp": 0.161,
+     "spiritInSp": 0.0079,
+     "mp5InSp": 0.0124
+    },
+    "arcane-fire": {
+     "sp": 0.4543,
+     "crit": 4.3289,
+     "hit": 2.4409,
+     "int": 0.2016,
+     "spirit": 0.3182,
+     "mp5": 0.1907,
+     "critInSp": 9.5287,
+     "hitInSp": 5.3728,
+     "intInSp": 0.4437,
+     "spiritInSp": 0.7004,
+     "mp5InSp": 0.4199
+    },
+    "frost-sim": {
+     "sp": 0.3398,
+     "crit": 2.8657,
+     "hit": 0.0,
+     "int": 0.2993,
+     "spirit": 0.558,
+     "mp5": 0.8037,
+     "critInSp": 8.4344,
+     "hitInSp": 0.0,
+     "intInSp": 0.8809,
+     "spiritInSp": 1.6424,
+     "mp5InSp": 2.3654
+    },
+    "arcane-sim": {
+     "sp": 0.4132,
+     "crit": 3.6025,
+     "hit": 0.0,
+     "int": 0.0782,
+     "spirit": 0.0251,
+     "mp5": 0.0402,
+     "critInSp": 8.7184,
+     "hitInSp": 0.0,
+     "intInSp": 0.1893,
+     "spiritInSp": 0.0608,
+     "mp5InSp": 0.0972
+    },
+    "fire-sim": {
+     "sp": 0.3466,
+     "crit": 5.003,
+     "hit": 0.0,
+     "int": 0.2659,
+     "spirit": 0.5042,
+     "mp5": 0.7947,
+     "critInSp": 14.4337,
+     "hitInSp": 0.0,
+     "intInSp": 0.7672,
+     "spiritInSp": 1.4547,
+     "mp5InSp": 2.2928
+    }
+   }
+  }
+ ],
+ "items": [
+  {
+   "opts": {},
+   "a": {
+    "sp": 30,
+    "crit": 0.01,
+    "hit": 0,
+    "int": 10,
+    "spirit": 0,
+    "mp5": 0
+   },
+   "b": {
+    "sp": 20,
+    "crit": 0.0,
+    "hit": 0.01,
+    "int": 20,
+    "spirit": 10,
+    "mp5": 5
+   },
+   "result": {
+    "frost-mb": {
+     "base": 532.2738,
+     "swapped": 524.4425,
+     "diff": -7.8313,
+     "pct": -1.4713
+    },
+    "fire-mb": {
+     "base": 501.97,
+     "swapped": 501.226,
+     "diff": -0.7441,
+     "pct": -0.1482
+    },
+    "arcane": {
+     "base": 483.7728,
+     "swapped": 476.4703,
+     "diff": -7.3026,
+     "pct": -1.5095
+    },
+    "arcane-fire": {
+     "base": 487.2724,
+     "swapped": 485.6824,
+     "diff": -1.59,
+     "pct": -0.3263
+    },
+    "frost-sim": {
+     "base": 467.7806,
+     "swapped": 470.8769,
+     "diff": 3.0963,
+     "pct": 0.6619
+    },
+    "arcane-sim": {
+     "base": 450.3681,
+     "swapped": 443.6768,
+     "diff": -6.6913,
+     "pct": -1.4857
+    },
+    "fire-sim": {
+     "base": 411.2496,
+     "swapped": 409.7405,
+     "diff": -1.5091,
+     "pct": -0.367
+    }
+   }
+  },
+  {
+   "opts": {
+    "gearHit": 0.08
+   },
+   "a": {
+    "sp": 0,
+    "crit": 0,
+    "hit": 0,
+    "int": 0,
+    "spirit": 0,
+    "mp5": 0
+   },
+   "b": {
+    "sp": 0,
+    "crit": 0,
+    "hit": 0.02,
+    "int": 0,
+    "spirit": 0,
+    "mp5": 0
+   },
+   "result": {
+    "frost-mb": {
+     "base": 514.144,
+     "swapped": 526.2177,
+     "diff": 12.0738,
+     "pct": 2.3483
+    },
+    "fire-mb": {
+     "base": 485.687,
+     "swapped": 496.5356,
+     "diff": 10.8485,
+     "pct": 2.2336
+    },
+    "arcane": {
+     "base": 469.2539,
+     "swapped": 478.9332,
+     "diff": 9.6793,
+     "pct": 2.0627
+    },
+    "arcane-fire": {
+     "base": 471.4978,
+     "swapped": 482.0099,
+     "diff": 10.5121,
+     "pct": 2.2295
+    },
+    "frost-sim": {
+     "base": 450.5537,
+     "swapped": 462.0171,
+     "diff": 11.4634,
+     "pct": 2.5443
+    },
+    "arcane-sim": {
+     "base": 436.8255,
+     "swapped": 445.8537,
+     "diff": 9.0282,
+     "pct": 2.0668
+    },
+    "fire-sim": {
+     "base": 398.1272,
+     "swapped": 406.8701,
+     "diff": 8.743,
+     "pct": 2.196
+    }
+   }
+  }
+ ]
+}
