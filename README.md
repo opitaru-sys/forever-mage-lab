@@ -8,11 +8,11 @@ Live page (once published): https://opitaru-sys.github.io/forever-mage-lab/
 
 ## The verdict
 
-- **Levels 10 to 19.** Frostbolt and your wand, with Fire Blast from 14, and Improved Frostbolt first. An Arcane wand build is 4.6% faster at these levels, but they are under a tenth of your leveling time, so playing Arcane and respeccing at 20 saves only 0.43%.
-- **Levels 20 to 60.** Frost, with Ice Lance on every freeze: this lab's order takes about 105 hours from 10 to 60 in the model, against 114 for Arcane-first and 121 for Fire-first. Frost Nova the mob when it closes and step back; from about 41, drop the wand and the step back.
-- **AoE or single target (interim, under review).** In our model, Classic-style Blizzard pulls of 6 or more mobs fail in Forever. The pack walks out of the storm after about 4 of its 8 ticks, and the Mage runs out of mana or gets caught before Frost Nova is back. Small pulls of 2 or 3 are not modelled well enough to judge yet. Tests m3, m12, m16 and m1 settle it.
+- **Levels 10 to 19.** Frostbolt and your wand, with Fire Blast from 14, and Improved Frostbolt first. An Arcane wand build is 4.6% faster at these levels, but they are under a tenth of your leveling time, so playing Arcane and respeccing at 20 saves only 0.44%.
+- **Levels 20 to 60.** Frost, with Ice Lance on every freeze: this lab's order takes about 104 hours from 10 to 60 in the model, against 114 for Arcane-first and 121 for Fire-first. Frost Nova the mob when it closes and step back; from about 41, drop the wand and the step back and add Fire Blast on cooldown.
+- **AoE or single target.** No, not in our model. At Forever's values, Blizzard, Arcane Explosion and Flamestrike pulls of 2 to 10 mobs fail at every level from 20 to 60. Small pulls run out of mana, and bigger ones catch you before Frost Nova is back. Pulling two mobs and killing them one at a time with Frost Nova and Frostbolt comes closest. It is slower at every level, but only by 5 to 12% at 50 to 60, and if finding a pair takes no time it ties at 60.
 - **Group at 60.** Frost with Missile Barrage, 18/3/30: 532 dps at the calculator defaults before racials, 6% ahead of Fire with Arcane Blast (19/31/1, 502). One untested number can flip it: if Ice Lance has no spell power scaling, as the client row reads, Fire with Arcane Blast leads by 3% (test m4).
-- **Solo at 60.** The leveling order's final build, 5/4/42: Frostbolt, Frost Nova, Ice Lance on every freeze and Fingers of Frost charge. Its last 9 points change nothing at 60 in the model.
+- **Solo at 60.** The leveling order's final build, 10/6/35: Frostbolt and Fire Blast on cooldown, Frost Nova, Ice Lance on every freeze and Fingers of Frost charge. Its late pick, Arcane Concentration, makes kills at 60 2.2% faster.
 - **Race.** Race barely matters. Undead levels about 3% faster and adds 1.6% in raids; every other race is within about 2% for leveling and 1.4% in raids.
 - **Dungeons.** The first open at level 13. Whether dungeon kills give experience in Forever is untested (test m2), so the models leave dungeon leveling out.
 
@@ -26,7 +26,7 @@ Data sources:
 Models:
 - **Leveling** (`models/leveling_sim.py`, `models/character.py`): an expected-value fight simulator in 0.02 s steps, with the mob running at you, slows, roots that damage can break, stepping back, spell pushback, procs counted as they build up, and a rest model (eating and drinking at once, potions, Evocation, racials). For each build and level it searches 13 base rotations with modifiers and keeps the fastest; an exhaustive check on 212 cases found a largest gap of 0.000%. The planner's talent order comes from a search over every point (`analysis/leveling_planner.py`). Method: `docs/leveling-model.md`.
 - **Raid** (`models/raid_model.py`): a mana-budget model that finds the mix of spell cycles doing the most damage within the fight's time and mana, with raid buffs, potions, runes, gems, Evocation and a wand while waiting for mana. `analysis/raid_check.py` plays each plan cast by cast with real dice as a check. Method: `docs/raid-model.md`.
-- **AoE** (`models/aoe.py`, `models/aoe_loops.py`): pulls of several mobs in 0.1 s steps, through scripted Blizzard, Arcane Explosion, Flamestrike and Cone of Cold loops, compared with the single-target model. The roughest of the three, and under review. Method: `docs/aoe-model.md`.
+- **AoE** (`models/aoe.py`, `models/aoe_loops.py`): pulls of 2 to 10 mobs in 0.1 s steps, through five scripted loops (two mobs with Frost Nova and Frostbolt, Blizzard, Arcane Explosion, Flamestrike, Cone of Cold kiting), compared with the single-target model. On one mob it runs 3 to 9% slower than the single-target model, never faster, so it errs against AoE. Reviewed by a separate Claude session. Method: `docs/aoe-model.md`.
 - The page runs `model.js` and `leveling.js`, hand ports of the Python models. `tests/parity_test.js`, `tests/raid_options_test.js`, `tests/weights_test.js` and `tests/leveling_parity_test.js` check them against Python fixtures case by case.
 - **Cross-check against the ElliotWood sim.** On the sim's own three builds and rotations at matching stats (human, 500 spell power, 10.27% crit, 11% hit, 316 Intellect, 185 Spirit, 77 mp5, mana potion and rune, 300 s, level 63 target, 3000 iterations), the sim reads Arcane 472.8, Fire 398.5 and Frost 452.5 dps, and the model 476.7, 406.7 and 468.6: the model is 0.8 to 3.6% higher. The sim keeps a 1% miss floor, and its Frost build runs out of mana for 40 s of the 300.
 
@@ -81,9 +81,24 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 | Waiting for mana | full Spirit regen and a 57 dps wand, in 15 s blocks | ASSUMPTION |
 | Undead max health | 4000 | ASSUMPTION (slider) |
 
-### AoE model, interim (`models/aoe.py`, `models/aoe_loops.py`)
+### AoE model (`models/aoe.py`, `models/aoe_loops.py`)
 
-The AoE model is under independent review and its headline is being narrowed. Its inputs:
+The breakeven summary at the defaults (gear 1, no race; `python analysis/aoe_breakeven.py`). Seconds per kill; "dies" means the pull never keeps 25% of your health at any size from 2 to 10.
+
+| Level | Single target | Two mobs, Frost Nova and Frostbolt | Blizzard, Arcane Explosion, Flamestrike | Breakeven pull size |
+|---|---|---|---|---|
+| 20 | 28.2 | 30.8 (+9%) | dies | none |
+| 25 | 29.4 | 42.6 (+45%) | dies | none |
+| 30 | 28.4 | 34.2 (+20%) | dies | none |
+| 40 | 25.4 | 31.8 (+25%) | dies | none; from 5 mobs only with Classic's chill and mobs hitting half as hard |
+| 50 | 20.5 | 22.9 (+12%) | dies | none; from 6 under the same pair |
+| 60 | 19.8 | 20.8 (+5%) | dies | none; from 7 under the same pair |
+
+- Two mobs at once are slower at every level, but only by 5 to 12% at 50 to 60, and with no time to find a pair they tie at 60 (-2%). On one mob the AoE engine itself runs 3 to 9% slower than the single-target model, so it errs against AoE.
+- No single one of the 37 sensitivity rows clearly flips the verdict: 4 put two mobs 0 to 2% ahead at 50 or 60, ties inside that error. The only pair that clearly flips it is Blizzard's chill at Classic strength (test m3) with mob damage at half the curve (test m16): the Blizzard loop then pays from 5 mobs at 40 (16% faster at 6), 6 at 50 (25% at 8) and 7 at 60 (34% at 10). Both values lie outside the ranges the research register gives them.
+- Why: at 50% for 2 s a freed mob crosses the 16 yd storm in about 4 s, so only about 3 to 6 of a Blizzard's 8 ticks land on each mob, while every mob needs 2.7 to 4.4 full Blizzards. Small pulls run out of mana; from about 6 mobs the pack reaches you before Frost Nova is back.
+
+Its inputs:
 
 | Input | Value as used | Status |
 |---|---|---|
@@ -93,7 +108,8 @@ The AoE model is under independent review and its headline is being narrowed. It
 | Mob health and damage | the Warlock lab curves | test m16 |
 | Blizzard and Flamestrike ticks | never crit | sim; test m9 |
 | Packs | beasts that never flee | ASSUMPTION, test m20 |
-| Gathering | free: no damage taken, no mana spent | Warlock lab |
+| Gathering a pack | 6 s a mob, no damage taken, no mana spent | Warlock lab |
+| Finding two mobs to pull from range | 3 s a mob (sensitivity 0 and 6 s) | ASSUMPTION, test m20 |
 | Safety floor | expected health never under 25% | ASSUMPTION |
 | Dungeon kills | out of scope | test m2 |
 
@@ -103,15 +119,15 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 | Claim | Command |
 |---|---|
-| Frost levels fastest: this order 104.9 h, Arcane-first 114.0, Fire-first 121.0 (mean 25.0, 26.5, 28.0 s a kill); Fire-first 15.3% slower | `python analysis/leveling_paths.py trees` |
-| A Frost-first order stays first in all 18 sensitivity rows; damage breaking roots is worth 19.1%; no Spirit regen while drinking costs 4.2 to 5.3%; Mage Armor is worth 1.5% | `python analysis/leveling_paths.py sensitivity` |
-| An Arcane start is 4.6% faster at 10 to 19, but a respec plan saves only 0.43% (upper bound 0.58%) | `python analysis/leveling_paths.py respec` |
+| Frost levels fastest: this order 104.3 h, Arcane-first 113.7, Fire-first 121.0 (mean 24.9, 26.4, 28.0 s a kill); Fire-first 16.0% slower | `python analysis/leveling_paths.py trees` |
+| A Frost-first order stays first in all 18 sensitivity rows; roots that never break would be 19.0% faster, roots breaking on every hit 2.9% slower; no Spirit regen while drinking costs 4.1 to 5.3%; Mage Armor is worth 1.6% | `python analysis/leveling_paths.py sensitivity` |
+| An Arcane start is 4.6% faster at 10 to 19, but a respec plan saves only 0.44% (upper bound 0.59%) | `python analysis/leveling_paths.py respec` |
 | Rotation by level, level 20 jump (32.9 s to 28.2 s), gear 2 vs gear 1 (the planner's phase texts) | `python analysis/leveling_paths.py phases` |
 | Mana potions save 9.2% of leveling time, 30 an hour, 0.12 to 18 gold an hour; mana gems never pay | `python analysis/leveling_paths.py consumables` |
-| Race leveling: Undead 3.0%, Skyborne 2.1%, Troll 1.7%, Human 1.2%, Gnome 0.8%, Orc 0.4% | `python analysis/leveling_paths.py races` |
+| Race leveling: Undead 2.9%, Skyborne 1.8%, Troll 1.4%, Human 1.0%, Gnome 0.9%, Orc 0.4% | `python analysis/leveling_paths.py races` |
 | Low ranks at full strength would save about 1.1% from 34 | `python analysis/leveling_paths.py lowranks` |
-| The planner's talent order (about 67 minutes on 16 cores) | `python analysis/leveling_planner.py` |
-| The planner's last 9 points change nothing at 60 (20.253 s either way) | `node -e "const L=require('./leveling.js'),C=require('./src/class.js');const f=C.planner.order.flatMap(([k,n])=>Array(n).fill(k));const b=n=>{const t={};f.slice(0,n).forEach(k=>t[k]=(t[k]\|\|0)+1);return t};console.log(L.evaluateUncached(60,b(51),1,{}).spk,L.evaluateUncached(60,b(42),1,{}).spk)"` |
+| The planner's talent order (25 to 70 minutes on 16 cores) | `python analysis/leveling_planner.py` |
+| Arcane Concentration makes the plan's kills at 60 2.2% faster (19.80 s against 20.25 without it) | `node -e "const L=require('./leveling.js'),C=require('./src/class.js');const t={};C.planner.order.forEach(([k,n])=>t[k]=(t[k]\|\|0)+n);const u=Object.assign({},t,{ArcaneConcentration:0});console.log(L.evaluateUncached(60,t,1,{}).spk,L.evaluateUncached(60,u,1,{}).spk)"` |
 | The leveling search matches an exhaustive search (212 cases, largest gap 0.000%) | `python analysis/leveling_search_check.py` |
 | Raid ranking at the defaults: Frost with Barrage 532.3, Fire with Arcane Blast 502.0 (6.0%), Arcane with Ignite 487.3, Arcane 483.8; the sim builds 12 to 23% behind; 93 dps of free Missiles; Ice Lance 142 dps | `python analysis/raid_specs.py` (first table) |
 | Ice Lance at 0 flips the lead to Fire with Arcane Blast (+3.0%); the tooltip reading lifts the Arcane builds 5 to 8%; Barrage Missiles ending stacks 1.5 to 2.4%; tomes +7% (571); no partial resists leaves a 0.8% lead; the leader-flipping pairs | `python analysis/raid_specs.py` (untested and pairs tables) |
@@ -121,7 +137,7 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 | With mana unlimited, model and dice agree within 1.4% | `python analysis/raid_check.py 400 mp5=3000` |
 | Racial raid gains for the top build: Undead 1.6%, Human with a sword 1.4%, the rest 0.5 to 0.7% | `node -e "const m=require('./model.js'),o=m.DEFAULTS,b=m.specTotal(o,'frost-mb');['human','gnome','skyborne','orc','undead','troll'].forEach(r=>console.log(r,(m.specTotal(Object.assign({},o,{race:r}),'frost-mb')/b*100-100).toFixed(2)))"` |
 | Model vs the ElliotWood sim on the sim's own builds (model side; the sim side needs the sim and its runner, not in this repo) | `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{race:'human',sword:false,topRanks:true,wandDps:0})).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
-| AoE leveling (interim, under review) | `python analysis/aoe_breakeven.py` |
+| AoE: no pull of 2 to 10 mobs beats single target at 20 to 60; two mobs come closest (+9% to +45%, +5% at 60); the engine runs 3 to 9% slow on one mob; only Classic chill with half mob damage clearly flips it, from 5 to 7 mobs at 40 to 60 | `python analysis/aoe_breakeven.py` (17 to 20 minutes; sections `calibration`, `defaults`, `budget`, `sensitivity`, `pairs`) |
 | Classic vs Forever values in the proof table (Blizzard chill, Shatter, Fireball and Frostbolt top ranks, low-rank coefficients) | `data/talents.json` and `data/mage_spells.json`; `docs/mage-mechanics.md` |
 | The talent value table (per-rank values; 43 scored talents, 11 not, with reasons) | `data/talents.json`; `node -e "const L=require('./leveling.js');console.log(L.SCORED.length,L.UNSCORED)"` |
 | model.js matches models/raid_model.py | `node tests/parity_test.js` (63 cases) |
