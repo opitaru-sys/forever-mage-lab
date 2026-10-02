@@ -1,6 +1,7 @@
 """Regenerate the raid parity data from models/raid_model.py, the reference.
 
-1. Checks the hardcoded spell rows against data/mage_spells.json, the SPECS against the point rules, and that the
+1. Checks the hardcoded spell rows against data/mage_spells.json, Combustion's crit count against data/talents.json,
+   the SPECS against the point rules, and that the
    fixed-point loop has settled (ITERATIONS passes against 3 more) on every case below.
 2. Rewrites the EXPECTED table in tests/parity_test.js: every spec at spell power 300/500/800 x crit 5/10/20%,
    race none, other options at their defaults.
@@ -93,6 +94,9 @@ def main():
     bad = R.check_data()
     if bad:
         raise SystemExit('spell rows differ from data/mage_spells.json: %r' % bad)
+    comb = {t['k']: t for t in R.load_talents()}['Combustion']['perRank']['endsAfterNonPeriodicFireCrits']
+    if comb != R.COMB_CRITS:
+        raise SystemExit('Combustion crits: models/raid_model.py has %r, data/talents.json %r' % (R.COMB_CRITS, comb))
     for s in R.SPECS:
         errs = R.build_errors(s['talents'])
         if errs:
