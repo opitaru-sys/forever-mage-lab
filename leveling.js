@@ -97,6 +97,7 @@
     FingersOfFrost: [1, 2], WintersChill: [.20, .40, .60, .80, 1.0], ArcaneGeometry: [3.0, 6.0], FlameThrowing: [3.0, 6.0],
     ArcticReach: [.10, .20] };
   const FOF_CHANCE = 0.15, WC_CRIT = 0.02, HOT_STREAK_CUT = 0.25, FV_STEP = 0.03;
+  const COMB_CRITS = 3;            // Combustion ends after 3 Fire crits (Blizzard's 1 Oct 2026 beta notes; was 4)
   const BARRAGE = { ArcaneBlast: 0.40, Fireball: 0.20, Frostbolt: 0.20, FrostfireBolt: 0.20 };
 
   function tv(ch, key, table) {
@@ -299,7 +300,7 @@
       if (!missile && st.fof >= 1) { st.fof -= 1; f = 1.0; }
       let c = k.crit[name];
       if (name === 'Frostbolt' || name === 'IceLance') c += WC_CRIT * st.wc;
-      if (fire && k.p_comb && st.comb_crits < 4) c += k.p_comb * st.comb_bonus;
+      if (fire && k.p_comb && st.comb_crits < COMB_CRITS) c += k.p_comb * st.comb_bonus;
       if (name === 'FireBlast' && !st.wake_used && t < k.wake) { c += k.wake_crit; st.wake_used = true; }
       const m = k.cm[name];
       const cn = Math.min(1.0, c), cf = Math.min(1.0, c + k.shatter);
@@ -314,7 +315,7 @@
         ign.push([t + 2.0, owed / 2, hit * pcrit]);
         ign.push([t + 4.0, owed / 2, hit * pcrit]);
       }
-      if (fire && k.p_comb && st.comb_crits < 4) {
+      if (fire && k.p_comb && st.comb_crits < COMB_CRITS) {
         st.comb_crits += hit * Math.min(1.0, k.crit[name] + st.comb_bonus);
         st.comb_bonus += 0.1 * hit;
       }
@@ -749,11 +750,11 @@
     [' (2 ranks down)', 'main spell two ranks down'],
     [' (rank 1)', 'main spell at rank 1'],
     [' +Ice Lance', 'Ice Lance on every freeze and Fingers of Frost charge'],
-    [' +Hot Streak Pyroblast', 'a fast Pyroblast at 3 Hot Streak stacks'],
+    [' +Heating Up Pyroblast', 'a fast Pyroblast at 3 Heating Up stacks'],
     [' +Missile Barrage', 'free Arcane Missiles on Missile Barrage'],
   ];
   const DOWNRANK = [[1, ' (1 rank down)'], [2, ' (2 ranks down)'], ['r1', ' (rank 1)']];
-  const AUTO_TAGS = [['IceLance', ' +Ice Lance'], ['HotPyro', ' +Hot Streak Pyroblast'], ['Barrage', ' +Missile Barrage']];
+  const AUTO_TAGS = [['IceLance', ' +Ice Lance'], ['HotPyro', ' +Heating Up Pyroblast'], ['Barrage', ' +Missile Barrage']];
 
   function policyLabel(name) {
     let base = name;

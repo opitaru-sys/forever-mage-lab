@@ -48,10 +48,11 @@ AB_STACK_COST = 1.75        # Arcane Blast buff 400573: +175% Arcane Blast cost 
 AB_STACK_DMG = 0.10         # and +10% damage to other spells per stack, 4 stacks, 8 s (client)
 AP_DMG, AP_COST, AP_DUR, AP_CD = 0.30, 0.30, 15.0, 180.0      # Arcane Power 12042 (client, NOTES a)
 POM_CD = 180.0                                                 # Presence of Mind 12043
-COMB_CD, COMB_CRIT, COMB_CRITS, COMB_MAX = 180.0, 0.10, 4, 10  # Combustion: +10% per Fire hit, 4 crits, 10 stacks (sim)
+COMB_CD, COMB_CRIT, COMB_CRITS, COMB_MAX = 180.0, 0.10, 3, 10  # Combustion: +10% per Fire hit, 10 stacks (sim); 3 crits
+# (Blizzard's 1 Oct 2026 beta notes: returned to 3, was 4; the sim and the earlier client read 4)
 FV_PER_STACK, FV_STACKS = 0.03, 5                              # Fire Vulnerability 22959, 30 s (FINDINGS 3)
 FV_REFRESH = 27.0           # ASSUMPTION: one Scorch every 27 s keeps a 30 s debuff (the sim refreshes at 5 s left)
-HS_WINDOW = 20.0            # Hot Streak 400625 lasts 20 s since build 70009 (FC-PN); 3 stacks, -25% Pyroblast cast each
+HS_WINDOW = 20.0            # Hot Streak 400625 (renamed Heating Up on 1 Oct 2026) lasts 20 s since build 70009 (FC-PN); 3 stacks, -25% Pyroblast cast each
 WC_PER_STACK, WC_WINDOW = 0.02, 15.0   # Winter's Chill 12579: +2% crit per stack, 15 s (sim spell store)
 FOF_CHANCE = 0.15           # Fingers of Frost: 15% per landed chill at both ranks (curve; sim talents_frost.go)
 IL_FROZEN = 4.0             # Ice Lance x4 on a frozen target, whole hit (sim ice_lance.go)
@@ -496,7 +497,7 @@ def hs_pyro(S, cc_in):
     """A Pyroblast at 3 Hot Streak stacks: 6 s cast cut by 75%."""
     row = top_row(S, 'pyroblast')
     t = max(GCD, row[3] / 1000.0 * (1 - 0.75) / S['haste'])
-    cast = spell_cast(S, 'pyroblast', row, cc_in=cc_in, ticks=S['pyro_ticks'], t=t, label='Pyroblast (Hot Streak)')
+    cast = spell_cast(S, 'pyroblast', row, cc_in=cc_in, ticks=S['pyro_ticks'], t=t, label='Pyroblast (Heating Up)')
     cast['n']['pyros'] = 1.0
     cast['n']['pyroTime'] = t
     return cast
@@ -890,9 +891,9 @@ def solve_lp(acts, T_free, M):
 # ---------------------------------------------------------------- fixed point
 def comb_extra(c, max_hits=None):
     """Expected extra crits from one Combustion: the crits it adds over what the same hits would crit anyway.
-    Hit i after the press has c + 10% x i (up to 10 stacks); the aura ends at the 4th crit. max_hits: the Fire hits
+    Hit i after the press has c + 10% x i (up to 10 stacks); the aura ends at crit number COMB_CRITS. max_hits: the Fire hits
     the fight has left after the press (a fraction counts that share of the next hit); None means no limit."""
-    probs = [1.0, 0.0, 0.0, 0.0]        # P(j crits so far, window open)
+    probs = [1.0] + [0.0] * (COMB_CRITS - 1)   # P(j crits so far, window open)
     extra = 0.0
     for i in range(1, 60):
         open_p = sum(probs)
@@ -903,10 +904,10 @@ def comb_extra(c, max_hits=None):
         p = min(1.0, c + COMB_CRIT * min(COMB_MAX, i))
         share = 1.0 if max_hits is None else min(1.0, max_hits - (i - 1))
         extra += share * open_p * (p - c)
-        nxt = [0.0, 0.0, 0.0, 0.0]
-        for j in range(4):
+        nxt = [0.0] * COMB_CRITS
+        for j in range(COMB_CRITS):
             nxt[j] += probs[j] * (1 - p)
-            if j + 1 < 4:
+            if j + 1 < COMB_CRITS:
                 nxt[j + 1] += probs[j] * p
         probs = nxt
     return extra
@@ -1061,7 +1062,7 @@ def solve_once(S):
     if opening is not None:
         for k in tot:
             tot[k] += opening['n'][k]
-    # Combustion: each press adds a fixed number of crits (4 minus what those hits crit anyway), worth the plan's
+    # Combustion: each press adds a fixed number of crits (3 minus what those hits crit anyway), worth the plan's
     # average Fire crit (the crit bonus and its Ignite). Booked after the program so it cannot feed back into it.
     # An extra crit on a Hot Streak spell also adds a stack: eta Pyroblasts per stack, each worth its damage less
     # the filler time it takes.
@@ -1167,11 +1168,11 @@ SPECS = [
     {'id': 'frost-mb', 'name': 'Frost with Barrage 18/3/30', 'tree': 2, 'talents': FROST_MB,
      'note': 'Frostbolt, Ice Lance on Fingers of Frost, free Arcane Missiles from Missile Barrage; Incineration for Ice Lance crits'},
     {'id': 'fire-mb', 'name': 'Fire with Arcane Blast 19/31/1', 'tree': 1, 'talents': FIRE_MB,
-     'note': 'One Arcane Blast then Fireball, Fire Blast, Hot Streak Pyroblasts and Ignite, free Arcane Missiles from Barrage'},
+     'note': 'One Arcane Blast then Fireball, Fire Blast, Heating Up Pyroblasts and Ignite, free Arcane Missiles from Barrage'},
     {'id': 'arcane', 'name': 'Arcane 31/3/17', 'tree': 0, 'talents': ARCANE_TUNED,
      'note': 'Arcane Blast then Frostbolt to spend the stacks, Missiles on Barrage, Arcane Power; Incineration for Blast crits'},
     {'id': 'arcane-fire', 'name': 'Arcane with Ignite 31/19/1', 'tree': 0, 'talents': ARCANE_FIRE,
-     'note': 'Arcane Blast then Fireball to spend the stacks, Hot Streak Pyroblasts, Presence of Mind on Pyroblast'},
+     'note': 'Arcane Blast then Fireball to spend the stacks, Heating Up Pyroblasts, Presence of Mind on Pyroblast'},
     {'id': 'frost-sim', 'name': 'Frost 14/0/35 (sim build)', 'tree': 2, 'talents': SIM_FROST,
      'note': "The ElliotWood sim's Frost build (2 points unspent), for comparison"},
     {'id': 'arcane-sim', 'name': 'Arcane 35/0/16 (sim build)', 'tree': 0, 'talents': SIM_ARCANE,

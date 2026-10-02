@@ -119,7 +119,8 @@ def check_talents():
             bad.append((key, ls.TV[key], want))
     pr = BY_KEY
     checks = [(pr['FingersOfFrost']['perRank']['procPctOnChill'] / 100, ls.FOF_CHANCE, 'FoF chance'),
-              (pr['HotStreak']['perRank']['pyroblastCastReductionPctPerStack'] / 100, ls.HOT_STREAK_CUT, 'Hot Streak'),
+              (pr['HotStreak']['perRank']['pyroblastCastReductionPctPerStack'] / 100, ls.HOT_STREAK_CUT, 'Heating Up'),
+              (pr['Combustion']['perRank']['endsAfterNonPeriodicFireCrits'], ls.COMB_CRITS, 'Combustion crits'),
               (pr['MissileBarrage']['perRank']['procPct_ArcaneBlast'] / 100, ls.BARRAGE['ArcaneBlast'], 'Barrage AB'),
               (pr['MissileBarrage']['perRank']['procPct_FireballFrostboltFrostfireBolt'] / 100, ls.BARRAGE['Frostbolt'],
                'Barrage Frostbolt'),

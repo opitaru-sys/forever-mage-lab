@@ -554,7 +554,7 @@
   },
   {
    "k": "HotStreak",
-   "n": "Hot Streak",
+   "n": "Heating Up",
    "t": 1,
    "r": 3,
    "c": 2,
@@ -661,7 +661,7 @@
    "spellId": 11129,
    "perRank": {
     "critPctPerFireHit": 10,
-    "endsAfterNonPeriodicFireCrits": 4,
+    "endsAfterNonPeriodicFireCrits": 3,
     "cooldownSec": 180
    }
   },

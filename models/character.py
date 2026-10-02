@@ -222,11 +222,11 @@ MOD_LABEL = [
     (' (2 ranks down)', 'main spell two ranks down'),
     (' (rank 1)', 'main spell at rank 1'),
     (' +Ice Lance', 'Ice Lance on every freeze and Fingers of Frost charge'),
-    (' +Hot Streak Pyroblast', 'a fast Pyroblast at 3 Hot Streak stacks'),
+    (' +Heating Up Pyroblast', 'a fast Pyroblast at 3 Heating Up stacks'),
     (' +Missile Barrage', 'free Arcane Missiles on Missile Barrage'),
 ]
 DOWNRANK = [(1, ' (1 rank down)'), (2, ' (2 ranks down)'), ('r1', ' (rank 1)')]
-AUTO_TAGS = [('IceLance', ' +Ice Lance'), ('HotPyro', ' +Hot Streak Pyroblast'), ('Barrage', ' +Missile Barrage')]
+AUTO_TAGS = [('IceLance', ' +Ice Lance'), ('HotPyro', ' +Heating Up Pyroblast'), ('Barrage', ' +Missile Barrage')]
 
 
 def policy_label(name):
@@ -437,7 +437,7 @@ def evaluate(L, tal, gear=1, race='none', hp_mults=HP_MULTS, top=6, mods=True, d
     analysis/leveling_search_check.py compares this with the exhaustive search (every base, modifier set and rank).
     On its 212-case grid (1 Oct 2026, final orders) the largest gap was 0.000%, at 87 rotations run on average
     against 229 for the exhaustive search. A rotation in which the Mage dies or
-    the mob lives 240 s is infeasible and never beats a feasible one. The name carries ' +Ice Lance', ' +Hot Streak
+    the mob lives 240 s is infeasible and never beats a feasible one. The name carries ' +Ice Lance', ' +Heating Up
     Pyroblast' and ' +Missile Barrage' when the rotation casts them. result has spk (seconds per kill: fight +
     walking + rest), ttk, rest, feasible, pots and evo, and the fight details."""
     ch0 = make_char(L, tal, gear, race, **o)

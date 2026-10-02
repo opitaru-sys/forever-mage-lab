@@ -25,10 +25,10 @@
   const AB_COST = 0.15 * BASE_MANA, AB_STACK_COST = 1.75, AB_STACK_DMG = 0.10;   // Arcane Blast and its buff 400573
   const AP_DMG = 0.30, AP_COST = 0.30, AP_DUR = 15, AP_CD = 180;                  // Arcane Power
   const POM_CD = 180;
-  const COMB_CD = 180, COMB_CRIT = 0.10, COMB_CRITS = 4, COMB_MAX = 10;           // Combustion
+  const COMB_CD = 180, COMB_CRIT = 0.10, COMB_CRITS = 3, COMB_MAX = 10;           // Combustion: 3 crits (1 Oct 2026 notes; was 4)
   const FV_PER_STACK = 0.03, FV_STACKS = 5;                                        // Fire Vulnerability, 30 s
   const FV_REFRESH = 27;           // ASSUMPTION: one Scorch every 27 s keeps a 30 s debuff
-  const HS_WINDOW = 20;            // Hot Streak lasts 20 s since build 70009
+  const HS_WINDOW = 20;            // Hot Streak (Heating Up since 1 Oct 2026) lasts 20 s since build 70009
   const WC_PER_STACK = 0.02;       // Winter's Chill: +2% crit a stack, 15 s
   const FOF_CHANCE = 0.15, IL_FROZEN = 4;           // Fingers of Frost; Ice Lance x4 on frozen, whole hit
   const MB_AB = 0.40, MB_OTHER = 0.20;              // Missile Barrage chances (sim)
@@ -363,7 +363,7 @@
   function hsPyro(S, ccIn) {         // a Pyroblast at 3 Hot Streak stacks: 6 s cut by 75%
     const row = topRow(S, 'pyroblast');
     const t = Math.max(GCD, row[3] / 1000.0 * (1 - 0.75) / S.haste);
-    const cast = spellCast(S, 'pyroblast', row, { ccIn, ticks: S.pyroTicks, t, label: 'Pyroblast (Hot Streak)' });
+    const cast = spellCast(S, 'pyroblast', row, { ccIn, ticks: S.pyroTicks, t, label: 'Pyroblast (Heating Up)' });
     cast.n.pyros = 1.0;
     cast.n.pyroTime = t;
     return cast;
@@ -701,24 +701,26 @@
   }
 
   // ---------------------------------------------------------------- fixed point
-  // Expected extra crits from one Combustion: 4 crits minus what those hits would crit anyway.
+  // Expected extra crits from one Combustion: COMB_CRITS crits minus what those hits would crit anyway.
   // maxHits: the Fire hits the fight has left after the press (a fraction counts that share of the next hit);
   // undefined or null means no limit.
   function combExtra(c, maxHits) {
     const lim = maxHits === undefined || maxHits === null ? null : maxHits;
-    let probs = [1.0, 0.0, 0.0, 0.0];
+    let probs = [1.0];
+    for (let j = 1; j < COMB_CRITS; j++) probs.push(0.0);
     let extra = 0.0;
     for (let i = 1; i < 60; i++) {
-      const openP = probs[0] + probs[1] + probs[2] + probs[3];
+      let openP = 0.0;
+      for (let j = 0; j < COMB_CRITS; j++) openP += probs[j];
       if (openP < 1e-12) break;
       if (lim !== null && i > lim + 1 - 1e-12) break;
       const p = Math.min(1.0, c + COMB_CRIT * Math.min(COMB_MAX, i));
       const share = lim === null ? 1.0 : Math.min(1.0, lim - (i - 1));
       extra += share * openP * (p - c);
-      const nxt = [0.0, 0.0, 0.0, 0.0];
-      for (let j = 0; j < 4; j++) {
+      const nxt = probs.map(() => 0.0);
+      for (let j = 0; j < COMB_CRITS; j++) {
         nxt[j] += probs[j] * (1 - p);
-        if (j + 1 < 4) nxt[j + 1] += probs[j] * p;
+        if (j + 1 < COMB_CRITS) nxt[j + 1] += probs[j] * p;
       }
       probs = nxt;
     }
@@ -825,7 +827,7 @@
       if (extra !== null) for (const k in extra.parts) parts[k] = (parts[k] || 0.0) + extra.parts[k];
     });
     if (opening !== null) COUNTERS.forEach(k => { tot[k] += opening.n[k]; });
-    // Combustion: each press adds a fixed number of crits (4 minus what those hits crit anyway), worth the plan's
+    // Combustion: each press adds a fixed number of crits (3 minus what those hits crit anyway), worth the plan's
     // average Fire crit (crit bonus, Ignite, and on Hot Streak spells a stack: eta Pyroblasts less the filler time
     // they take). Booked after the program so it cannot feed back into it.
     if (S.r('Combustion') && S.fireOk && tot.fireHits > 0) {
@@ -943,11 +945,11 @@
     { id: 'frost-mb', name: 'Frost with Barrage 18/3/30', tree: 2, talents: FROST_MB,
       note: 'Frostbolt, Ice Lance on Fingers of Frost, free Arcane Missiles from Missile Barrage; Incineration for Ice Lance crits' },
     { id: 'fire-mb', name: 'Fire with Arcane Blast 19/31/1', tree: 1, talents: FIRE_MB,
-      note: 'One Arcane Blast then Fireball, Fire Blast, Hot Streak Pyroblasts and Ignite, free Arcane Missiles from Barrage' },
+      note: 'One Arcane Blast then Fireball, Fire Blast, Heating Up Pyroblasts and Ignite, free Arcane Missiles from Barrage' },
     { id: 'arcane', name: 'Arcane 31/3/17', tree: 0, talents: ARCANE_TUNED,
       note: 'Arcane Blast then Frostbolt to spend the stacks, Missiles on Barrage, Arcane Power; Incineration for Blast crits' },
     { id: 'arcane-fire', name: 'Arcane with Ignite 31/19/1', tree: 0, talents: ARCANE_FIRE,
-      note: 'Arcane Blast then Fireball to spend the stacks, Hot Streak Pyroblasts, Presence of Mind on Pyroblast' },
+      note: 'Arcane Blast then Fireball to spend the stacks, Heating Up Pyroblasts, Presence of Mind on Pyroblast' },
     { id: 'frost-sim', name: 'Frost 14/0/35 (sim build)', tree: 2, talents: SIM_FROST,
       note: "The ElliotWood sim's Frost build (2 points unspent), for comparison" },
     { id: 'arcane-sim', name: 'Arcane 35/0/16 (sim build)', tree: 0, talents: SIM_ARCANE,

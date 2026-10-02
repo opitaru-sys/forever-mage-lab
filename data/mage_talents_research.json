@@ -1941,7 +1941,7 @@
    "note": "Unchanged."
   },
   {
-   "name": "Hot Streak",
+   "name": "Heating Up",
    "tree": "Fire",
    "row": 3,
    "col": 2,
@@ -1960,8 +1960,9 @@
     "pyroblastCastReductionPctPerStack": 25,
     "maxStacks": 3
    },
-   "effectTopRank": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
-   "effectRank1": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 20 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+   "effectTopRank": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Heating Up for 20 sec. Heating Up reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+   "effectRank1": "Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Heating Up for 20 sec. Heating Up reduces the cast time of Pyroblast by 25%, stacking up to 3 times.",
+   "renamed": "Hot Streak until the 1 Oct 2026 beta build (Blizzard's notes: renamed Heating Up, mechanic unchanged). The effect texts above use the new name; crossCheck keeps the tooltip as fetched.",
    "appliesTo": "Non-periodic crits with Fireball, Frostfire Bolt, Fire Blast, Scorch build stacks; next Pyroblast spends all.",
    "relevance": [
     "raid"
@@ -2288,17 +2289,17 @@
    },
    "perRank": {
     "critPctPerFireHit": 10,
-    "endsAfterNonPeriodicFireCrits": 4,
+    "endsAfterNonPeriodicFireCrits": 3,
     "cooldownSec": 180
    },
-   "effectTopRank": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells.",
-   "effectRank1": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells.",
+   "effectTopRank": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 3 non-periodic critical strikes with Fire spells.",
+   "effectRank1": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 3 non-periodic critical strikes with Fire spells.",
    "appliesTo": "Fire spells.",
    "relevance": [
     "raid"
    ],
    "changedInForever": "CHANGED",
-   "changeSummary": "4 instead of 3, reworded.",
+   "changeSummary": "Reworded (non-periodic crits). It was 4 crits instead of 3 until the 1 Oct 2026 beta build, which returned it to 3.",
    "classic": {
     "name": "Combustion",
     "maxRanks": 1,
@@ -2325,7 +2326,7 @@
     "ElliotWood/Forever tools/forever_talents/data/mage.json (BlizzCon 2026 video frames, rank 1 only observed)",
     "ElliotWood/Forever sim/mage/*.go"
    ],
-   "note": "Lasts 4 non-periodic crits (Classic 3). Requires Critical Mass."
+   "note": "Lasts 3 non-periodic crits since Blizzard's 1 Oct 2026 beta notes (4 in the client, the sim and the tooltip before that; Classic 3). The perRank value and effect texts above follow the notes; crossCheck keeps the tooltip as fetched. Requires Critical Mass."
   },
   {
    "name": "Frost Warding",

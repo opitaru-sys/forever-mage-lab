@@ -13,7 +13,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -38,7 +38,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -55,7 +55,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 522.2861
+     "total": 515.5587
     },
     {
      "id": "arcane-fire",
@@ -80,7 +80,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 440.8519
+     "total": 435.781
     }
    ]
   },
@@ -98,7 +98,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 511.9451
+     "total": 505.1142
     },
     {
      "id": "arcane-fire",
@@ -123,7 +123,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 430.4726
+     "total": 425.3053
     }
    ]
   },
@@ -140,7 +140,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 515.591
+     "total": 508.7509
     },
     {
      "id": "arcane-fire",
@@ -165,7 +165,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 433.7515
+     "total": 428.5899
     }
    ]
   },
@@ -182,7 +182,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 512.6207
+     "total": 505.8254
     },
     {
      "id": "arcane-fire",
@@ -207,7 +207,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.633
+     "total": 421.459
     }
    ]
   },
@@ -224,7 +224,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 513.7383
+     "total": 506.8896
     },
     {
      "id": "arcane-fire",
@@ -249,7 +249,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 429.9517
+     "total": 424.7369
     }
    ]
   },
@@ -266,7 +266,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 518.1362
+     "total": 511.3364
     },
     {
      "id": "arcane-fire",
@@ -291,7 +291,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 437.3061
+     "total": 432.131
     }
    ]
   },
@@ -309,7 +309,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 522.1115
+     "total": 515.3117
     },
     {
      "id": "arcane-fire",
@@ -334,7 +334,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 442.6781
+     "total": 437.503
     }
    ]
   },
@@ -351,7 +351,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 511.8104
+     "total": 505.0135
     },
     {
      "id": "arcane-fire",
@@ -376,7 +376,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.6096
+     "total": 421.4352
     }
    ]
   },
@@ -394,7 +394,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 395.5339
+     "total": 390.033
     },
     {
      "id": "arcane-fire",
@@ -419,7 +419,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 315.1717
+     "total": 311.0248
     }
    ]
   },
@@ -432,7 +432,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 812.3249
+     "total": 803.8459
     },
     {
      "id": "frost-mb",
@@ -450,14 +450,14 @@
      "total": 753.1216
     },
     {
-     "id": "fire-sim",
-     "viable": true,
-     "total": 743.8783
-    },
-    {
      "id": "frost-sim",
      "viable": true,
      "total": 733.1045
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 732.7327
     },
     {
      "id": "arcane-sim",
@@ -479,7 +479,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 447.9734
+     "total": 441.6517
     },
     {
      "id": "arcane-fire",
@@ -504,7 +504,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 376.8539
+     "total": 371.9482
     }
    ]
   },
@@ -521,7 +521,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 528.0792
+     "total": 521.1495
     },
     {
      "id": "arcane-fire",
@@ -546,7 +546,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.8025
+     "total": 421.6279
     }
    ]
   },
@@ -564,7 +564,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 499.8874
+     "total": 493.543
     },
     {
      "id": "arcane-fire",
@@ -589,7 +589,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 423.1139
+     "total": 418.3153
     }
    ]
   },
@@ -606,7 +606,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 502.6737
+     "total": 496.0021
     },
     {
      "id": "arcane-fire",
@@ -631,7 +631,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 406.7559
+     "total": 401.5278
     }
    ]
   },
@@ -649,7 +649,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 534.2013
+     "total": 527.2569
     },
     {
      "id": "frost-sim",
@@ -664,7 +664,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 495.3356
+     "total": 490.0997
     },
     {
      "id": "arcane",
@@ -691,7 +691,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 496.2753
+     "total": 489.6016
     },
     {
      "id": "arcane-fire",
@@ -716,7 +716,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 399.1056
+     "total": 393.8797
     }
    ]
   },
@@ -733,7 +733,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 517.9008
+     "total": 510.9762
     },
     {
      "id": "arcane-fire",
@@ -758,7 +758,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 452.0102
+     "total": 446.8726
     }
    ]
   },
@@ -775,7 +775,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 528.582
+     "total": 521.6274
     },
     {
      "id": "frost-sim",
@@ -790,7 +790,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 496.6193
+     "total": 491.2511
     },
     {
      "id": "arcane",
@@ -812,12 +812,12 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 583.3715
+     "total": 564.8527
     },
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 559.0991
+     "total": 543.0233
     },
     {
      "id": "frost-mb",
@@ -852,19 +852,19 @@
    },
    "rank": [
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 535.9102
-    },
-    {
      "id": "frost-mb",
      "viable": true,
      "total": 532.9386
     },
     {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 527.4767
+    },
+    {
      "id": "fire-sim",
      "viable": true,
-     "total": 527.5651
+     "total": 517.4075
     },
     {
      "id": "frost-sim",
@@ -901,7 +901,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 517.5552
+     "total": 511.8442
     },
     {
      "id": "frost-sim",
@@ -916,7 +916,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 490.0206
+     "total": 485.4609
     },
     {
      "id": "arcane",
@@ -943,7 +943,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 503.3488
+     "total": 496.6594
     },
     {
      "id": "arcane-fire",
@@ -968,7 +968,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 378.4693
+     "total": 373.298
     }
    ]
   },
@@ -985,7 +985,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 502.6585
+     "total": 495.9438
     },
     {
      "id": "arcane-fire",
@@ -1010,7 +1010,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 375.041
+     "total": 369.9192
     }
    ]
   },
@@ -1113,7 +1113,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 503.1814
+     "total": 496.4488
     },
     {
      "id": "arcane",
@@ -1138,7 +1138,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 370.031
+     "total": 364.7666
     }
    ]
   },
@@ -1155,7 +1155,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 496.6935
+     "total": 490.0505
     },
     {
      "id": "arcane",
@@ -1180,7 +1180,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 364.7111
+     "total": 359.522
     }
    ]
   },
@@ -1197,7 +1197,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 508.3621
+     "total": 501.5961
     },
     {
      "id": "arcane-fire",
@@ -1222,7 +1222,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 414.4883
+     "total": 409.2837
     }
    ]
   },
@@ -1239,7 +1239,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1264,7 +1264,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -1282,7 +1282,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 499.3268
+     "total": 492.6527
     },
     {
      "id": "arcane-fire",
@@ -1307,7 +1307,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 385.0717
+     "total": 379.8009
     }
    ]
   },
@@ -1329,14 +1329,14 @@
      "total": 486.1004
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 477.0656
-    },
-    {
      "id": "arcane-fire",
      "viable": true,
      "total": 474.7698
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 470.3812
     },
     {
      "id": "arcane-sim",
@@ -1351,7 +1351,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 323.7555
+     "total": 318.7791
     }
    ]
   },
@@ -1368,7 +1368,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 507.8504
+     "total": 501.0943
     },
     {
      "id": "arcane-fire",
@@ -1393,7 +1393,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 418.3224
+     "total": 413.1351
     }
    ]
   },
@@ -1409,14 +1409,14 @@
      "total": 531.494
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 492.5352
-    },
-    {
      "id": "arcane",
      "viable": true,
      "total": 486.0092
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 485.8676
     },
     {
      "id": "arcane-fire",
@@ -1436,7 +1436,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 356.3724
+     "total": 351.1778
     }
    ]
   },
@@ -1453,7 +1453,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 505.3089
+     "total": 498.6041
     },
     {
      "id": "arcane-fire",
@@ -1478,7 +1478,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 409.3825
+     "total": 404.1826
     }
    ]
   },
@@ -1498,14 +1498,14 @@
      "total": 482.1533
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 469.1095
-    },
-    {
      "id": "arcane-fire",
      "viable": true,
      "total": 467.2298
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 462.2338
     },
     {
      "id": "arcane-sim",
@@ -1520,7 +1520,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 337.8734
+     "total": 332.5642
     }
    ]
   },
@@ -1542,14 +1542,14 @@
      "total": 482.0117
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 463.415
-    },
-    {
      "id": "arcane-fire",
      "viable": true,
      "total": 456.5323
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 456.4728
     },
     {
      "id": "arcane-sim",
@@ -1564,7 +1564,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 316.8876
+     "total": 311.5686
     }
    ]
   },
@@ -1581,7 +1581,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1606,7 +1606,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 421.9955
+     "total": 416.8104
     }
    ]
   },
@@ -1623,7 +1623,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1648,7 +1648,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 429.206
+     "total": 424.0366
     }
    ]
   },
@@ -1669,14 +1669,14 @@
      "total": 482.1533
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 469.1095
-    },
-    {
      "id": "arcane-fire",
      "viable": true,
      "total": 467.2298
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 462.2338
     },
     {
      "id": "arcane-sim",
@@ -1691,7 +1691,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 322.8932
+     "total": 317.5532
     }
    ]
   },
@@ -1708,7 +1708,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 501.97
+     "total": 495.3033
     },
     {
      "id": "arcane-fire",
@@ -1733,7 +1733,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 411.2496
+     "total": 406.0243
     }
    ]
   },
@@ -1750,7 +1750,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 525.4474
+     "total": 518.8044
     },
     {
      "id": "arcane-fire",
@@ -1775,7 +1775,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 441.9769
+     "total": 436.9471
     }
    ]
   },
@@ -1794,7 +1794,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 528.6333
+     "total": 522.1322
     },
     {
      "id": "arcane-fire",
@@ -1819,7 +1819,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 439.9679
+     "total": 434.9884
     }
    ]
   },
@@ -1836,7 +1836,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1861,7 +1861,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -1873,7 +1873,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1898,7 +1898,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     },
     {
      "id": "frost-sim",
@@ -1916,7 +1916,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -1941,7 +1941,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     },
     {
      "id": "frost-sim",
@@ -1958,12 +1958,12 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 559.2663
+     "total": 545.9236
     },
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 543.9405
+     "total": 532.8793
     },
     {
      "id": "frost-mb",
@@ -2005,7 +2005,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 517.6807
+     "total": 511.939
     },
     {
      "id": "frost-sim",
@@ -2020,7 +2020,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 491.1934
+     "total": 486.6007
     },
     {
      "id": "arcane",
@@ -2048,7 +2048,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 509.898
+     "total": 504.2275
     },
     {
      "id": "arcane-fire",
@@ -2073,7 +2073,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 394.0425
+     "total": 389.7141
     }
    ]
   },
@@ -2091,7 +2091,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 523.5702
+     "total": 517.8879
     },
     {
      "id": "frost-sim",
@@ -2106,7 +2106,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 497.0725
+     "total": 492.5226
     },
     {
      "id": "arcane",
@@ -2128,7 +2128,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -2158,7 +2158,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2180,7 +2180,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -2200,7 +2200,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2222,7 +2222,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1856
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -2242,7 +2242,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2262,14 +2262,14 @@
      "total": 519.5929
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 513.1678
-    },
-    {
      "id": "arcane",
      "viable": true,
      "total": 510.99
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 506.7354
     },
     {
      "id": "arcane-sim",
@@ -2284,7 +2284,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2302,7 +2302,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 494.7089
+     "total": 487.9236
     },
     {
      "id": "frost-sim",
@@ -2327,7 +2327,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2342,14 +2342,14 @@
      "total": 534.2441
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 510.3733
-    },
-    {
      "id": "arcane-fire",
      "viable": true,
      "total": 503.9218
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 503.5837
     },
     {
      "id": "arcane",
@@ -2369,7 +2369,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2390,14 +2390,14 @@
      "total": 519.5929
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 513.1678
-    },
-    {
      "id": "arcane",
      "viable": true,
      "total": 510.99
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 506.7354
     },
     {
      "id": "arcane-sim",
@@ -2412,7 +2412,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2430,7 +2430,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 493.1157
+     "total": 486.3106
     },
     {
      "id": "frost-sim",
@@ -2455,7 +2455,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2472,7 +2472,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 493.158
+     "total": 486.4764
     },
     {
      "id": "arcane",
@@ -2497,7 +2497,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2512,14 +2512,14 @@
      "total": 534.2441
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 510.1856
-    },
-    {
      "id": "frost-sim",
      "viable": true,
      "total": 504.6655
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 503.3858
     },
     {
      "id": "arcane-fire",
@@ -2534,7 +2534,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 468.2043
+     "total": 463.0487
     },
     {
      "id": "arcane-sim",
@@ -2556,7 +2556,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 501.6314
+     "total": 494.9732
     },
     {
      "id": "arcane-fire",
@@ -2581,7 +2581,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 403.4254
+     "total": 398.1949
     }
    ]
   },
@@ -2598,7 +2598,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 500.9528
+     "total": 494.1772
     },
     {
      "id": "arcane-fire",
@@ -2623,7 +2623,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 385.3251
+     "total": 380.055
     }
    ]
   },
@@ -2640,7 +2640,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 502.0422
+     "total": 495.823
     },
     {
      "id": "arcane-fire",
@@ -2665,7 +2665,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 419.5702
+     "total": 414.6593
     }
    ]
   },
@@ -2682,7 +2682,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 495.9374
+     "total": 490.1559
     },
     {
      "id": "arcane-fire",
@@ -2707,7 +2707,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 412.5784
+     "total": 407.9316
     }
    ]
   },
@@ -2724,7 +2724,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 510.1841
+     "total": 503.3843
     },
     {
      "id": "arcane-fire",
@@ -2744,7 +2744,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 464.5661
+     "total": 458.7435
     },
     {
      "id": "arcane-sim",
@@ -2765,14 +2765,14 @@
      "total": 573.4677
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 524.5985
-    },
-    {
      "id": "arcane",
      "viable": true,
      "total": 520.633
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 517.75
     },
     {
      "id": "frost-sim",
@@ -2792,7 +2792,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 463.3788
+     "total": 457.6917
     }
    ]
   },
@@ -2815,7 +2815,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 480.4258
+     "total": 475.3306
     },
     {
      "id": "arcane-fire",
@@ -2835,7 +2835,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 415.5885
+     "total": 410.3382
     }
    ]
   },
@@ -2850,14 +2850,14 @@
      "total": 573.4677
     },
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 524.6
-    },
-    {
      "id": "arcane",
      "viable": true,
      "total": 520.633
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 517.7514
     },
     {
      "id": "arcane-fire",
@@ -2877,7 +2877,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 424.2458
+     "total": 419.2031
     }
    ]
   },
@@ -2887,14 +2887,14 @@
    },
    "rank": [
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 542.7507
-    },
-    {
      "id": "frost-mb",
      "viable": true,
      "total": 540.2202
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 535.5168
     },
     {
      "id": "arcane-fire",
@@ -2919,7 +2919,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 453.7895
+     "total": 448.284
     }
    ]
   },
@@ -2936,7 +2936,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 493.1157
+     "total": 486.3106
     },
     {
      "id": "frost-sim",
@@ -2961,7 +2961,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 426.5621
+     "total": 421.387
     }
    ]
   },
@@ -2986,7 +2986,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 495.8818
+     "total": 487.4497
     },
     {
      "id": "arcane-fire",
@@ -3006,7 +3006,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 402.2734
+     "total": 395.6986
     }
    ]
   },
@@ -3020,14 +3020,14 @@
    },
    "rank": [
     {
-     "id": "fire-mb",
-     "viable": true,
-     "total": 545.6852
-    },
-    {
      "id": "frost-mb",
      "viable": true,
      "total": 542.8294
+    },
+    {
+     "id": "fire-mb",
+     "viable": true,
+     "total": 539.0171
     },
     {
      "id": "arcane-fire",
@@ -3040,14 +3040,14 @@
      "total": 510.4592
     },
     {
-     "id": "fire-sim",
-     "viable": true,
-     "total": 506.0126
-    },
-    {
      "id": "frost-sim",
      "viable": true,
      "total": 504.938
+    },
+    {
+     "id": "fire-sim",
+     "viable": true,
+     "total": 499.5878
     },
     {
      "id": "arcane-sim",
@@ -3089,7 +3089,7 @@
     {
      "id": "fire-mb",
      "viable": true,
-     "total": 631.4029
+     "total": 623.6859
     },
     {
      "id": "arcane-sim",
@@ -3099,7 +3099,7 @@
     {
      "id": "fire-sim",
      "viable": true,
-     "total": 498.3698
+     "total": 492.0641
     }
    ]
   }
@@ -3122,17 +3122,17 @@
      "mp5InSp": 0.0
     },
     "fire-mb": {
-     "sp": 0.4737,
-     "crit": 5.072,
-     "hit": 4.4504,
-     "int": 0.1605,
-     "spirit": 0.2003,
-     "mp5": 0.1938,
-     "critInSp": 10.7074,
-     "hitInSp": 9.3951,
-     "intInSp": 0.3389,
-     "spiritInSp": 0.4228,
-     "mp5InSp": 0.4092
+     "sp": 0.4672,
+     "crit": 5.1169,
+     "hit": 4.4178,
+     "int": 0.1601,
+     "spirit": 0.1966,
+     "mp5": 0.1904,
+     "critInSp": 10.9528,
+     "hitInSp": 9.4563,
+     "intInSp": 0.3427,
+     "spiritInSp": 0.4209,
+     "mp5InSp": 0.4076
     },
     "arcane": {
      "sp": 0.4555,
@@ -3187,17 +3187,17 @@
      "mp5InSp": 0.0431
     },
     "fire-sim": {
-     "sp": 0.452,
-     "crit": 5.1375,
-     "hit": 0.0481,
-     "int": 0.2845,
-     "spirit": 0.446,
-     "mp5": 0.6857,
-     "critInSp": 11.3673,
-     "hitInSp": 0.1064,
-     "intInSp": 0.6295,
-     "spiritInSp": 0.9869,
-     "mp5InSp": 1.5173
+     "sp": 0.4466,
+     "crit": 5.1833,
+     "hit": 0.0482,
+     "int": 0.2858,
+     "spirit": 0.4469,
+     "mp5": 0.6868,
+     "critInSp": 11.6048,
+     "hitInSp": 0.1079,
+     "intInSp": 0.6399,
+     "spiritInSp": 1.0006,
+     "mp5InSp": 1.5376
     }
    }
   },
@@ -3220,17 +3220,17 @@
      "mp5InSp": 0.0
     },
     "fire-mb": {
-     "sp": 0.4579,
-     "crit": 5.561,
-     "hit": 5.5891,
-     "int": 0.1528,
-     "spirit": 0.2468,
-     "mp5": 0.184,
-     "critInSp": 12.1448,
-     "hitInSp": 12.2063,
-     "intInSp": 0.3338,
-     "spiritInSp": 0.539,
-     "mp5InSp": 0.4019
+     "sp": 0.4515,
+     "crit": 5.5335,
+     "hit": 5.5569,
+     "int": 0.1524,
+     "spirit": 0.2379,
+     "mp5": 0.1805,
+     "critInSp": 12.2566,
+     "hitInSp": 12.3085,
+     "intInSp": 0.3375,
+     "spiritInSp": 0.527,
+     "mp5InSp": 0.3999
     },
     "arcane": {
      "sp": 0.4416,
@@ -3285,17 +3285,17 @@
      "mp5InSp": 0.043
     },
     "fire-sim": {
-     "sp": 0.4378,
-     "crit": 4.942,
-     "hit": 4.536,
-     "int": 0.2749,
-     "spirit": 0.4318,
-     "mp5": 0.6642,
-     "critInSp": 11.2874,
-     "hitInSp": 10.3602,
-     "intInSp": 0.6279,
-     "spiritInSp": 0.9863,
-     "mp5InSp": 1.5171
+     "sp": 0.4326,
+     "crit": 4.986,
+     "hit": 4.5119,
+     "int": 0.2762,
+     "spirit": 0.4326,
+     "mp5": 0.6652,
+     "critInSp": 11.5258,
+     "hitInSp": 10.4299,
+     "intInSp": 0.6384,
+     "spiritInSp": 1.0001,
+     "mp5InSp": 1.5376
     }
    }
   },
@@ -3320,17 +3320,17 @@
      "mp5InSp": -0.0
     },
     "fire-mb": {
-     "sp": 0.5105,
-     "crit": 6.2114,
-     "hit": 6.0383,
-     "int": 0.2286,
-     "spirit": 0.3586,
-     "mp5": 0.3304,
-     "critInSp": 12.1676,
-     "hitInSp": 11.8285,
-     "intInSp": 0.4478,
-     "spiritInSp": 0.7024,
-     "mp5InSp": 0.6472
+     "sp": 0.5043,
+     "crit": 6.2905,
+     "hit": 6.0039,
+     "int": 0.2291,
+     "spirit": 0.3554,
+     "mp5": 0.3276,
+     "critInSp": 12.4729,
+     "hitInSp": 11.9045,
+     "intInSp": 0.4542,
+     "spiritInSp": 0.7047,
+     "mp5InSp": 0.6495
     },
     "arcane": {
      "sp": 0.4916,
@@ -3385,17 +3385,17 @@
      "mp5InSp": 0.0139
     },
     "fire-sim": {
-     "sp": 0.4925,
-     "crit": 6.2754,
-     "hit": 0.0485,
-     "int": 0.3699,
-     "spirit": 0.6294,
-     "mp5": 0.9238,
-     "critInSp": 12.7409,
-     "hitInSp": 0.0984,
-     "intInSp": 0.751,
-     "spiritInSp": 1.2778,
-     "mp5InSp": 1.8757
+     "sp": 0.4876,
+     "crit": 6.3398,
+     "hit": 0.0486,
+     "int": 0.3718,
+     "spirit": 0.6309,
+     "mp5": 0.9257,
+     "critInSp": 13.0008,
+     "hitInSp": 0.0996,
+     "intInSp": 0.7625,
+     "spiritInSp": 1.2937,
+     "mp5InSp": 1.8983
     }
    }
   },
@@ -3419,17 +3419,17 @@
      "mp5InSp": 0.0
     },
     "fire-mb": {
-     "sp": 0.4908,
-     "crit": 5.658,
-     "hit": 5.2203,
-     "int": 0.1556,
-     "spirit": 0.1655,
-     "mp5": 0.1856,
-     "critInSp": 11.5282,
-     "hitInSp": 10.6363,
-     "intInSp": 0.3171,
-     "spiritInSp": 0.3372,
-     "mp5InSp": 0.3781
+     "sp": 0.4841,
+     "crit": 5.7125,
+     "hit": 5.191,
+     "int": 0.1566,
+     "spirit": 0.1654,
+     "mp5": 0.1854,
+     "critInSp": 11.8006,
+     "hitInSp": 10.7233,
+     "intInSp": 0.3234,
+     "spiritInSp": 0.3416,
+     "mp5InSp": 0.383
     },
     "arcane": {
      "sp": 0.4653,
@@ -3484,17 +3484,17 @@
      "mp5InSp": 0.0
     },
     "fire-sim": {
-     "sp": 0.4899,
-     "crit": 5.7157,
+     "sp": 0.4848,
+     "crit": 5.7692,
      "hit": 0.0,
-     "int": 0.2334,
-     "spirit": 0.2635,
-     "mp5": 0.4031,
-     "critInSp": 11.6675,
+     "int": 0.2338,
+     "spirit": 0.2621,
+     "mp5": 0.4008,
+     "critInSp": 11.8991,
      "hitInSp": 0.0,
-     "intInSp": 0.4764,
-     "spiritInSp": 0.5379,
-     "mp5InSp": 0.8228
+     "intInSp": 0.4822,
+     "spiritInSp": 0.5406,
+     "mp5InSp": 0.8267
     }
    }
   },
@@ -3518,17 +3518,17 @@
      "mp5InSp": 0.9285
     },
     "fire-mb": {
-     "sp": 0.4567,
-     "crit": 3.8551,
-     "hit": 3.0423,
-     "int": 0.1493,
-     "spirit": 0.251,
-     "mp5": 0.267,
-     "critInSp": 8.4409,
-     "hitInSp": 6.6613,
-     "intInSp": 0.3269,
-     "spiritInSp": 0.5496,
-     "mp5InSp": 0.5846
+     "sp": 0.4497,
+     "crit": 3.8805,
+     "hit": 3.0093,
+     "int": 0.1507,
+     "spirit": 0.2536,
+     "mp5": 0.2695,
+     "critInSp": 8.629,
+     "hitInSp": 6.6919,
+     "intInSp": 0.3351,
+     "spiritInSp": 0.5639,
+     "mp5InSp": 0.5994
     },
     "arcane": {
      "sp": 0.4579,
@@ -3583,17 +3583,17 @@
      "mp5InSp": 0.0972
     },
     "fire-sim": {
-     "sp": 0.3466,
-     "crit": 5.003,
+     "sp": 0.3411,
+     "crit": 4.9533,
      "hit": 0.0,
-     "int": 0.2659,
-     "spirit": 0.5042,
-     "mp5": 0.7947,
-     "critInSp": 14.4337,
+     "int": 0.2666,
+     "spirit": 0.5046,
+     "mp5": 0.7951,
+     "critInSp": 14.5206,
      "hitInSp": 0.0,
-     "intInSp": 0.7672,
-     "spiritInSp": 1.4547,
-     "mp5InSp": 2.2928
+     "intInSp": 0.7816,
+     "spiritInSp": 1.4793,
+     "mp5InSp": 2.3308
     }
    }
   },
@@ -3618,17 +3618,17 @@
      "mp5InSp": 0.0
     },
     "fire-mb": {
-     "sp": 0.4941,
-     "crit": 5.6087,
-     "hit": 5.2453,
-     "int": 0.1756,
+     "sp": 0.4887,
+     "crit": 5.6609,
+     "hit": 5.2211,
+     "int": 0.1764,
      "spirit": 0.1351,
      "mp5": 0.1301,
-     "critInSp": 11.3516,
-     "hitInSp": 10.6162,
-     "intInSp": 0.3553,
-     "spiritInSp": 0.2735,
-     "mp5InSp": 0.2634
+     "critInSp": 11.5838,
+     "hitInSp": 10.6838,
+     "intInSp": 0.3609,
+     "spiritInSp": 0.2764,
+     "mp5InSp": 0.2661
     },
     "arcane": {
      "sp": 0.4548,
@@ -3683,17 +3683,17 @@
      "mp5InSp": -0.0032
     },
     "fire-sim": {
-     "sp": 0.5036,
-     "crit": 6.1968,
+     "sp": 0.4992,
+     "crit": 6.2469,
      "hit": 0.0,
      "int": 0.3029,
-     "spirit": 0.3548,
-     "mp5": 0.4782,
-     "critInSp": 12.3057,
+     "spirit": 0.3532,
+     "mp5": 0.4755,
+     "critInSp": 12.5143,
      "hitInSp": 0.0,
-     "intInSp": 0.6014,
-     "spiritInSp": 0.7046,
-     "mp5InSp": 0.9496
+     "intInSp": 0.6069,
+     "spiritInSp": 0.7075,
+     "mp5InSp": 0.9526
     }
    }
   }
@@ -3725,10 +3725,10 @@
      "pct": -1.4577
     },
     "fire-mb": {
-     "base": 510.1856,
-     "swapped": 509.3796,
-     "diff": -0.806,
-     "pct": -0.158
+     "base": 503.3858,
+     "swapped": 502.5152,
+     "diff": -0.8706,
+     "pct": -0.1729
     },
     "arcane": {
      "base": 486.1004,
@@ -3755,10 +3755,10 @@
      "pct": -1.4651
     },
     "fire-sim": {
-     "base": 426.5621,
-     "swapped": 427.4515,
-     "diff": 0.8894,
-     "pct": 0.2085
+     "base": 421.387,
+     "swapped": 422.3108,
+     "diff": 0.9239,
+     "pct": 0.2192
     }
    }
   },
@@ -3790,10 +3790,10 @@
      "pct": 2.3479
     },
     "fire-mb": {
-     "base": 493.3886,
-     "swapped": 504.5768,
-     "diff": 11.1881,
-     "pct": 2.2676
+     "base": 486.6849,
+     "swapped": 497.8088,
+     "diff": 11.1239,
+     "pct": 2.2856
     },
     "arcane": {
      "base": 471.5046,
@@ -3820,10 +3820,10 @@
      "pct": 2.0669
     },
     "fire-sim": {
-     "base": 412.9373,
-     "swapped": 422.0149,
-     "diff": 9.0776,
-     "pct": 2.1983
+     "base": 407.8341,
+     "swapped": 416.8636,
+     "diff": 9.0296,
+     "pct": 2.214
     }
    }
   }

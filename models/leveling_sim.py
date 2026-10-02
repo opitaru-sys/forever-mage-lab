@@ -121,7 +121,8 @@ TV = dict(
     ArcticReach=[.10, .20])
 FOF_CHANCE = 0.15       # Fingers of Frost: 15% per chill at both ranks (client row's second effect)
 WC_CRIT = 0.02          # Winter's Chill: +2% crit a stack on your own Frostbolt and Ice Lance
-HOT_STREAK_CUT = 0.25   # Hot Streak: -25% Pyroblast cast a stack, 3 stacks, spent by the next Pyroblast
+HOT_STREAK_CUT = 0.25   # Heating Up (Hot Streak before 1 Oct 2026): -25% Pyroblast cast a stack, 3 stacks, spent by the next Pyroblast
+COMB_CRITS = 3          # Combustion ends after 3 Fire crits (Blizzard's 1 Oct 2026 beta notes; was 4)
 BARRAGE = {'ArcaneBlast': 0.40, 'Fireball': 0.20, 'Frostbolt': 0.20, 'FrostfireBolt': 0.20}   # Missile Barrage
 FV_STEP = 0.03          # Improved Scorch's Fire Vulnerability: +3% Fire damage from you a stack, 5 stacks
 
@@ -459,7 +460,7 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
         c = k['crit'][name]
         if name in ('Frostbolt', 'IceLance'):
             c += WC_CRIT * st['wc']
-        if fire and k['p_comb'] and st['comb_crits'] < 4:
+        if fire and k['p_comb'] and st['comb_crits'] < COMB_CRITS:
             c += k['p_comb'] * st['comb_bonus']
         if name == 'FireBlast' and not st['wake_used'] and t < k['wake']:
             c += k['wake_crit']
@@ -478,7 +479,7 @@ def simulate(ch, mob_hp, pol, max_time=MAX_TIME, phase=0.5, k=None):
             owed = k['ignite'] * x * hit * m * pcrit
             ign.append([t + 2.0, owed / 2, hit * pcrit])
             ign.append([t + 4.0, owed / 2, hit * pcrit])
-        if fire and k['p_comb'] and st['comb_crits'] < 4:
+        if fire and k['p_comb'] and st['comb_crits'] < COMB_CRITS:
             st['comb_crits'] += hit * min(1.0, k['crit'][name] + st['comb_bonus'])
             st['comb_bonus'] += 0.1 * hit
         if name in HOT_STREAK_FROM and k['hs']:

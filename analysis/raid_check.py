@@ -606,7 +606,7 @@ class Fight:
                         self.cd_count[key] += 1
                         return
         if self.S['hs'] and self.hs >= 3 and self.up('hs'):
-            if self.cast('pyroblast', top('pyroblast'), hs=True, label='Pyroblast (Hot Streak)'):
+            if self.cast('pyroblast', top('pyroblast'), hs=True, label='Pyroblast (Heating Up)'):
                 return
         if self.up('mb') and not in_cycle:
             if self.missiles(top('arcaneMissiles'), True):

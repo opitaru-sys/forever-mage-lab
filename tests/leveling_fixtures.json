@@ -648,7 +648,7 @@
 "gear": 1,
 "race": "skyborne",
 "opts": {},
-"policy": "Fire Blast + Wand +Pyroblast pull +Hot Streak Pyroblast",
+"policy": "Fire Blast + Wand +Pyroblast pull +Heating Up Pyroblast",
 "spk": 30.709548333333846,
 "ttk": 17.979999999999706,
 "rest": 4.729548333334139,
@@ -674,7 +674,7 @@
 "gear": 2,
 "race": "orc",
 "opts": {},
-"policy": "Fire Blast + Arcane Missiles +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Arcane Missiles +wand finish +Heating Up Pyroblast",
 "spk": 28.702301768039984,
 "ttk": 14.239999999999787,
 "rest": 6.462301768040198,
@@ -869,7 +869,7 @@
 "gear": 1,
 "race": "undead",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 28.167484715599556,
 "ttk": 14.473333333333114,
 "rest": 5.694151382266443,
@@ -897,7 +897,7 @@
 "gear": 2,
 "race": "troll",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 26.234225907556663,
 "ttk": 12.38666666666649,
 "rest": 5.84755924089017,
@@ -1105,7 +1105,7 @@
 "gear": 1,
 "race": "none",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -1134,7 +1134,7 @@
 "gear": 2,
 "race": "human",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 26.355187928036305,
 "ttk": 11.879999999999834,
 "rest": 6.4751879280364735,
@@ -1352,7 +1352,7 @@
 "gear": 1,
 "race": "gnome",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 27.253848229715373,
 "ttk": 11.339999999999847,
 "rest": 7.9138482297155255,
@@ -1383,7 +1383,7 @@
 "gear": 2,
 "race": "skyborne",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 24.88612381543591,
 "ttk": 10.313333333333203,
 "rest": 6.572790482102705,
@@ -1617,7 +1617,7 @@
 "gear": 1,
 "race": "orc",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 24.482644076487478,
 "ttk": 10.54666666666653,
 "rest": 5.935977409820947,
@@ -1650,7 +1650,7 @@
 "gear": 2,
 "race": "undead",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 23.012511586771524,
 "ttk": 8.719999999999903,
 "rest": 6.29251158677162,
@@ -1898,7 +1898,7 @@
 "gear": 1,
 "race": "troll",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.831990729050244,
 "ttk": 10.69999999999986,
 "rest": 5.13199072905038,
@@ -1931,7 +1931,7 @@
 "gear": 2,
 "race": "none",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 22.884406037118186,
 "ttk": 10.033333333333209,
 "rest": 4.851072703784978,
@@ -2190,7 +2190,7 @@
 "gear": 1,
 "race": "human",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 24.038292908498363,
 "ttk": 10.853333333333191,
 "rest": 5.18495957516517,
@@ -2226,7 +2226,7 @@
 "gear": 2,
 "race": "gnome",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 22.339779887174245,
 "ttk": 8.699999999999903,
 "rest": 5.639779887174339,
@@ -2492,7 +2492,7 @@
 "gear": 1,
 "race": "skyborne",
 "opts": {},
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.773388501961346,
 "ttk": 10.719999999999862,
 "rest": 5.053388501961485,
@@ -2529,7 +2529,7 @@
 "gear": 2,
 "race": "orc",
 "opts": {},
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 22.46220568046221,
 "ttk": 10.033333333333209,
 "rest": 4.428872347129002,
@@ -7955,7 +7955,7 @@
 "opts": {
 "potions": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 32.395031524740794,
 "ttk": 14.966666666666436,
 "rest": 9.428364858074355,
@@ -7986,7 +7986,7 @@
 "opts": {
 "gems": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8017,7 +8017,7 @@
 "opts": {
 "evocation": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 31.034435287082626,
 "ttk": 14.039999999999788,
 "rest": 8.994435287082833,
@@ -8048,7 +8048,7 @@
 "opts": {
 "wowhead_drinks": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.153961532900528,
 "ttk": 14.039999999999788,
 "rest": 8.113961532900738,
@@ -8079,7 +8079,7 @@
 "opts": {
 "spirit_drink": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 31.938385195502235,
 "ttk": 14.039999999999788,
 "rest": 9.898385195502444,
@@ -8110,7 +8110,7 @@
 "opts": {
 "regen_stack": "max"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8141,7 +8141,7 @@
 "opts": {
 "below20": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8172,7 +8172,7 @@
 "opts": {
 "il_coef": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8203,7 +8203,7 @@
 "opts": {
 "il_coef": 0.429
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8234,7 +8234,7 @@
 "opts": {
 "kite": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8265,7 +8265,7 @@
 "opts": {
 "nova_break": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8296,7 +8296,7 @@
 "opts": {
 "fb_break": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8327,7 +8327,7 @@
 "opts": {
 "pushback": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.32935519259894,
 "ttk": 13.519999999999802,
 "rest": 7.809355192599138,
@@ -8358,7 +8358,7 @@
 "opts": {
 "thrill": 5
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 28.522578968571306,
 "ttk": 14.039999999999788,
 "rest": 6.482578968571516,
@@ -8389,7 +8389,7 @@
 "opts": {
 "top_ranks": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8420,7 +8420,7 @@
 "opts": {
 "dd_mode": "base"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.797157766672132,
 "ttk": 14.039999999999788,
 "rest": 8.757157766672341,
@@ -8451,7 +8451,7 @@
 "opts": {
 "armor": "frost"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 30.49580177198543,
 "ttk": 14.946666666666436,
 "rest": 7.549135105318992,
@@ -8482,7 +8482,7 @@
 "opts": {
 "frostbite_source": "spells"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8513,7 +8513,7 @@
 "opts": {
 "mountain_water": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8544,7 +8544,7 @@
 "opts": {
 "level_diff": 2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.79954305423803,
 "ttk": 14.039999999999788,
 "rest": 8.759543054238238,
@@ -8575,7 +8575,7 @@
 "opts": {
 "level_diff": 3
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 33.827799357281116,
 "ttk": 15.26666666666643,
 "rest": 10.561132690614683,
@@ -8606,7 +8606,7 @@
 "opts": {
 "mob_dps_mult": 1.5
 },
-"policy": "Fire Blast + Scorch +Nova, step back +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Nova, step back +Heating Up Pyroblast",
 "spk": 31.58521864405024,
 "ttk": 14.379999999999782,
 "rest": 9.205218644050458,
@@ -8637,7 +8637,7 @@
 "opts": {
 "mob_speed": 7.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.681804365999454,
 "ttk": 13.999999999999792,
 "rest": 7.681804365999667,
@@ -8670,7 +8670,7 @@
 1.0
 ]
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 28.083583596150852,
 "ttk": 12.959999999999813,
 "rest": 7.12358359615104,
@@ -8701,7 +8701,7 @@
 "opts": {
 "top": 1
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8732,7 +8732,7 @@
 "opts": {
 "mods": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8763,7 +8763,7 @@
 "opts": {
 "downrank": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8796,7 +8796,7 @@
 "gear_sta": 2.0,
 "gear_spi": 1.0
 },
-"policy": "Fire Blast + Scorch +Pyroblast pull +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Pyroblast pull +Heating Up Pyroblast",
 "spk": 30.104775004581843,
 "ttk": 16.37999999999974,
 "rest": 5.7247750045821055,
@@ -8827,7 +8827,7 @@
 "opts": {
 "armor_slow": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8858,7 +8858,7 @@
 "opts": {
 "step_s": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8889,7 +8889,7 @@
 "opts": {
 "pull_gap": 10.0
 },
-"policy": "Fire Blast + Scorch +Nova +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Nova +Heating Up Pyroblast",
 "spk": 31.51017629757258,
 "ttk": 14.099999999999788,
 "rest": 9.410176297572793,
@@ -8920,7 +8920,7 @@
 "opts": {
 "player_speed": 5.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -8951,7 +8951,7 @@
 "opts": {
 "swing": 1.5
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.178962214151127,
 "ttk": 14.239999999999787,
 "rest": 7.938962214151342,
@@ -8982,7 +8982,7 @@
 "opts": {
 "pushback_s": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.727478434822203,
 "ttk": 14.659999999999776,
 "rest": 8.067478434822428,
@@ -9013,7 +9013,7 @@
 "opts": {
 "travel": 12.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 32.78813419622045,
 "ttk": 14.039999999999788,
 "rest": 6.748134196220658,
@@ -9044,7 +9044,7 @@
 "opts": {
 "level_diff": 1
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 30.798350286532024,
 "ttk": 14.039999999999788,
 "rest": 8.758350286532231,
@@ -9075,7 +9075,7 @@
 "opts": {
 "low_ranks": "full"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -9106,7 +9106,7 @@
 "opts": {
 "low_ranks": "tbc"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -9137,7 +9137,7 @@
 "opts": {
 "low_ranks": "classic"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -9168,7 +9168,7 @@
 "opts": {
 "nova_break": 0.2
 },
-"policy": "Fire Blast + Scorch +Nova, step back +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Nova, step back +wand finish +Heating Up Pyroblast",
 "spk": 29.598692909777906,
 "ttk": 15.819999999999752,
 "rest": 5.778692909778151,
@@ -9199,7 +9199,7 @@
 "opts": {
 "top": 2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -9230,7 +9230,7 @@
 "opts": {
 "pair_top": 0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -9261,7 +9261,7 @@
 "opts": {
 "wand_breaks": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.942237835773085,
 "ttk": 14.039999999999788,
 "rest": 7.902237835773298,
@@ -12360,7 +12360,7 @@
 "opts": {
 "potions": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 27.070471015821692,
 "ttk": 11.139999999999851,
 "rest": 7.930471015821836,
@@ -12395,7 +12395,7 @@
 "opts": {
 "gems": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12430,7 +12430,7 @@
 "opts": {
 "evocation": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.919360243112962,
 "ttk": 11.139999999999851,
 "rest": 6.77936024311311,
@@ -12465,7 +12465,7 @@
 "opts": {
 "wowhead_drinks": true
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.737767997237082,
 "ttk": 11.133333333333184,
 "rest": 6.6044346639038976,
@@ -12500,7 +12500,7 @@
 "opts": {
 "spirit_drink": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 27.431089538924283,
 "ttk": 10.79999999999986,
 "rest": 8.631089538924423,
@@ -12535,7 +12535,7 @@
 "opts": {
 "regen_stack": "max"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12570,7 +12570,7 @@
 "opts": {
 "below20": true
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12605,7 +12605,7 @@
 "opts": {
 "il_coef": 0.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12640,7 +12640,7 @@
 "opts": {
 "il_coef": 0.429
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12675,7 +12675,7 @@
 "opts": {
 "kite": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12710,7 +12710,7 @@
 "opts": {
 "nova_break": 1.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12745,7 +12745,7 @@
 "opts": {
 "fb_break": 0.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12780,7 +12780,7 @@
 "opts": {
 "pushback": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.267289340981232,
 "ttk": 11.00666666666652,
 "rest": 6.260622674314711,
@@ -12815,7 +12815,7 @@
 "opts": {
 "thrill": 5
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 24.113589054904306,
 "ttk": 11.15999999999985,
 "rest": 4.953589054904455,
@@ -12850,7 +12850,7 @@
 "opts": {
 "top_ranks": true
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12885,7 +12885,7 @@
 "opts": {
 "dd_mode": "base"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.83367662760969,
 "ttk": 10.79999999999986,
 "rest": 7.0336766276098315,
@@ -12920,7 +12920,7 @@
 "opts": {
 "armor": "frost"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.551009609391674,
 "ttk": 11.193333333333184,
 "rest": 6.357676276058494,
@@ -12955,7 +12955,7 @@
 "opts": {
 "frostbite_source": "spells"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -12990,7 +12990,7 @@
 "opts": {
 "mountain_water": true
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13025,7 +13025,7 @@
 "opts": {
 "level_diff": 2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.867233502892443,
 "ttk": 10.79999999999986,
 "rest": 7.0672335028925835,
@@ -13060,7 +13060,7 @@
 "opts": {
 "level_diff": 3
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 29.54845605779809,
 "ttk": 12.786666666666482,
 "rest": 8.761789391131607,
@@ -13095,7 +13095,7 @@
 "opts": {
 "mob_dps_mult": 1.5
 },
-"policy": "Fire Blast + Scorch +Pyroblast pull +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Pyroblast pull +Heating Up Pyroblast",
 "spk": 27.351341365477698,
 "ttk": 12.17999999999983,
 "rest": 7.171341365477871,
@@ -13130,7 +13130,7 @@
 "opts": {
 "mob_speed": 7.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.050180219145584,
 "ttk": 11.113333333333186,
 "rest": 5.936846885812396,
@@ -13167,7 +13167,7 @@
 1.0
 ]
 },
-"policy": "Fire Blast + Scorch +Nova +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Nova +wand finish +Heating Up Pyroblast",
 "spk": 26.32374081157337,
 "ttk": 10.679999999999861,
 "rest": 7.643740811573508,
@@ -13202,7 +13202,7 @@
 "opts": {
 "top": 1
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13237,7 +13237,7 @@
 "opts": {
 "mods": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.83367662760969,
 "ttk": 10.79999999999986,
 "rest": 7.0336766276098315,
@@ -13272,7 +13272,7 @@
 "opts": {
 "downrank": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13309,7 +13309,7 @@
 "gear_sta": 2.0,
 "gear_spi": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.281160960474168,
 "ttk": 10.79999999999986,
 "rest": 6.481160960474309,
@@ -13344,7 +13344,7 @@
 "opts": {
 "armor_slow": 0.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13379,7 +13379,7 @@
 "opts": {
 "step_s": 1.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13414,7 +13414,7 @@
 "opts": {
 "pull_gap": 10.0
 },
-"policy": "Fire Blast + Scorch +Pyroblast pull +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Pyroblast pull +Heating Up Pyroblast",
 "spk": 27.48455748064576,
 "ttk": 12.319999999999828,
 "rest": 7.164557480645931,
@@ -13449,7 +13449,7 @@
 "opts": {
 "player_speed": 5.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13484,7 +13484,7 @@
 "opts": {
 "swing": 1.5
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.716486739079496,
 "ttk": 11.17999999999985,
 "rest": 6.536486739079646,
@@ -13519,7 +13519,7 @@
 "opts": {
 "pushback_s": 1.0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.86961706580675,
 "ttk": 11.259999999999849,
 "rest": 6.609617065806901,
@@ -13554,7 +13554,7 @@
 "opts": {
 "travel": 12.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 28.67439618598881,
 "ttk": 10.79999999999986,
 "rest": 5.874396185988953,
@@ -13589,7 +13589,7 @@
 "opts": {
 "level_diff": 1
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.845700804147302,
 "ttk": 10.79999999999986,
 "rest": 7.045700804147444,
@@ -13624,7 +13624,7 @@
 "opts": {
 "low_ranks": "full"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13659,7 +13659,7 @@
 "opts": {
 "low_ranks": "tbc"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13694,7 +13694,7 @@
 "opts": {
 "low_ranks": "classic"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13729,7 +13729,7 @@
 "opts": {
 "nova_break": 0.2
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13764,7 +13764,7 @@
 "opts": {
 "top": 2
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13799,7 +13799,7 @@
 "opts": {
 "pair_top": 0
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -13834,7 +13834,7 @@
 "opts": {
 "wand_breaks": false
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 25.560187932598595,
 "ttk": 11.139999999999851,
 "rest": 6.420187932598743,
@@ -17372,7 +17372,7 @@
 "opts": {
 "potions": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.850644134981177,
 "ttk": 10.779999999999859,
 "rest": 7.070644134981316,
@@ -17411,7 +17411,7 @@
 "opts": {
 "gems": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17450,7 +17450,7 @@
 "opts": {
 "evocation": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 24.24145942104515,
 "ttk": 10.779999999999859,
 "rest": 5.46145942104529,
@@ -17489,7 +17489,7 @@
 "opts": {
 "wowhead_drinks": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.998489938626232,
 "ttk": 10.779999999999859,
 "rest": 5.218489938626374,
@@ -17528,7 +17528,7 @@
 "opts": {
 "spirit_drink": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 24.513217274412472,
 "ttk": 10.779999999999859,
 "rest": 5.733217274412618,
@@ -17567,7 +17567,7 @@
 "opts": {
 "regen_stack": "max"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17606,7 +17606,7 @@
 "opts": {
 "below20": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17645,7 +17645,7 @@
 "opts": {
 "il_coef": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17684,7 +17684,7 @@
 "opts": {
 "il_coef": 0.429
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17723,7 +17723,7 @@
 "opts": {
 "kite": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17762,7 +17762,7 @@
 "opts": {
 "nova_break": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17801,7 +17801,7 @@
 "opts": {
 "fb_break": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17840,7 +17840,7 @@
 "opts": {
 "pushback": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.530539765088278,
 "ttk": 10.519999999999865,
 "rest": 5.010539765088413,
@@ -17879,7 +17879,7 @@
 "opts": {
 "thrill": 5
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 22.690893321893622,
 "ttk": 10.779999999999859,
 "rest": 3.9108933218937643,
@@ -17918,7 +17918,7 @@
 "opts": {
 "top_ranks": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -17957,7 +17957,7 @@
 "opts": {
 "dd_mode": "base"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.010980380950887,
 "ttk": 11.366666666666513,
 "rest": 5.644313714284375,
@@ -17996,7 +17996,7 @@
 "opts": {
 "armor": "frost"
 },
-"policy": "Fire Blast + Scorch +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +wand finish +Heating Up Pyroblast",
 "spk": 24.416087273449918,
 "ttk": 11.359999999999848,
 "rest": 5.05608727345007,
@@ -18035,7 +18035,7 @@
 "opts": {
 "frostbite_source": "spells"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18074,7 +18074,7 @@
 "opts": {
 "mountain_water": true
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.22415821958482,
 "ttk": 10.779999999999859,
 "rest": 4.444158219584959,
@@ -18113,7 +18113,7 @@
 "opts": {
 "level_diff": 2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18152,7 +18152,7 @@
 "opts": {
 "level_diff": 3
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 27.1484228922142,
 "ttk": 12.77333333333315,
 "rest": 6.375089558881048,
@@ -18191,7 +18191,7 @@
 "opts": {
 "mob_dps_mult": 1.5
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.09891222906958,
 "ttk": 10.779999999999859,
 "rest": 6.31891222906972,
@@ -18230,7 +18230,7 @@
 "opts": {
 "mob_speed": 7.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.642512517973657,
 "ttk": 10.719999999999862,
 "rest": 4.9225125179737965,
@@ -18271,7 +18271,7 @@
 1.0
 ]
 },
-"policy": "Fire Blast + Scorch +Nova +wand finish +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Nova +wand finish +Heating Up Pyroblast",
 "spk": 24.087905299374818,
 "ttk": 10.659999999999862,
 "rest": 5.427905299374956,
@@ -18310,7 +18310,7 @@
 "opts": {
 "top": 1
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18349,7 +18349,7 @@
 "opts": {
 "mods": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18388,7 +18388,7 @@
 "opts": {
 "downrank": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18429,7 +18429,7 @@
 "gear_sta": 2.0,
 "gear_spi": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.49742080041443,
 "ttk": 10.779999999999859,
 "rest": 4.717420800414573,
@@ -18468,7 +18468,7 @@
 "opts": {
 "armor_slow": 0.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18507,7 +18507,7 @@
 "opts": {
 "step_s": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18546,7 +18546,7 @@
 "opts": {
 "pull_gap": 10.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 25.158476596594113,
 "ttk": 10.939999999999856,
 "rest": 6.21847659659426,
@@ -18585,7 +18585,7 @@
 "opts": {
 "player_speed": 5.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18624,7 +18624,7 @@
 "opts": {
 "swing": 1.5
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.938176844875404,
 "ttk": 10.859999999999857,
 "rest": 5.07817684487555,
@@ -18663,7 +18663,7 @@
 "opts": {
 "pushback_s": 1.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 24.07537121049552,
 "ttk": 11.039999999999855,
 "rest": 5.035371210495662,
@@ -18702,7 +18702,7 @@
 "opts": {
 "travel": 12.0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 26.939748380924723,
 "ttk": 10.779999999999859,
 "rest": 4.159748380924863,
@@ -18741,7 +18741,7 @@
 "opts": {
 "level_diff": 1
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18780,7 +18780,7 @@
 "opts": {
 "low_ranks": "full"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18819,7 +18819,7 @@
 "opts": {
 "low_ranks": "tbc"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18858,7 +18858,7 @@
 "opts": {
 "low_ranks": "classic"
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18897,7 +18897,7 @@
 "opts": {
 "nova_break": 0.2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18936,7 +18936,7 @@
 "opts": {
 "top": 2
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -18975,7 +18975,7 @@
 "opts": {
 "pair_top": 0
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -19014,7 +19014,7 @@
 "opts": {
 "wand_breaks": false
 },
-"policy": "Fire Blast + Scorch +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +Heating Up Pyroblast",
 "spk": 23.847298132595757,
 "ttk": 10.779999999999859,
 "rest": 5.067298132595901,
@@ -19055,7 +19055,7 @@
 "kite": false,
 "potions": false
 },
-"policy": "Fire Blast + Scorch +melee instants +Pyroblast pull +Hot Streak Pyroblast",
+"policy": "Fire Blast + Scorch +melee instants +Pyroblast pull +Heating Up Pyroblast",
 "spk": 36.653602836842616,
 "ttk": 13.079999999999808,
 "rest": 15.573602836842804,
