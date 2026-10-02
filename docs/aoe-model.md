@@ -164,7 +164,7 @@ When none survives, it lists why each pull size failed. The sensitivity section 
 | Ice Barrier | before the pull (during the gather) and whenever it breaks | FC spellbook: no pushback while it holds | | |
 | Mana Shield | under half health with a mob in melee, 2 mana a point | client (data/mage_spells.json) | | |
 | Wand | the single-target model's: 0.9 L + 3 dps, Wand Specialization, no freeze breaks, under 20% of a mob's health (a small-pull variant) | `character.make_char`, `leveling_sim.FIN_BELOW` | | |
-| Spell ranks | the highest learned rank of every spell; coefficients from the single-target model's `low_ranks` rule (default `'measured'`: full coefficients, no downranking from 20) | `leveling_sim.coef_factor`, `downrank_allowed` | the ranks section checks lower ranks under full coefficients; the `'full'` row lets single target downrank | m13 |
+| Spell ranks | the highest learned rank of every spell; coefficients from the single-target model's `low_ranks` rule (default `'measured'`: full coefficients, no downranking from 20; Blizzard's 1 Oct 2026 notes cut ranks far below your level: the top ranks here are at most 7 levels below you, except Frost Nova, whose rank 1 is the top rank until 26, but its root is the spell itself and its damage scales at only 0.029 a point of spell power) | `leveling_sim.coef_factor`, `downrank_allowed` | the ranks section checks lower ranks under full coefficients; the `'full'` row lets single target downrank | m13 |
 
 Everything else comes from the imported single-target model: the character (health, mana, crit, hit, regeneration), spell rows, talent values, the rest model and potion data.
 

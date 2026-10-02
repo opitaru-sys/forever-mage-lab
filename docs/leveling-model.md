@@ -16,9 +16,9 @@ Each fight starts from a full pool. It runs until the mob dies, the Mage dies, o
 
 **Event loop.** The loop steps 0.02 s at a time, the Warlock lab's pattern. Hit and crit enter every hit as expected values. A crit's value is `1 + crit x (multiplier - 1)`, with 1.5x crits plus Ice Shards (Frost) and Arcane Mind (Arcane).
 
-**Procs that trigger casts use accumulators.** This covers Frostbite freezes, Fingers of Frost charges, Missile Barrage and Hot Streak. Each landed spell adds its expected proc, and the proc fires once a whole one has built up. A player reacts to a 15% proc, but a blended 15% never crosses a decision threshold.
+**Procs that trigger casts use accumulators.** This covers Frostbite freezes, Fingers of Frost charges, Missile Barrage and Heating Up. Each landed spell adds its expected proc, and the proc fires once a whole one has built up. A player reacts to a 15% proc, but a blended 15% never crosses a decision threshold.
 
-**Proc phases.** Each fight starts its accumulators part way: the three mob health runs start at 1/6, 1/2 and 5/6 (Hot Streak's three stacks at 3 times that), so their average gives the expected proc count. Hot Streak stacks carry to the next pull. They last 20 s, and 8 s of walking plus a few seconds of rest is shorter (ASSUMPTION: no expiry between pulls).
+**Proc phases.** Each fight starts its accumulators part way: the three mob health runs start at 1/6, 1/2 and 5/6 (Heating Up's three stacks at 3 times that), so their average gives the expected proc count. Heating Up stacks carry to the next pull. They last 20 s, and 8 s of walking plus a few seconds of rest is shorter (ASSUMPTION: no expiry between pulls).
 
 **Blended procs.** Clearcasting, Master of Elements, Winter's Chill stacks, Improved Scorch stacks and Touch of the Grave enter as expected values.
 
@@ -36,9 +36,9 @@ Each fight starts from a full pool. It runs until the mob dies, the Mage dies, o
 - **Rank of the main spell:** one down, two down, or rank 1. By default this is tried only at level 19 and below (see Low ranks).
 - **Automatic casts:** every rotation also casts, when the build has them:
   - Ice Lance on a frozen target or a Fingers of Frost charge
-  - a 1.5 s Pyroblast at 3 Hot Streak stacks
+  - a 1.5 s Pyroblast at 3 Heating Up stacks (Heating Up was called Hot Streak until 1 Oct 2026)
   - a free Arcane Missiles on Missile Barrage
-  The name gets ' +Ice Lance', ' +Hot Streak Pyroblast' or ' +Missile Barrage' when the rotation casts them, and `policyLabel` says so.
+  The name gets ' +Ice Lance', ' +Heating Up Pyroblast' or ' +Missile Barrage' when the rotation casts them, and `policyLabel` says so.
 
 **The search.** Every combination is too many to run on each builder click, so `evaluate` searches:
 1. **Probe.** Every base runs plain, at each allowed rank, with "Frost Nova, then step back", and with that option at each allowed rank (a lower rank can pay only once Nova is in); its best probe ranks it.
@@ -68,12 +68,14 @@ The evidence:
 - **Level caps.** A rank's max level only caps its base damage growth (the sim's `effect.go`, `Average`).
 - **Measurements.** ForeverChanges' downrank page cites DoubleZug's beta measurements. Healing Touch ranks 1 to 3 and Rejuvenation ranks 1 and 3 at levels 18 and 19 land within 2 points of the full coefficient. That rules out both Classic Era's below-20 cut and The Burning Crusade's level rule at those levels.
 - **The gap.** No level above 19 has been measured, and a server rule that grows with level would not show in the client.
+- **Blizzard's rule.** The 1 October 2026 beta notes: spells cast from ranks vastly below your level get less from spell damage and a lower chance to trigger talents; rank 1 Frostbolt at 60 has a 0% Frostbite chance. Where the cut starts is not stated, nor whether it is new in that build (DoubleZug's readings were published before it).
 
 The options:
-- **`measured` (default).** Lower ranks keep full coefficients, and rotations may cast them at level 19 and below. From 20 they cast the highest trained rank only, until test m13 measures a level 30+ character.
-- **`full`.** Full coefficients and downranking at every level (untested).
+- **`measured` (default).** Lower ranks keep full coefficients, and rotations may cast them at level 19 and below (none of the four talent orders does). From 20 they cast the highest trained rank only, which Blizzard's rule backs.
+- **`full`.** Full coefficients, full proc chances and downranking at every level. Blizzard's rule contradicts it for ranks far below your level (its rank 1 Frostbolt at 40 is exactly that case), so it is an upper bound: 1.4% of the hours from 20 to 60 (`python analysis/leveling_paths.py lowranks`).
 - **`tbc`.** The coefficient x (rank max level + 6) / level, capped at 1. Ruled out at 18 and 19.
 - **`classic`.** Classic's cut, 3.75% a level below 20 for spells learned below 20. Ruled out at 18 and 19. The old `below20=True` means this.
+- `tbc` and `classic` also keep full proc chances on low ranks, so after Blizzard's rule they are optimistic too.
 
 ## Assumptions
 
@@ -109,7 +111,7 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 26 | Rest cooldown actions | used only when each use saves at least 1 s | ASSUMPTION | | |
 | 27 | Mana gems | on, never used: conjuring costs more than they restore | client | `gems` | m24 |
 | 28 | Ice Lance coefficient | 0.143; the x4 on a frozen target covers the whole hit | sim placeholder (client stores 0) | `il_coef` / `ilCoef` | m4 |
-| 29 | Low ranks | full coefficients; lower ranks cast only at 19 and below | client; DoubleZug (see Low ranks) | `low_ranks` / `lowRanks` ('measured', 'full', 'tbc', 'classic') | m13 |
+| 29 | Low ranks | full coefficients; lower ranks cast only at 19 and below, the highest trained rank from 20 | client; DoubleZug; Blizzard's 1 Oct 2026 rule for far-below ranks (see Low ranks) | `low_ranks` / `lowRanks` ('measured', 'full', 'tbc', 'classic') | m13 |
 | 30 | Top-rank tomes | off (Frostbolt 10, Fireball 11, Arcane Missiles 7 at 60) | gap TOMES.md | `top_ranks` / `topRanks` | m6 |
 | 31 | Spell values by level | the client's in-game formula (floor of base + per level x levels above learn, to the rank's max level) | sim effect.go | `dd_mode` ('scaled', 'base') / `ddMode` | |
 | 32 | Arcane Blast | 15% base mana, +175% a stack; +10% a stack to the client mask (not Arcane Missiles); the rotation builds one stack, then spends it | client; sim | | m8, m21 |
@@ -117,7 +119,7 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 34 | Ignite | 8% a point of each Fire crit, paid 2 and 4 s later, one Mage's | sim (rolling, no munching) | | m11 |
 | 35 | DoT ticks | crit | client flag; sim | | m22 |
 | 36 | Improved Scorch, Winter's Chill | personal | client; sim | | m25 |
-| 37 | Hot Streak stacks | carried to the next pull (20 s against about 10 s of walking and rest) | ASSUMPTION | | |
+| 37 | Heating Up stacks | carried to the next pull (20 s against about 10 s of walking and rest) | ASSUMPTION | | |
 | 38 | Wand | 0.9 L + 3 damage a second, no spell power; Wand Specialization +13/25%. A shot every 1.5 s, the first as wanding starts, is a damage event: it rolls Frost Nova and Frostbite breaks (their client aura row reacts to every damage-taken flag) and Touch of the Grave | Warlock lab; FC-PN; shot speed and timing ASSUMPTION | `wand_breaks` / `wandBreaks` (False: shots never break roots) | m12 |
 | 39 | Humans | Spirit +5%; +2% crit with a sword from 21 (the Coldflame Saber) | WH | `sword` | m23 |
 | 40 | Gnomes | +5% max mana; Eureka! on the pull's first 3 spells, 2 min | WH, FC-PN | | m23 |
@@ -126,6 +128,7 @@ Test ids refer to the merged test list (`mage-research/gap/tests.json`). Values 
 | 43 | Undead | Touch of the Grave: 10% of damaging spell hits and wand shots drain 5% of max health (a 1.5 s wand, ASSUMPTION; the client's 1 s proc cooldown is not modelled: applied exactly, it changed Undead by 0.03%); Cannibalize in rest on 40% of corpses | WH tooltip 1260201 ("Your spells and attacks have a 10% chance"); client 1.60.1.69893 SpellAuraOptions 243733: ProcChance 10, ProcTypeMask 69972 (0x11154), which includes 0x40, the ranged auto-attack (wand) flag. FC-PN 70009 ("only damaging spells") does not clearly exclude Shoot. Corpse share ASSUMPTION (Warlock lab) | `totg_source` ('all'; 'spells': spells only), `humanoid_share` / `totgSource`, `humanoidShare` | m23 |
 | 44 | Skyborne | +1% haste; Elemental Insight +5% on 10% of mobs; Read Ley Line 15 s in rest, doubling Spirit and health regen, not drinks | WH; share and drink effect ASSUMPTION | `elemental_share`, `leyline` ('short', 'long', 'off') | m23 |
 | 45 | Thrill of Adventure | off; ranks 1 to 5 return 1 to 5% of max health and mana a kill | FC-LP | `thrill` | m23 |
+| 46 | Spell travel time | none: every spell lands the moment its cast ends, so a spell cast while another is in the air gets nothing from that window (a Fingers of Frost charge, a freeze the first hit breaks) | ASSUMPTION | | m31, m32 |
 
 ## Options
 

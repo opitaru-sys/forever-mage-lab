@@ -11,7 +11,7 @@ Live page (once published): https://opitaru-sys.github.io/forever-mage-lab/
 - **Levels 10 to 19.** Frostbolt and your wand, with Fire Blast from 14, and Improved Frostbolt first. An Arcane wand build is about 4% faster at these levels, but they are under a tenth of your leveling time, so playing Arcane and respeccing at 20 saves only 0.36%.
 - **Levels 20 to 60.** Frost, with Ice Lance on every freeze: this lab's order takes about 104 hours of grinding from 10 to 60 in the model (kills only, no quest XP), against 114 for Arcane-first and 121 for Fire-first. Frost Nova the mob when it closes and step back; from about 41, drop the wand and the step back and add Fire Blast on cooldown.
 - **AoE leveling.** No, not in our model. At every level we tested (20, 25, 30, 40, 50 and 60), against mobs of your level, Blizzard, Arcane Explosion and Flamestrike pulls of 2 to 10 mobs fail: most run out of mana, and the rest are caught before Frost Nova is back. Two mobs at once, with Frost Nova and Frostbolt, are about even with one at a time at 50 and 60 (within the model's 6 to 9% slow bias there) and 9 to 45% slower from 20 to 40.
-- **Group at 60.** A close call: Frost with Missile Barrage, 18/3/30, does 534 dps at the calculator defaults before racials, 4.7% ahead of Fire with Arcane Blast (19/31/1, 510), and 4.3% in a dice simulation. Fire leads in fights under about 2 minutes (the crossover is about 135 s in the model, 120 s in the dice), and if Ice Lance has no spell power scaling, as the game's data reads (test m4, Fire +3.0%), or Fingers of Frost does not proc on raid bosses (test m30, Fire +3.0%). No boss partial resists (Fire +0.5%) and high gear (700 spell power, 15% crit and hit: Fire +0.9%) flip it too; Ice Lance partially resisting (test m29) leaves 3.0%, a Moonkin 3.8%, 15% gear hit 1.2%, and 15% hit with a Moonkin is a tie.
+- **Group at 60.** A close call: Frost with Missile Barrage, 18/3/30, does 534 dps at the calculator defaults before racials, 6.1% ahead of Fire with Arcane Blast (19/31/1, 503), and 5.7% in a dice simulation. Fire with Arcane Blast leads if Ice Lance has no spell power scaling, as the game's data reads (test m4), or Fingers of Frost does not proc on raid bosses (test m30), by 1.6% over Arcane with Ignite either way. The sim's deep Fire build (0/35/16) leads in fights under about 90 s in the dice (102 s in the model); Fire with Arcane Blast never passes Frost in the dice from 60 s up. High gear (700 spell power, 15% crit and hit) leaves Frost 0.3% ahead, a tie; no boss partial resists 0.9%; 15% hit with a Moonkin 1.5%; 15% gear hit 2.5%; Ice Lance partially resisting (test m29) 4.4%; a Moonkin 5.1%.
 - **Solo at 60.** The leveling order's final build, 10/6/35: Frostbolt and Fire Blast on cooldown, Frost Nova, Ice Lance on every freeze and Fingers of Frost charge. Its late pick, Arcane Concentration, makes kills at 60 2.2% faster.
 - **Race.** Race barely matters. Undead levels about 3% faster and adds 1.6% in raids; every other race is within about 2% for leveling and 1.4% in raids.
 - **Dungeons.** The first open at level 13. Whether dungeon kills give experience in Forever is untested (test m2), so the models leave dungeon leveling out.
@@ -19,7 +19,7 @@ Live page (once published): https://opitaru-sys.github.io/forever-mage-lab/
 ## How it was built
 
 Data sources:
-- The Forever beta client's own tables (build 1.60.1.69893, from the ElliotWood/Forever data cache): base damage, spell power coefficients, costs, cast times and learn levels for 166 spell ranks (`data/mage_spells.json`), and the per-rank talent curves for all 54 talents (`data/talents.json`). Later beta builds up to 70124 changed only Hot Streak, Wake of Fire, Ignite and Arcane Missiles' line of sight; the models use the newer values.
+- The Forever beta client's own tables (build 1.60.1.69893, from the ElliotWood/Forever data cache): base damage, spell power coefficients, costs, cast times and learn levels for 166 spell ranks (`data/mage_spells.json`), and the per-rank talent curves for all 54 talents (`data/talents.json`). Later beta builds up to 70124 changed only Heating Up (then called Hot Streak), Wake of Fire, Ignite and Arcane Missiles' line of sight; the models use the newer values. Blizzard's 1 October 2026 beta notes returned Combustion to 3 charges, which the models use; that build's other Mage changes (Hot Streak renamed Heating Up, Improved Scorch and Winter's Chill without a resist roll, Gnome Eureka! off damage over time, low ranks cut far below your level) move no number here.
 - Wowhead's Forever tooltips (JSON), ForeverChanges (class changes, talents, spellbook, racials, patch notes, and DoubleZug's downranking measurements at levels 18 and 19), and the ElliotWood/Forever sim's code and data.
 - `docs/mage-mechanics.md` condenses all of it, with sources.
 
@@ -34,7 +34,7 @@ Every number on the page or in this README comes from a command in the table bel
 
 ## Assumptions
 
-The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 rows), `docs/raid-model.md` and `docs/aoe-model.md`. The ones that move results most:
+The full tables, with sources and test ids, are in `docs/leveling-model.md` (46 rows), `docs/raid-model.md` and `docs/aoe-model.md`. The ones that move results most:
 
 ### Leveling model (`models/character.py`, `models/leveling_sim.py`, `leveling.js`)
 
@@ -54,7 +54,7 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 | Water and food | client values (Crystal Water 4200 over 30 s) | client; Wowhead reads 25/26, test m10 |
 | Mana potions | the best the level allows, one per 2 min, on by default; they cut leveling time by 9.2% | Wowhead tooltips; the client's list price (no vendor is known; auction prices are likely far higher) |
 | Ice Lance coefficient | 0.143, x4 on a frozen target for the whole hit | sim estimate; client 0; test m4 |
-| Low ranks | full coefficients, lower ranks cast only at 19 and below | client and DoubleZug's measurements; test m13 |
+| Low ranks | full coefficients, lower ranks cast only at 19 and below; the highest trained rank from 20 | client and DoubleZug's measurements at 18 and 19; Blizzard's 1 Oct notes cut ranks far below your level; test m13 |
 | Armor | Frost or Ice Armor below 34, Mage Armor from 34; armor chills roll Frostbite | test m17 |
 | Wand | 0.9 L + 3 dps, no spell power | Warlock lab; Blizzard's 24 Sep notes |
 | Touch of the Grave (Undead) | 10% of damaging spells and wand shots drain 5% of max health | Wowhead tooltip ("spells and attacks") and the client proc mask, which includes ranged auto-attacks; spells only is test m23 |
@@ -80,7 +80,7 @@ The full tables, with sources and test ids, are in `docs/leveling-model.md` (45 
 | Evocation | 800 + 16 x Spirit + 1.6 x mp5 | sim formula, test m7 |
 | Ignite | 40% of the crit, rolled, one Mage's | sim, test m11 |
 | Missile Barrage | 40% from Arcane Blast, 20% from Fireball, Frostbolt, Frostfire Bolt | tooltip and sim, test m18 |
-| Spell ranks | highest trainer ranks only; no top-rank tomes | test m13 and m6 |
+| Spell ranks | highest trainer ranks only, which Blizzard's 1 Oct downrank rule backs; no top-rank tomes | test m13 and m6 |
 | Waiting for mana | full Spirit regen and a 57 dps wand, in 15 s blocks | ASSUMPTION |
 | Undead max health | 4000 | ASSUMPTION (slider) |
 
@@ -123,23 +123,24 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 | Claim | Command |
 |---|---|
-| Frost levels fastest: this order 104.4 h of grinding, Arcane-first 113.9, Fire-first 121.0 (mean 24.9, 26.5, 28.0 s a kill); Fire-first 16.0% slower | `python analysis/leveling_paths.py trees` |
+| Frost levels fastest: this order 104.4 h of grinding, Arcane-first 113.9, Fire-first 121.1 (mean 24.9, 26.5, 28.0 s a kill); Fire-first 16.0% slower | `python analysis/leveling_paths.py trees` |
 | A Frost-first order stays first in all 19 sensitivity rows; roots that never break would be 19.2% faster, roots breaking on every hit 2.6% slower; no Spirit regen while drinking costs 4.6 to 5.4%; Mage Armor is worth 1.4% | `python analysis/leveling_paths.py sensitivity` |
 | An Arcane start is 3.8% faster at 10 to 19, but a respec plan saves only 0.36% (upper bound 0.50%) | `python analysis/leveling_paths.py respec` |
 | Rotation by level, level 20 jump (32.9 s to 28.2 s), gear 2 vs gear 1 (the planner's phase texts) | `python analysis/leveling_paths.py phases` |
 | Near-ties in the planner: Frost Nova at 21 within 0.2%, the wand filler at 24 within 0.4%, Fire Blast at 56 to 60 within about 1%; at 42 and 43 Fire Blast costs 7.7% and 4.3% | exhaustive search over every rotation of the planner build at those levels (the method of `analysis/leveling_search_check.py`) |
 | Mana potions save 9.2% of leveling time (104.4 h against 114.9), 30 an hour, 0.12 to 18 gold an hour at the client's list price; mana gems never pay | `python analysis/leveling_paths.py consumables` |
 | Race leveling: Undead 3.2% (2.9% if Touch of the Grave skips wand shots), Skyborne 1.9%, Troll 1.3%, Human 1.1%, Gnome 0.9%, Orc 0.4% | `python analysis/leveling_paths.py races` |
-| Low ranks at full strength would save about 1.1% from 34 | `python analysis/leveling_paths.py lowranks` |
+| Even with every low rank at full strength (option `full`, which Blizzard's rule cuts far below your level), downranking would save at most 1.4% of leveling time from 20 to 60 | `python analysis/leveling_paths.py lowranks` |
 | The planner's talent order (25 to 70 minutes on 16 cores) | `python analysis/leveling_planner.py` |
 | Arcane Concentration makes the plan's kills at 60 2.2% faster (19.80 s against 20.25 without it) | `node -e "const L=require('./leveling.js'),C=require('./src/class.js');const t={};C.planner.order.forEach(([k,n])=>t[k]=(t[k]\|\|0)+n);const u=Object.assign({},t,{ArcaneConcentration:0});console.log(L.evaluateUncached(60,t,1,{}).spk,L.evaluateUncached(60,u,1,{}).spk)"` |
 | The leveling search matches an exhaustive search (212 cases, largest gap 0.000%) | `python analysis/leveling_search_check.py` |
-| Raid ranking at the defaults: Frost with Barrage 534.2, Fire with Arcane Blast 510.2 (Frost +4.7%), Arcane with Ignite 495.5, Arcane 486.1; the sim builds 9 to 20% behind; 94 dps of free Missiles; Ice Lance 143 dps | `python analysis/raid_specs.py` (first table) |
-| Flips: Ice Lance at 0 (Fire +3.0%), Fingers of Frost off on bosses (Fire +3.0%), no partial resists (Fire +0.5%); Ice Lance partially resisting leaves 3.0%; the tooltip reading lifts the Arcane builds 5 to 8% and, paired with a flip, puts Arcane with Ignite first by 1.3%; Barrage Missiles ending stacks 1.5 to 2.3%; tomes +7% (573) | `python analysis/raid_specs.py` (untested and pairs tables) |
-| Raid buffs worth about 4% to Frost and 9% to Fire (Kings 0.4% and 1.6%); Moonkin 2 to 4% and a 3.8% lead; gear hit 15% leaves 1.2%; fight length 120 s Fire +0.6% in the model; Spellblasting Potion 540 and 493; 120 mp5 leaves 1.1% | `python analysis/raid_specs.py` (settings table) |
-| The dice agree within 1% for the four page builds; the lead is 4.3% under the dice (531.5 vs 509.7); plans that wait for mana read 2 to 5% high | `python analysis/raid_check.py 1000` |
-| Short fights: at 120 s the dice tie (Frost 526.0, Fire 525.5), at 60 s Fire leads and the model reads 3.1% (Frost) and 5.2% (Fire) high | `python analysis/raid_check.py 1000 frost-mb fire-mb fightLength=120`, then `fightLength=60` |
-| 15% gear hit with a Moonkin is a tie (model Frost +0.2%, dice +0.5%); 700 spell power, 15% crit and 15% hit puts Fire 0.9% ahead | `python analysis/raid_check.py 1000 frost-mb fire-mb gearHit=0.15 moonkin=true`; `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{sp:700,crit:0.15,gearHit:0.15})).slice(0,2).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
+| Raid ranking at the defaults: Frost with Barrage 534.2, Fire with Arcane Blast 503.4 (Frost +6.1%), Arcane with Ignite 495.5, Arcane 486.1; the sim builds 9 to 21% behind; 94 dps of free Missiles; Ice Lance 143 dps | `python analysis/raid_specs.py` (first table) |
+| Flips: Ice Lance at 0 and Fingers of Frost off on bosses each put Fire with Arcane Blast first, 1.6% over Arcane with Ignite; no partial resists leaves Frost 0.9% ahead; Ice Lance partially resisting leaves 4.4%; the tooltip reading lifts the Arcane builds 5 to 8% and, paired with a flip or with no partial resists, puts Arcane with Ignite first by 1.7 to 2.3%; Barrage Missiles ending stacks 1.5 to 2.3%; tomes +7% (573), with Arcane 31/3/17 second | `python analysis/raid_specs.py` (untested and pairs tables) |
+| Raid buffs worth about 4% to Frost and 9% to Fire (Kings 0.4% and 1.6%; with none, Frost 515 and Fire with Arcane Blast 462, behind both Arcane builds); no Shaman, Fire 499; Moonkin 2 to 4% and a 5.1% lead; gear hit 15% leaves 2.5%; fight length 120 s Frost +1.0% in the model, 60 s the sim's Fire build first by 4.0%; Spellblasting Potion 540 and 493; 120 mp5 leaves 2.4% | `python analysis/raid_specs.py` (settings table) |
+| The dice agree within 1% for the four page builds; the lead is 5.7% under the dice (531.5 vs 502.8); plans that wait for mana read 2 to 5% high | `python analysis/raid_check.py 1000` |
+| Short fights in the dice: at 120 s Frost leads Fire with Arcane Blast (526.0 vs 514.6); at 90 s the three are within 1% (Frost 522.6, the sim's Fire build 521.1, Fire with Arcane Blast 519.1); at 60 s the sim's Fire build leads (527.4), Frost and Fire with Arcane Blast tie (514.7 vs 512.6), and the model reads 3.1% (Frost), 5.9% (Fire with Arcane Blast) and 7.1% (sim Fire) high | `python analysis/raid_check.py 1000 frost-mb fire-mb fire-sim fightLength=120`, then `fightLength=90` and `fightLength=60` |
+| Short fights in the calculator: Fire with Arcane Blast passes Frost below about 93 s, the sim's Fire build below about 102 s | `node -e "const m=require('./model.js');for(let T=60;T<=120;T++){const o=Object.assign({},m.DEFAULTS,{fightLength:T});console.log(T,['frost-mb','fire-mb','fire-sim'].map(id=>m.specTotal(o,id).toFixed(1)).join(' '))}"` |
+| 15% gear hit with a Moonkin leaves Frost 1.5% ahead (dice 1.7%); 700 spell power, 15% crit and 15% hit leaves Frost 0.3% ahead, a tie | `python analysis/raid_check.py 1000 frost-mb fire-mb gearHit=0.15 moonkin=true`; `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{sp:700,crit:0.15,gearHit:0.15})).slice(0,2).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
 | With mana unlimited, model and dice agree within 1.7% | `python analysis/raid_check.py 400 mp5=3000` |
 | Racial raid gains for the top build: Undead 1.6%, Human with a sword 1.4%, the rest 0.5 to 0.7% | `node -e "const m=require('./model.js'),o=m.DEFAULTS,b=m.specTotal(o,'frost-mb');['human','gnome','skyborne','orc','undead','troll'].forEach(r=>console.log(r,(m.specTotal(Object.assign({},o,{race:r}),'frost-mb')/b*100-100).toFixed(2)))"` |
 | Model vs the ElliotWood sim on the sim's own builds (model side; the sim side needs the sim and its runner, not in this repo) | `node -e "const m=require('./model.js');console.log(m.rank(Object.assign({},m.DEFAULTS,{race:'human',sword:false,topRanks:true,wandDps:0})).map(r=>r.id+' '+r.total.toFixed(1)).join(', '))"` |
@@ -156,6 +157,7 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 ## Changelog
 
+- **v1.2, 2 Oct 2026.** Blizzard's 1 October beta notes. Combustion is back to 3 charges, so Fire with Arcane Blast drops to 503 dps and Frost with Missile Barrage now leads it by about 6% (5.7% in the dice). Three close calls no longer flip the group pick: short fights (the sim's deep Fire build now leads under about 90 seconds, and Fire with Arcane Blast never passes Frost), no boss partial resists, and high gear. Ice Lance with no spell power scaling or Fingers of Frost not procing on bosses still put Fire with Arcane Blast first, by 1.6%. Blizzard says ranks far below your level lose spell power and proc chance, so the claim that low ranks may keep full strength is gone, test m13 is rewritten, and the calculator's low-rank switch is relabeled; this page never casts a lower rank from 20. Excavation Site: Wetlands is now 26 to 31. Hot Streak is now called Heating Up (old share links still work). The beta reaches 30, so seven more tests can be done now. A new test from a reader (m32): does Ice Lance shatter while a Frostbolt is still in the air?
 - **v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.
 - **v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 28 in-game tests.
 
@@ -165,7 +167,7 @@ Run every command from the repo root. The leveling sections take 10 to 40 s each
 
 ## How to contribute
 
-If you have tested something in the beta or the live game and it disagrees with a number here, open a [Test result](../../issues/new?template=test-result.yml) issue with what you did and what you saw. The page's "Help test these" list has 28 tests, most important first.
+If you have tested something in the beta or the live game and it disagrees with a number here, open a [Test result](../../issues/new?template=test-result.yml) issue with what you did and what you saw. The page's "Help test these" list has 32 tests (m1 to m32), most important first.
 
 If you think a formula, a spell value or a talent effect here is wrong, open a [Correction](../../issues/new?template=correction.yml) issue with a source.
 

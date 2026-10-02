@@ -2,7 +2,7 @@
 
 A reference for the Mage in WoW: Forever as the beta client stores it, condensed from the lab's research notes (spells, talents, racials, mana, raid and AoE mechanics). The models read their values from `data/mage_spells.json` (166 spell ranks) and `data/talents.json` (54 talents); this file explains them and says where each comes from.
 
-**Build.** Client tables are build 1.60.1.69893. The beta has moved on to 1.60.1.70124. Patch notes say builds 69913, 69977, 70058 and 70124 changed no spells, and 70009 changed four Mage things: Hot Streak (20 s), Wake of Fire (a 30 s window), Ignite (no longer counts damage bonuses twice) and Arcane Missiles' line of sight (checked once, at the start of the channel). A diff of the sim's spell data (built from 70009) against the 69893 tables, over all 276 Mage spell ids, found only the Hot Streak and Wake of Fire durations changed.
+**Build.** Client tables are build 1.60.1.69893. The beta has moved on to 1.60.1.70124. Patch notes say builds 69913, 69977, 70058 and 70124 changed no spells, and 70009 changed four Mage things: Hot Streak (20 s), Wake of Fire (a 30 s window), Ignite (no longer counts damage bonuses twice) and Arcane Missiles' line of sight (checked once, at the start of the channel). A diff of the sim's spell data (built from 70009) against the 69893 tables, over all 276 Mage spell ids, found only the Hot Streak and Wake of Fire durations changed. Blizzard's 1 October 2026 beta notes then returned Combustion to 3 crits (was 4), renamed Hot Streak to Heating Up, stopped Improved Scorch's Fire Vulnerability and Winter's Chill from rolling a second resist, stopped Gnome Eureka! from raising periodic damage, and explained a cut for ranks far below your level (section 3). The models use 3 Combustion crits; the other changes move no number.
 
 **How to read a value.** The client stores an average and a variance, not a min and max. At player level L: average = floor(base + per level x (min(L, max level) - learn level)), then min and max = average x (1 -/+ variance/2) (sim `effect.go`). Wowhead shows a rank's value at its max level, which is above 60 for top ranks; all 99 damage ranks checked match the client within 1 point once scaled. Coefficients are per hit, per missile or per tick, as the client stores them.
 
@@ -54,7 +54,7 @@ Other spells at 60 (client, Wowhead agrees):
 | Blink | 35% of base mana | 15 s | 20 yd |
 | Presence of Mind (talent) | none | 180 s | next spell under 10 s cast is instant |
 | Arcane Power (talent) | none | 180 s | 15 s: +30% damage and +30% mana cost |
-| Combustion (talent) | none | 180 s | +10% Fire crit a Fire hit, until 4 non-periodic Fire crits (Classic: 3) |
+| Combustion (talent) | none | 180 s | +10% Fire crit a Fire hit, until 3 non-periodic Fire crits (4 before the 1 Oct 2026 build; Classic: 3) |
 | Cold Snap (talent) | none | 600 s | resets your other Frost cooldowns |
 | Arcane Intellect, Arcane Brilliance | 1510, 3400 | | +31 Intellect for 1 hour; Brilliance reaches party and raid |
 
@@ -87,7 +87,8 @@ Frostbolt by rank (client): 1.5 s cast at rank 1, 1.8 s at 2, 2.2 s at 3, 2.6 s 
 - **Coefficients.** Forever's client stores low ranks at full coefficients: Frostbolt rank 1 is 0.407 (Classic 0.163), Fireball rank 1 0.429 (Classic 0.123), Fire Blast ranks 1 and 2 0.429, Arcane Missiles 0.286 a missile at every rank (client; sim).
 - **Level caps.** A rank's max level only caps how far its base damage grows (sim `effect.go`).
 - **Measured.** ForeverChanges' downrank page cites DoubleZug's beta measurements: Healing Touch ranks 1 to 3 and Rejuvenation ranks 1 and 3 at levels 18 and 19 land within 2 points of the full coefficient. That rules out Classic's below-20 cut and the Burning Crusade level rule at those levels.
-- **Not measured.** No level above 19. A level-based rule on the server would not show in the client. So the lab casts only the highest trained rank from 20 by default; full strength above 19 is an option tied to test m13.
+- **Blizzard's rule.** The 1 October 2026 beta notes explain that spells cast from ranks vastly below your level get less from spell damage and a lower chance to trigger class abilities and talents; rank 1 Frostbolt at 60 has a 0% chance to trigger Frostbite. They do not say where "vastly below" starts, or whether the cut is new in that build or only newly explained. DoubleZug's readings were published before that build.
+- **So.** The lab casts only the highest trained rank from 20 by default (a top Frostbolt rank is never more than 5 levels below you), which the rule backs. The `full` options (leveling and raid) give every rank full strength and full proc chances at every level, which the rule contradicts for far-below ranks: read them as upper bounds. Where the cut starts is test m13.
 
 ## 4. What Forever changed for the spells
 
@@ -133,8 +134,8 @@ The changes that shape the verdicts:
 | Improved Fireball | also shortens Frostfire Bolt | |
 | Ignite | 8 to 40% of the crit over 4 s, one rolling burn | 5 stacking ticks |
 | Improved Scorch | Fire Vulnerability is personal (below) | shared debuff |
-| Hot Streak (new) | non-periodic crits of Fireball, Frostfire Bolt, Fire Blast and Scorch: Pyroblast cast -25% a stack, 3 stacks, 20 s | |
-| Combustion | ends after 4 non-periodic Fire crits | 3 |
+| Heating Up (new; Hot Streak until 1 Oct 2026) | non-periodic crits of Fireball, Frostfire Bolt, Fire Blast and Scorch: Pyroblast cast -25% a stack, 3 stacks, 20 s | |
+| Combustion | ends after 3 non-periodic Fire crits (4 before the 1 Oct 2026 build) | 3 |
 | Blast Wave | no longer needs Pyroblast | |
 | Permafrost | chills last 11/22/33% longer and slow 3/7/10% more | +1/2/3 s |
 | Improved Blizzard | chill slows 15/25/40%, 1.5 s | 30/50/65% |
@@ -173,7 +174,7 @@ The changes that shape the verdicts:
 - **Fire Vulnerability is personal.** The aura changed from damage taken from everyone (Classic) to damage taken from the caster (client 22959). Every Fire Mage keeps their own 5 stacks (+3% a stack); there is no shared Scorch Mage, and other Fire casters gain nothing (WH, FC, sim; test m25).
 - **Winter's Chill is personal** and reaches only your Frostbolt and Ice Lance (client 12579): +10% crit at 5 stacks. It does nothing for Blizzard, Cone of Cold or another Frost Mage.
 - **Ignite** is 40% of a crit over 4 s in 2 ticks, one rolling burn (a new spell, 412538); its ticks cannot crit. Whether several Mages share one is untested (test m11).
-- **Hot Streak:** 3 stacks give a 1.5 s Pyroblast, spent by the next Pyroblast, 20 s.
+- **Heating Up** (Hot Streak until 1 Oct 2026): 3 stacks give a 1.5 s Pyroblast, spent by the next Pyroblast, 20 s.
 - **Arcane Blast's buff** (+10% a stack, 4 stacks, 8 s) reaches Frostbolt, Fireball, Fire Blast, Scorch, Pyroblast, Ice Lance, Frostfire Bolt, Arcane Explosion, Cone of Cold, Frost Nova and Blast Wave by the client masks, but not Arcane Missiles, Blizzard or Flamestrike, whatever the tooltip's "all your other spells" says (test m8). The sim's Arcane rotation spends the stacks on Frostbolt. In the sim, the Arcane Missiles channel ends the stacks; the client masks suggest it does not (test m28).
 - **Missile Barrage** proc rates of 40% and 20% are hardcoded in the sim; the talent row also carries a 50% proc chance that could halve them (test m18).
 - **Fingers of Frost** is the only Shatter source on a boss in the sim, which assumes bosses cannot be frozen. The sim still rolls Fingers of Frost off Frostbolt's chill on a boss, though bosses cannot be chilled; the calculator follows it as an assumption (test m30).
@@ -205,7 +206,7 @@ Mage races: Human, Gnome and Skyborne High Order (needs a Heroic pack) for the A
 | Human | The Human Spirit | Spirit +5% | WH 20598 |
 | Human | Will to Survive | remove stuns, 3 min | WH 1259718 |
 | Gnome | Expansive Mind | max mana +5% (Classic: +5% Intellect) | WH 20591 |
-| Gnome | Eureka! | next 3 damaging abilities -10% cost, +10% damage, 2 min (before 70009 the Mage version cut cost 50%) | WH 1259817, FC patch notes |
+| Gnome | Eureka! | next 3 damaging abilities -10% cost, +10% damage, 2 min (before 70009 the Mage version cut cost 50%); since 1 Oct 2026 the damage bonus skips periodic effects, while channeled spells still count | WH 1259817, FC patch notes, Blizzard 1 Oct 2026 notes |
 | Gnome | Escape Artist | remove slows and roots, 3 s immunity, 2 min | WH 20589 |
 | Skyborne | Wind Blessed | +1% haste | WH 1259710 |
 | Skyborne | Elemental Insight | +5% damage against Elementals | WH 1259707 |
@@ -230,7 +231,7 @@ The Mage-only research skill (FC Battle Mage). Comprehend Scroll from level 6; S
 
 ## 11. Open questions
 
-Each open value ships as a calculator or model option and an in-game test; the page's "Help test these" list has the steps, most important first. Test ids: m1 target cap, m2 dungeon XP, m3 Blizzard chill and mob speed, m4 Ice Lance coefficient, m5 casting regen stacking, m6 top-rank tomes, m7 Evocation, m8 Arcane Blast mask, m9 tick crits, m10 drinking and Spirit, m11 Ignite, m12 root breaks, m13 low ranks at 30+, m14 five-second rule, m15 miss chance, m16 mob health and damage, m17 Frostbite from chills, m18 Missile Barrage rate, m19 Fingers of Frost on AoE, m20 pack behavior, m21 Arcane Blast cost, m22 DoT crits, m23 racials, m24 shared cooldowns, m25 personal debuffs, m26 Flamestrike overlap, m27 bottles at 60, m28 Barrage Missiles and Arcane Blast stacks, m29 Ice Lance partial resists, m30 Fingers of Frost on a raid boss.
+Each open value ships as a calculator or model option and an in-game test; the page's "Help test these" list has the steps, most important first. Test ids: m1 target cap, m2 dungeon XP, m3 Blizzard chill and mob speed, m4 Ice Lance coefficient, m5 casting regen stacking, m6 top-rank tomes, m7 Evocation, m8 Arcane Blast mask, m9 tick crits, m10 drinking and Spirit, m11 Ignite, m12 root breaks, m13 where low ranks lose strength, m14 five-second rule, m15 miss chance, m16 mob health and damage, m17 Frostbite from chills, m18 Missile Barrage rate, m19 Fingers of Frost on AoE, m20 pack behavior, m21 Arcane Blast cost, m22 DoT crits, m23 racials, m24 shared cooldowns, m25 personal debuffs, m26 Flamestrike overlap, m27 bottles at 60, m28 Barrage Missiles and Arcane Blast stacks, m29 Ice Lance partial resists, m30 Fingers of Frost on a raid boss, m31 a Fingers of Frost charge and a Frostbolt in flight, m32 shattering while a Frostbolt is in the air.
 
 ## Sources
 

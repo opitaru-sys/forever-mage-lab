@@ -8,7 +8,7 @@ What it answers: which Mage build does the most single-target damage on a raid b
 2. **Actions.** Every castable spell and rank is an action with its expected damage, time and mana per use. An action carries its own procs as expected follow-up casts:
    - Frostbolt and Frostfire Bolt: a landed chill gives Fingers of Frost 15% of the time, and its 1 or 2 charges go to Ice Lance (x4 damage, +Shatter crit). This follows the sim, which rolls Fingers on a boss although bosses cannot be chilled or frozen (ASSUMPTION; option `fingersOnBoss`).
    - Fireball, Frostbolt, Frostfire Bolt (20%) and Arcane Blast (40%): Missile Barrage, then a free Arcane Missiles, a missile every 0.5 s.
-   - Fireball, Frostfire Bolt, Fire Blast and Scorch crits: a Hot Streak stack; a Pyroblast at 3 stacks (1.5 s cast). The share of crits that become Pyroblasts accounts for stacks lapsing after 20 s.
+   - Fireball, Frostfire Bolt, Fire Blast and Scorch crits: a Heating Up stack (Hot Streak until 1 Oct 2026); a Pyroblast at 3 stacks (1.5 s cast). The share of crits that become Pyroblasts accounts for stacks lapsing after 20 s.
    - Every Fire crit: Ignite, 40% of the crit, rolled over as the sim does.
    - Clearcasting (the next spell free) and Master of Elements (30% of base cost back on a Fire or Frost crit) as expected mana.
    - Arcane Blast is cast in cycles: n Blasts (n = 1 to 4, each +175% cost), a spender that takes the +10% per stack (Frostbolt, Fireball or Frostfire Bolt), then Missiles if Barrage came up. With `abMask: 'tooltip'` or `amSpends` on, a cycle can also end on the Barrage Missiles in place of the spender.
@@ -22,8 +22,8 @@ What it answers: which Mage build does the most single-target damage on a raid b
    - **Skipping an item.** The opening forces the top action for its length. With high mp5 or a short fight the regen above that action is small, the opening runs long, and an item can cost more than it brings. The model tries four item sets (all, no potion, no runes or gems, none) and keeps the best, as a player would skip that item. Without this, 10 more mp5 could lower a Fire build by 2.8%.
    - `analysis/raid_windows.py` solves the same program in windows between potions, under the income curve (mana cannot be spent before it arrives): every spec lands within 0.5% of the one-budget total, so the one budget stands. Two land slightly above it (Fire with Arcane Blast +0.13%, Arcane with Ignite +0.01%) because the one budget strands mana at the top action's rate and the windows let Fire Blast spend it.
 5. **Fire Vulnerability.** A build with Improved Scorch is solved twice, with and without keeping 5 stacks (5 Scorches at the pull, then one every 27 s), and keeps the higher.
-6. **Fixed point.** Some inputs depend on the plan: the Winter's Chill ramp (stack-casts lost while stacks build), the Hot Streak conversion rate, Pyroblast DoT overlap, cooldown drift (a cooldown up mid-cast waits for it; an Arcane Blast cycle counts as one block), Eureka's mana. The model solves, updates them, and repeats 10 times, damping from the third pass. The opening action and the item set are chosen on the first three passes and then kept, so two choices near a tie cannot trade places on every pass. It settles within 0.005 dps on every fixture case (`tests/make_raid_fixtures.py` checks).
-7. **Combustion** adds a fixed number of crits per press (4 minus what those hits would crit anyway, from a small chain over the rising crit chance). Presses come every 3 minutes from the pull, and each counts only the Fire hits the fight has left after it (the plan's Fire hits per second times the time left), so a press at the last second adds nothing. It is booked after the program at the plan's average value of a Fire crit (crit bonus, Ignite, and a Hot Streak stack's share of a Pyroblast), so it cannot feed back into the plan.
+6. **Fixed point.** Some inputs depend on the plan: the Winter's Chill ramp (stack-casts lost while stacks build), the Heating Up conversion rate, Pyroblast DoT overlap, cooldown drift (a cooldown up mid-cast waits for it; an Arcane Blast cycle counts as one block), Eureka's mana. The model solves, updates them, and repeats 10 times, damping from the third pass. The opening action and the item set are chosen on the first three passes and then kept, so two choices near a tie cannot trade places on every pass. It settles within 0.005 dps on every fixture case (`tests/make_raid_fixtures.py` checks).
+7. **Combustion** adds a fixed number of crits per press (3 since Blizzard's 1 Oct 2026 notes, minus what those hits would crit anyway, from a small chain over the rising crit chance). Presses come every 3 minutes from the pull, and each counts only the Fire hits the fight has left after it (the plan's Fire hits per second times the time left), so a press at the last second adds nothing. It is booked after the program at the plan's average value of a Fire crit (crit bonus, Ignite, and a Heating Up stack's share of a Pyroblast), so it cannot feed back into the plan.
 8. **Races.** Averaged over the fight: Blood Fury and Berserking by uptime (a press near the end counts only its seconds), Eureka! on 3 average casts per 2 min (fewer when the fight ends first), Touch of the Grave as the Warlock page models it. Arcane Power and the Spellblasting Potion count by uptime the same way.
 
 **More resources never cost more than 0.23%.** A sweep of mp5, Spirit, Intellect, the potion, runes, gems, Mageblood, raid buffs, Kings, Moonkin and the wand over fight lengths of 60 to 600 s finds no cell where more of a resource lowers a spec by more than 0.23%. Those small dips come from the forced opening and the 2 minute item grid.
@@ -36,9 +36,9 @@ What it answers: which Mage build does the most single-target damage on a raid b
 |---|---|
 | Mana not binding (mp5 3000, 400 fights), every spec | model within 1.7% of the dice |
 | Defaults (1000 fights), the four page builds | model +0.1% to +0.8% above the dice |
-| Defaults (1000 fights), the sim builds | model +1.4% (Arcane), +2.6% (Fire), +4.7% (Frost) above the dice |
-| 120 s fights | model +1.3% (Frost with Barrage) and +2.0% (Fire with Arcane Blast) above the dice |
-| 60 s fights | model +3.1% (Frost with Barrage), +5.2% (Fire with Arcane Blast), +8.1% (Fire sim) above the dice |
+| Defaults (1000 fights), the sim builds | model +1.4% (Arcane), +3.5% (Fire), +4.7% (Frost) above the dice |
+| 120 s fights | model +1.3% (Frost with Barrage), +2.5% (Fire with Arcane Blast), +3.6% (Fire sim) above the dice |
+| 60 s fights | model +3.1% (Frost with Barrage), +5.9% (Fire with Arcane Blast), +7.1% (Fire sim) above the dice |
 
 The known limits: short fights and plans with a lot of wand time are optimistic. Steady-state rates miss the ramp at the pull and the ticks lost at the end (Ignite, DoTs, the cast in flight), which weighs most in a 60 s fight and most on Fire. The model treats the fight's mana as one budget spent evenly and ignores the spread of spending, and a plan that sits exactly at its mana limit loses to bad runs of procs. When the model skips an item (high mp5) the dice still drink it, so there the dice can come out above the model.
 
@@ -87,9 +87,9 @@ The known limits: short fights and plans with a lot of wand time are optimistic.
 | Shatter 17/33/50% crit while Fingers is up | Ice Lance crit | curve; sim |
 | Ice Lance x4 on frozen, whole hit | damage | sim `ice_lance.go` |
 | Ice Lance coefficient 0.143 | damage | sim estimate; client row reads 0; option `iceLanceCoef` (test m4) |
-| Hot Streak: 3 stacks, 20 s, -25% Pyroblast cast each | Pyroblast | client 400625; build 70009 |
+| Heating Up (Hot Streak until 1 Oct 2026): 3 stacks, 20 s, -25% Pyroblast cast each | Pyroblast | client 400625; build 70009 |
 | Ignite 40% of the crit over 4 s, rolled, per Mage | Fire damage | curve; sim; option `igniteMunch` (test m11) |
-| Combustion +10% Fire crit a hit, until 4 crits | crit | sim `combustion.go` |
+| Combustion +10% Fire crit a hit, until 3 crits | crit | Blizzard's 1 Oct 2026 notes (the sim's `combustion.go` and the earlier client read 4) |
 | Master of Elements 30% of base cost on a Fire or Frost crit | mana | curve; sim |
 | Arcane Concentration 10% per landed hit, 1 s cooldown | mana | curve; sim |
 | Missile Barrage 40% (Arcane Blast), 20% (Fireball, Frostbolt, Frostfire Bolt) | Missiles | sim; option `mbRate` (test m18) |
@@ -100,13 +100,13 @@ The known limits: short fights and plans with a lot of wand time are optimistic.
 | Presence of Mind: the biggest cast-time spell instant, 3 min | time | client 12043 |
 | DoT ticks crit | Fireball, Pyroblast, Frostfire Bolt | client flag; sim (test m22) |
 | A spammed DoT spell is refreshed each cast (partial ticks lost) | DoTs | sim `dot.go` |
-| Pyroblast DoT overlap between Hot Streak Pyroblasts: exponential gaps | DoT ticks | ASSUMPTION |
-| Top ranks only | downranking | default `downrank: 'top'`: full coefficients for low ranks are measured only to level 19 (ForeverChanges, DoubleZug); option `downrank: 'full'` (test m13) |
+| Pyroblast DoT overlap between Heating Up Pyroblasts: exponential gaps | DoT ticks | ASSUMPTION |
+| Top ranks only | downranking | default `downrank: 'top'`, which Blizzard's 1 Oct 2026 notes back: ranks far below your level lose spell damage and proc chance (rank 1 Frostbolt at 60: 0% Frostbite). Option `downrank: 'full'` ignores that and is an upper bound; only the sim's builds use it: Frost with rank 2 Frostbolt at 60 (484.7 to 492.3) and Fire with rank 2 Fireball (421.4 to 458.7) (test m13) |
 | Haste cuts cast times, not the GCD or channels | haste | ASSUMPTION |
-| No travel time | procs | ASSUMPTION (the sim flies bolts) |
+| No travel time: every spell lands the moment its cast ends | procs | ASSUMPTION (the sim flies bolts); tests m31, m32 |
 | Frostfire Bolt blocked on a Fire-immune boss | fireImmune | ASSUMPTION |
 | Undead maximum health 4000 | Touch of the Grave | ASSUMPTION; option `maxHp` |
-| Eureka! used on 3 average casts | Gnome | ASSUMPTION |
+| Eureka! used on 3 average casts, on direct damage only (Blizzard's 1 Oct 2026 notes: no periodic effects) | Gnome | ASSUMPTION |
 
 ## Options
 
