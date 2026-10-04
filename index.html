@@ -441,9 +441,11 @@ tr.top th{font-weight:700}
 .tal.locked{opacity:.6}
 .binfo .top .ico{width:36px;height:36px}
 /* talent details (v1.3, as on the Warlock page): above the trees and the same height for every talent, so the tree
-   never moves under a tap. The minus and plus buttons sit top right, where internal scrolling cannot hide them. 224px
-   fits the longest text above 760px. */
-.binfo{grid-template-columns:minmax(0,1fr) auto;align-content:start;min-height:224px}
+   never moves under a tap. The minus and plus buttons sit top right, on screen whenever a talent is picked (each render
+   scrolls the panel back to its top). 248px fits the longest text above 760px (Improved Scorch or Winter's Chill at
+   rank 1 with no points left, 761 to 830px wide). overflow-anchor:none keeps the browser's scroll anchoring off the
+   panel's text, so new text in it never scrolls the page. */
+.binfo{grid-template-columns:minmax(0,1fr) auto;align-content:start;min-height:248px;overflow-anchor:none}
 .binfo>*{grid-column:1/-1}
 .binfo .top{grid-column:1}
 .binfo .btns{grid-column:2;grid-row:1;align-self:start}
@@ -457,6 +459,9 @@ tr.top th{font-weight:700}
   .binfo .note{font-size:13.5px;line-height:1.45}
   .btabs button,.tal{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 14px + min(40vh,300px));scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 14px + min(40svh,300px))}
 }
+/* keyboard focus moving up the page stops clear of the sticky nav */
+.btop :is(a,button,input,select){scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 12px)}
+@media (min-width:761px){.tal{scroll-margin-top:calc(var(--nav-h) + 12px)}}
 .credit{font-size:13px;color:var(--muted)}
 
 /* phone leader strip */
@@ -1374,8 +1379,8 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
     <div class="panel binfo" id="bInfo">
       <div class="top"><img class="ico" id="bInfoIco" alt="" hidden><h3 id="bInfoName"></h3><span class="note" id="bInfoRank"></span><span id="bInfoTag"></span></div>
       <p id="bInfoNow"></p>
-      <p class="note" id="bInfoNext"></p>
       <p class="note" id="bInfoLock" style="color:var(--amber)"></p>
+      <p class="note" id="bInfoNext"></p>
       <div class="btns"><button type="button" id="bMinus" aria-label="Remove a point from the selected talent">&#8722;</button><button type="button" id="bPlus" aria-label="Add a point to the selected talent">+</button></div>
     </div>
     <div class="seg compact btabs" id="bTabs" role="group" aria-label="Talent tree"></div>

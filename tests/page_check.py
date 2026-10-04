@@ -19,10 +19,13 @@ answered with an empty stylesheet so the check runs offline. It prints which mod
 - phone width has no sideways scroll, and the class colors apply in light and dark mode
 - the builder's talent panel sits above the tree tabs and the trees; at 390 px, after scrolling to a bottom-row talent and
   tapping it, the panel shows that talent pinned just under the nav and below it in z-order, covers no more than 40% of
-  the screen and none of the tapped talent, and the tree does not paint over it; at 1280 px it is above the trees and not
-  pinned; tapping every talent of every tree (390 px) or of all three (1280 px) never moves any talent cell, including
-  taps that change the score panel's height; the score panel says "Best leveling rotation" and sends raid readers to the
-  spec cards and the raid calculator
+  the screen and none of the tapped talent, and the tree does not paint over it; a lock line is never cut off at the
+  panel's edge, a re-render scrolls the panel back to its top, and Tab and Shift+Tab never leave focus under the nav or
+  the panel; at 800 and 1280 px it is above the trees and not pinned; no talent cell ever moves when a talent is tapped:
+  every talent of every tree from a cleared build (390, 800, 1280 px, taps that change the score panel's height
+  included) and every visible talent on the page plan with every point spent, the trees just under the nav and lower
+  (800, 1280 px); the score panel says "Best leveling rotation" and sends raid readers to the spec cards and the raid
+  calculator
 - fresh loads (empty storage): the builder starts on the page plan and follows the level, and #t4 and #c-aoe land
   in view at 390 px even when a web font arrives late and reflows the page (a wide local font served 1.5 s late)
 Then it repeats with fixture content injected into CLASS, so the claim, test, spec card, proof table and planner
@@ -545,12 +548,17 @@ PANEL_JS = """k => {
     before: !!(p.compareDocumentPosition(document.querySelector('.btrees')) & Node.DOCUMENT_POSITION_FOLLOWING)
       && !!(p.compareDocumentPosition(document.getElementById('bTabs')) & Node.DOCUMENT_POSITION_FOLLOWING) };
 }"""
-# every talent cell on screen right now (the shown tree on a phone), with its top, and the score panel's height
+# every talent cell on screen right now (the shown tree on a phone), with its top, and the score and talent panels' heights
 CELLS_JS = """() => ({ cells: [...document.querySelectorAll('.tal')].filter(c => c.offsetParent).map(c => [c.dataset.k, c.getBoundingClientRect().top]),
-  score: document.querySelector('.bscore').getBoundingClientRect().height })"""
-# scroll instantly (the page scrolls smoothly for links) so the talent's top or bottom sits at y, then let two frames pass
-PLACE_JS = """([k, edge, y]) => new Promise(res => { const c = document.querySelector('.tal[data-k="' + k + '"]').getBoundingClientRect();
-  window.scrollTo({ top: scrollY + c[edge] - y, behavior: 'instant' }); requestAnimationFrame(() => requestAnimationFrame(res)); })"""
+  score: document.querySelector('.bscore').getBoundingClientRect().height, panel: document.getElementById('bInfo').getBoundingClientRect().height })"""
+# scroll instantly (the page scrolls smoothly for links) so an element's top or bottom sits at y, then let two frames pass
+PLACE_JS = """([sel, edge, y]) => new Promise(res => { const n = document.querySelector(sel).getBoundingClientRect();
+  window.scrollTo({ top: scrollY + n[edge] - y, behavior: 'instant' }); requestAnimationFrame(() => requestAnimationFrame(res)); })"""
+# wait until the page has not scrolled for five frames (focus scrolling can be smooth)
+SETTLE_JS = """() => new Promise(res => { let y = scrollY, same = 0, n = 0;
+  const f = () => { if (scrollY === y) same++; else { same = 0; y = scrollY; } if (same >= 5 || ++n > 120) res(); else requestAnimationFrame(f); };
+  requestAnimationFrame(f); })"""
+TAL = '.tal[data-k="%s"]'
 
 
 def tap_sweep(page, phone, what):
@@ -564,12 +572,13 @@ def tap_sweep(page, phone, what):
         if phone:
             page.locator('#bTabs button').nth(t).click()
         for k in [c[0] for c in page.evaluate(CELLS_JS)['cells']] * 2:
-            page.evaluate(PLACE_JS, [k, 'bottom', page.evaluate('innerHeight') - 40])
+            page.evaluate(PLACE_JS, [TAL % k, 'bottom', page.evaluate('innerHeight') - 40])
             b = page.evaluate(CELLS_JS)
-            cell = page.locator('.tal[data-k="%s"]' % k)
+            cell = page.locator(TAL % k)
             cell.tap() if phone else cell.click()
             a = page.evaluate(CELLS_JS)
             assert_eq([c[0] for c in a['cells']], [c[0] for c in b['cells']], '%s: cells after tapping %s' % (what, k))
+            assert abs(a['panel'] - b['panel']) < 0.5, '%s: tapping %s changed the panel height %.1f to %.1f px' % (what, k, b['panel'], a['panel'])
             d = max(abs(x[1] - y[1]) for x, y in zip(a['cells'], b['cells']))
             if d > worst[0]:
                 worst = (d, k)
@@ -577,8 +586,111 @@ def tap_sweep(page, phone, what):
             resized += abs(a['score'] - b['score']) >= 1
     assert worst[0] < 1, '%s: tapping %s moved a talent cell %.1f px' % (what, worst[1], worst[0])
     assert taps >= page.evaluate('() => CLASS.talents.length'), '%s: only %d taps' % (what, taps)
-    assert resized >= 3, '%s: only %d taps changed the score panel height, so the sweep proves little' % (what, resized)
+    assert resized >= 1, '%s: no tap changed the score panel height, so the sweep proves little' % what
     print('page_check: %s: %d taps, %d changed the score panel height, largest cell move %.2f px' % (what, taps, resized, worst[0]))
+
+
+def plan_clicks(page, what):
+    """The page plan at level 50 spends every point, so a click only re-renders the panel (no points left, maxed or
+    locked): the usual state for a reader following the plan. With the trees 36 px under the nav, then with them at
+    420 px (the panel's text on screen above them), click every fully visible talent. No talent cell may move, and the
+    panel's height may not change (a height change moves the trees whenever scroll anchoring does not absorb it)."""
+    page.click('#lvlChips button[data-l="50"]')
+    page.locator('#bPresets button[data-id="plan"]').click()
+    page.wait_for_timeout(300)
+    worst, clicks = (0.0, None), 0
+    for where_y in ('nav + 36', 420):
+        for k in [c[0] for c in page.evaluate(CELLS_JS)['cells']]:
+            nav = page.evaluate("() => document.querySelector('.toc').getBoundingClientRect().bottom")
+            page.evaluate(PLACE_JS, ['.btrees', 'top', nav + 36 if where_y == 'nav + 36' else where_y])
+            box = page.locator(TAL % k).bounding_box()
+            if box['y'] < nav or box['y'] + box['height'] > page.evaluate('innerHeight'):
+                continue
+            b = page.evaluate(CELLS_JS)
+            page.locator(TAL % k).click()
+            a = page.evaluate(CELLS_JS)
+            assert_eq(a['score'], b['score'], '%s: a click with no points left changed the score panel (%s)' % (what, k))
+            assert abs(a['panel'] - b['panel']) < 0.5, '%s: clicking %s changed the panel height %.1f to %.1f px' % (what, k, b['panel'], a['panel'])
+            d = max(abs(x[1] - y[1]) for x, y in zip(a['cells'], b['cells']))
+            if d > worst[0]:
+                worst = (d, k, where_y)
+            clicks += 1
+    assert clicks >= 30, '%s: only %d talents were fully visible to click' % (what, clicks)
+    assert worst[0] < 1, '%s: clicking %s with the trees at %s moved a talent cell %.1f px' % (what, worst[1], worst[2], worst[0])
+    print('page_check: %s: %d clicks, largest cell move %.2f px' % (what, clicks, worst[0]))
+
+
+def focus_walk(page, what):
+    """Keyboard at 390 px: Tab forward through the Frost tree, then Shift+Tab back up through it, the tabs, the panel's
+    buttons and the controls and score. No focus stop may sit under the nav, a tab or talent under the pinned panel, or
+    any stop below the screen."""
+    page.locator('#bTabs button').nth(2).click()
+    page.focus('#bTabs button >> nth=2')
+    page.evaluate(SETTLE_JS)
+    talents = set(page.evaluate('() => CLASS.talents.map(x => x.k)'))
+    stops, bad = [], []
+
+    def stop(key):
+        page.keyboard.press(key)
+        page.evaluate(SETTLE_JS)
+        return page.evaluate("""() => { const a = document.activeElement, r = a.getBoundingClientRect(), p = document.getElementById('bInfo');
+            const underPanel = (a.classList.contains('tal') || !!a.closest('#bTabs')) && getComputedStyle(p).position === 'sticky';
+            return { id: a.dataset.k || a.id || a.textContent.trim().slice(0, 24), tal: a.classList.contains('tal'), inBuilder: !!a.closest('#builder'),
+              top: r.top, bottom: r.bottom, floor: underPanel ? p.getBoundingClientRect().bottom : document.querySelector('.toc').getBoundingClientRect().bottom,
+              h: innerHeight }; }""")
+
+    def look(s):
+        stops.append(s['id'])
+        if s['top'] < s['floor'] - 0.5 or s['bottom'] > s['h'] + 0.5:
+            bad.append('%s at %.0f to %.0f px (clear from %.0f px, screen %d)' % (s['id'], s['top'], s['bottom'], s['floor'], s['h']))
+    for _ in range(40):
+        s = stop('Tab')
+        if not s['tal']:
+            break                                      # walked past the tree
+        look(s)
+    for _ in range(90):
+        s = stop('Shift+Tab')
+        if not s['inBuilder']:
+            break                                      # walked up out of the builder
+        look(s)
+    assert len([x for x in stops if x in talents]) >= 30, '%s: too few talent stops: %r' % (what, stops)
+    assert any(x == 'bCopy' for x in stops), '%s: the walk never reached the score panel: %r' % (what, stops)
+    assert not bad, '%s: focus hidden: %s' % (what, '; '.join(bad[:4]))
+    print('page_check: %s: %d focus stops, none hidden' % (what, len(stops)))
+
+
+def panel_text_checks(page, what):
+    """At 390 px, on the page plan at level 50 (every point spent): for every talent of every tree, a lock line, when
+    shown, is inside the panel (it comes before "Next rank", which may be cut). Then a re-render of a talent whose text
+    scrolls inside the panel starts at the top again."""
+    page.click('#lvlChips button[data-l="50"]')
+    page.locator('#bPresets button[data-id="plan"]').click()
+    shown, cut, tall = 0, [], []
+    for t in range(3):
+        page.locator('#bTabs button').nth(t).click()
+        for k in [c[0] for c in page.evaluate(CELLS_JS)['cells']]:
+            s = page.evaluate("""k => { document.querySelector('.tal[data-k="' + k + '"]').focus({ preventScroll: true });
+                const p = document.getElementById('bInfo'), l = document.getElementById('bInfoLock');
+                return { lock: l.textContent, lockBottom: l.getBoundingClientRect().bottom, panelBottom: p.getBoundingClientRect().bottom,
+                  scrolls: p.scrollHeight > p.clientHeight + 1 }; }""", k)
+            if s['lock']:
+                shown += 1
+                if s['lockBottom'] > s['panelBottom'] - 1:
+                    cut.append(k)
+            if s['scrolls']:
+                tall.append((t, k))
+    assert shown >= 20, '%s: only %d lock lines shown, so this proves little' % (what, shown)
+    assert not cut, '%s: the lock line is cut off at the panel edge for %s' % (what, cut)
+    assert tall, '%s: no talent text scrolls inside the panel, so the scroll reset is untested' % what
+    t, k = tall[0]
+    page.locator('#bTabs button').nth(t).click()
+    page.evaluate(PLACE_JS, [TAL % k, 'bottom', page.evaluate('innerHeight') - 40])
+    page.locator(TAL % k).tap()
+    page.evaluate("() => { document.getElementById('bInfo').scrollTop = 40; }")
+    assert page.evaluate("() => document.getElementById('bInfo').scrollTop") > 0, '%s: the panel did not scroll' % what
+    page.locator(TAL % k).tap()
+    assert_eq(page.evaluate("() => document.getElementById('bInfo').scrollTop"), 0, '%s: panel scroll after a re-render of %s' % (what, k))
+    print('page_check: %s: %d lock lines all inside the panel; scroll reset checked on %s' % (what, shown, k))
 
 
 def builder_panel(browser, url):
@@ -600,10 +712,10 @@ def builder_panel(browser, url):
         page.locator('#bTabs button').nth(2).click()
         k = page.evaluate("""() => { const cells = [...document.querySelectorAll('.tal')].filter(c => c.offsetParent);
             const last = Math.max(...cells.map(c => Number(c.style.gridRow))); return cells.find(c => Number(c.style.gridRow) === last).dataset.k; }""")
-        page.evaluate(PLACE_JS, [k, 'bottom', 844 - 40])
+        page.evaluate(PLACE_JS, [TAL % k, 'bottom', 844 - 40])
         page.wait_for_timeout(300)
         before = page.evaluate(PANEL_JS, k)
-        page.locator('.tal[data-k="%s"]' % k).tap()
+        page.locator(TAL % k).tap()
         a = page.evaluate(PANEL_JS, k)
         assert abs(a['cell']['top'] - before['cell']['top']) < 1, 'the tapped bottom-row talent moved: %r -> %r' % (before['cell'], a['cell'])
         assert_eq(a['name'], names[k], 'the panel shows the tapped bottom-row talent')
@@ -614,22 +726,26 @@ def builder_panel(browser, url):
         ph = a['panel']['bottom'] - a['panel']['top']
         assert 100 < ph <= 0.4 * a['h'] + 0.5, 'the panel is %.0f px tall, %.0f%% of the screen' % (ph, 100 * ph / a['h'])
         assert a['panel']['bottom'] <= a['cell']['top'] and a['cell']['bottom'] <= a['h'], 'the tapped talent is not in view below the panel: %r' % a
+        panel_text_checks(page, '390 px panel text')
+        focus_walk(page, '390 px keyboard')
         tap_sweep(page, True, '390 px sweep')
         assert not errors, '; '.join(errors)
-    check('builder panel at 390 px: above the trees, pinned under the nav, no tap moves a talent', phone)
+    check('builder panel at 390 px: above the trees, pinned under the nav, lock line and focus never hidden, no tap moves a talent', phone)
     context.close()
 
-    errors = []
-    context, page = open_page(browser, url, errors, viewport={'width': 1280, 'height': 900})
+    for w in (800, 1280):
+        errors = []
+        context, page = open_page(browser, url, errors, viewport={'width': w, 'height': 900})
 
-    def desktop():
-        s = page.evaluate(PANEL_JS, None)
-        assert_eq(s['pos'], 'static', 'panel position at 1280 px')
-        assert s['before'] and s['panel']['bottom'] <= s['trees']['top'], 'the panel is above the trees at 1280 px: %r' % s
-        tap_sweep(page, False, '1280 px sweep')
-        assert not errors, '; '.join(errors)
-    check('builder panel at 1280 px: above the trees, not pinned, no click moves a talent', desktop)
-    context.close()
+        def desktop(w=w, page=page, errors=errors):
+            s = page.evaluate(PANEL_JS, None)
+            assert_eq(s['pos'], 'static', 'panel position at %d px' % w)
+            assert s['before'] and s['panel']['bottom'] <= s['trees']['top'], 'the panel is above the trees at %d px: %r' % (w, s)
+            plan_clicks(page, '%d px page plan clicks' % w)
+            tap_sweep(page, False, '%d px sweep' % w)
+            assert not errors, '; '.join(errors)
+        check('builder panel at %d px: above the trees, not pinned, no click moves a talent' % w, desktop)
+        context.close()
 
 
 # Late web fonts. A wide local font is served for every Google font face, a set delay after each is asked for, by the
