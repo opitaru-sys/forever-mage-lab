@@ -538,7 +538,7 @@
     // text slots, filled into elements with data-text. Supports **bold** and [label](#anchor or https://...). {name} is the class name.
     text: {
       title: 'Forever Mage Lab',
-      eyebrow: 'WoW: Forever · Mage · beta data · v1.2 · 2 Oct 2026',
+      eyebrow: 'WoW: Forever · Mage · beta data · v1.3 · 4 Oct 2026',
       lede: 'What to press, which talents to take and which race to play, at every level from 1 to 60. **The short answer:** level as Frost, and at 60 play Frost with Missile Barrage in groups, a close call over Fire.',
       trust: 'Built with Claude, with separate Claude sessions reviewing the models. Open source. [How it was checked](#method) · [What changed](#changelog)',
       navYou: 'Your {name}',
@@ -577,6 +577,7 @@
         'The research, models and this page were built with Claude, Anthropic\'s AI model. Separate Claude sessions then reviewed the models from their own checks, and their fixes are in. The calculator and the level planner run JavaScript ports of the Python models that reproduce them exactly: 63 raid cases, 2425 raid option checks, 569 stat weight checks and 771 leveling cases.',
       ],
       changelog: [
+        '**v1.3, 4 Oct 2026.** The talent builder\'s description panel now sits above the trees, and on phones it stays pinned under the menu bar while you scroll the tree, so the talent you tap and its text are on screen together. Thanks to a reader on Reddit. Picking a talent no longer moves the tree. "Best rotation" is now "Best leveling rotation", with a note that the builder scores leveling, one mob at a time; for raids, see the spec cards and the raid calculator. No numbers changed.',
         '**v1.2, 2 Oct 2026.** Blizzard\'s 1 October beta notes. Combustion is back to 3 charges, so Fire with Arcane Blast drops to 503 dps and Frost with Missile Barrage now leads it by about 6% (5.7% in the dice). No boss partial resists and high gear no longer flip the group pick. Short fights now go to the sim\'s deep Fire build (under about 85 seconds in the dice, a near tie), not Fire with Arcane Blast, which never passes Frost in the dice. Ice Lance with no spell power scaling or Fingers of Frost not procing on bosses still put Fire with Arcane Blast first, by 1.6% over Arcane with Ignite. Blizzard says ranks far below your level lose spell power and proc chance, so the claim that low ranks may keep full strength is gone, test m13 is rewritten, and the calculator\'s low-rank switch is relabeled; by default this page never casts a lower rank from 20. Excavation Site: Wetlands is now 26 to 31. Hot Streak is now called Heating Up (old share links still work). The beta reaches 30, so seven more tests can be done now. A new test from a reader (m32): does Ice Lance shatter while a Frostbolt is still in the air?',
         '**v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.',
         '**v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 30 in-game tests.',

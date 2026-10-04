@@ -83,6 +83,16 @@
     renderInfo(); renderScore();
   }
   function markSel() { document.querySelectorAll('.tal').forEach(b => b.classList.toggle('sel', b.dataset.k === B.sel)); }
+  // A tap must not move the trees. The score panel above them can change height (a note appears, a line wraps), so
+  // after a render scroll by however far the trees moved, instantly (the page otherwise scrolls smoothly for links).
+  function holdStill(node, top0) {
+    const d = node.getBoundingClientRect().top - top0;
+    if (Math.abs(d) < 0.5) return;
+    const html = document.documentElement, was = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    window.scrollBy(0, d);
+    html.style.scrollBehavior = was;
+  }
   function step(x, dir) {
     if (dir > 0 && canAdd(x)) { B.ranks = Object.assign({}, B.ranks, { [x.k]: B.ranks[x.k] + 1 }); B.preset = null; }
     else if (dir < 0 && canRemove(x)) { B.ranks = Object.assign({}, B.ranks, { [x.k]: B.ranks[x.k] - 1 }); B.preset = null; }
@@ -91,7 +101,9 @@
       announce(x.n + ': ' + (dir > 0 ? core.lockReason(B.ranks, x.k, state.level, C.trees) || 'cannot add.' : 'cannot remove, other talents depend on it.'));
       return;
     }
+    const trees = document.querySelector('.btrees'), top0 = trees.getBoundingClientRect().top;
     saveB(); renderBuilder(); announce(x.n + ' ' + B.ranks[x.k] + ' of ' + x.m + '. ' + $('bSummary').textContent);
+    holdStill(trees, top0);
     const again = document.querySelector('.tal[data-k="' + x.k + '"]'); if (again) again.focus({ preventScroll: true });
   }
   const rankText = (x, rk) => { const t = C.talentText[x.k]; return t && t[rk - 1] ? t[rk - 1] : 'No rank text for rank ' + rk + '.'; };
@@ -108,6 +120,7 @@
     const why = core.lockReason(B.ranks, x.k, state.level, C.trees);
     $('bInfoLock').textContent = rk < x.m && why ? why : '';
     $('bMinus').disabled = !canRemove(x); $('bPlus').disabled = !canAdd(x);
+    $('bInfo').scrollTop = 0;   // long text scrolls inside the fixed-height panel: each render starts at the talent's name
   }
 
   // the leveling score (CONTRACTS section 4): seconds per kill including rest and walking.

@@ -17,6 +17,12 @@ answered with an empty stylesheet so the check runs offline. It prints which mod
 - the stub banner shows when a stub model is loaded
 - localStorage holds only fml. keys, and saved state survives a reload
 - phone width has no sideways scroll, and the class colors apply in light and dark mode
+- the builder's talent panel sits above the tree tabs and the trees; at 390 px, after scrolling to a bottom-row talent and
+  tapping it, the panel shows that talent pinned just under the nav and below it in z-order, covers no more than 40% of
+  the screen and none of the tapped talent, and the tree does not paint over it; at 1280 px it is above the trees and not
+  pinned; tapping every talent of every tree (390 px) or of all three (1280 px) never moves any talent cell, including
+  taps that change the score panel's height; the score panel says "Best leveling rotation" and sends raid readers to the
+  spec cards and the raid calculator
 - fresh loads (empty storage): the builder starts on the page plan and follows the level, and #t4 and #c-aoe land
   in view at 390 px even when a web font arrives late and reflows the page (a wide local font served 1.5 s late)
 Then it repeats with fixture content injected into CLASS, so the claim, test, spec card, proof table and planner
@@ -526,6 +532,106 @@ def phone_and_themes(browser, url):
         context.close()
 
 
+# The talent description panel (v1.3). A reader on a phone could not see it: it sat under the trees, a whole tree away
+# from the talent they tapped. Now it sits above them and, at phone width, is pinned under the sticky nav.
+PANEL_JS = """k => {
+  const box = n => { const b = n.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, left: b.left, right: b.right }; };
+  const p = document.getElementById('bInfo'), pb = box(p), nav = document.querySelector('.toc');
+  const cell = k ? document.querySelector('.tal[data-k="' + k + '"]') : null;
+  const atMid = document.elementFromPoint((pb.left + pb.right) / 2, (pb.top + pb.bottom) / 2);
+  return { panel: pb, nav: box(nav), trees: box(document.querySelector('.btrees')), tabs: box(document.getElementById('bTabs')),
+    cell: cell ? box(cell) : null, h: innerHeight, pos: getComputedStyle(p).position, name: document.getElementById('bInfoName').textContent,
+    belowNav: Number(getComputedStyle(p).zIndex) < Number(getComputedStyle(nav).zIndex), panelShows: !!atMid && atMid.closest('#bInfo') === p,
+    before: !!(p.compareDocumentPosition(document.querySelector('.btrees')) & Node.DOCUMENT_POSITION_FOLLOWING)
+      && !!(p.compareDocumentPosition(document.getElementById('bTabs')) & Node.DOCUMENT_POSITION_FOLLOWING) };
+}"""
+# every talent cell on screen right now (the shown tree on a phone), with its top, and the score panel's height
+CELLS_JS = """() => ({ cells: [...document.querySelectorAll('.tal')].filter(c => c.offsetParent).map(c => [c.dataset.k, c.getBoundingClientRect().top]),
+  score: document.querySelector('.bscore').getBoundingClientRect().height })"""
+# scroll instantly (the page scrolls smoothly for links) so the talent's top or bottom sits at y, then let two frames pass
+PLACE_JS = """([k, edge, y]) => new Promise(res => { const c = document.querySelector('.tal[data-k="' + k + '"]').getBoundingClientRect();
+  window.scrollTo({ top: scrollY + c[edge] - y, behavior: 'instant' }); requestAnimationFrame(() => requestAnimationFrame(res)); })"""
+
+
+def tap_sweep(page, phone, what):
+    """From a cleared level 60 build, tap every talent of every tree twice over, each placed near the bottom of the
+    screen. No talent cell on screen may move, and taps must change the score panel's height, or the sweep proves little."""
+    page.click('#lvlChips button[data-l="60"]')
+    page.locator('#bPresets button[data-id="clear"]').click()
+    page.wait_for_timeout(300)
+    worst, taps, resized = (0.0, None), 0, 0
+    for t in (range(3) if phone else [None]):
+        if phone:
+            page.locator('#bTabs button').nth(t).click()
+        for k in [c[0] for c in page.evaluate(CELLS_JS)['cells']] * 2:
+            page.evaluate(PLACE_JS, [k, 'bottom', page.evaluate('innerHeight') - 40])
+            b = page.evaluate(CELLS_JS)
+            cell = page.locator('.tal[data-k="%s"]' % k)
+            cell.tap() if phone else cell.click()
+            a = page.evaluate(CELLS_JS)
+            assert_eq([c[0] for c in a['cells']], [c[0] for c in b['cells']], '%s: cells after tapping %s' % (what, k))
+            d = max(abs(x[1] - y[1]) for x, y in zip(a['cells'], b['cells']))
+            if d > worst[0]:
+                worst = (d, k)
+            taps += 1
+            resized += abs(a['score'] - b['score']) >= 1
+    assert worst[0] < 1, '%s: tapping %s moved a talent cell %.1f px' % (what, worst[1], worst[0])
+    assert taps >= page.evaluate('() => CLASS.talents.length'), '%s: only %d taps' % (what, taps)
+    assert resized >= 3, '%s: only %d taps changed the score panel height, so the sweep proves little' % (what, resized)
+    print('page_check: %s: %d taps, %d changed the score panel height, largest cell move %.2f px' % (what, taps, resized, worst[0]))
+
+
+def builder_panel(browser, url):
+    errors = []
+    context, page = open_page(browser, url, errors, viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
+
+    def phone():
+        names = page.evaluate('() => Object.fromEntries(CLASS.talents.map(x => [x.k, x.n]))')
+        s = page.evaluate(PANEL_JS, None)
+        assert s['before'], 'the panel comes before the tree tabs and the trees in the page'
+        assert s['panel']['bottom'] <= s['tabs']['top'] <= s['trees']['top'], 'panel above the tabs above the trees: %r' % s
+        score = text(page, '.bscore')
+        assert 'Best leveling rotation' in score and 'Best rotation' not in score, 'rotation label: %r' % score
+        assert 'one mob at a time' in text(page, '#bScope'), 'the leveling-only note'
+        hrefs = page.eval_on_selector_all('#bScope a', 'as => as.map(a => a.getAttribute("href"))')
+        assert_eq(hrefs, ['#specs', '#raid'], 'the note links the spec cards and the raid calculator')
+        assert page.evaluate('hs => hs.every(h => document.getElementById(h.slice(1)))', hrefs), 'the note links land on real sections'
+        page.click('#lvlChips button[data-l="50"]')
+        page.locator('#bTabs button').nth(2).click()
+        k = page.evaluate("""() => { const cells = [...document.querySelectorAll('.tal')].filter(c => c.offsetParent);
+            const last = Math.max(...cells.map(c => Number(c.style.gridRow))); return cells.find(c => Number(c.style.gridRow) === last).dataset.k; }""")
+        page.evaluate(PLACE_JS, [k, 'bottom', 844 - 40])
+        page.wait_for_timeout(300)
+        before = page.evaluate(PANEL_JS, k)
+        page.locator('.tal[data-k="%s"]' % k).tap()
+        a = page.evaluate(PANEL_JS, k)
+        assert abs(a['cell']['top'] - before['cell']['top']) < 1, 'the tapped bottom-row talent moved: %r -> %r' % (before['cell'], a['cell'])
+        assert_eq(a['name'], names[k], 'the panel shows the tapped bottom-row talent')
+        assert_eq(a['pos'], 'sticky', 'panel position at 390 px')
+        assert abs(a['panel']['top'] - a['nav']['bottom']) <= 4, 'the panel is not just under the nav: %r' % a
+        assert a['belowNav'], 'the panel is not below the nav in z-order'
+        assert a['panelShows'], 'the tree paints over the pinned panel'
+        ph = a['panel']['bottom'] - a['panel']['top']
+        assert 100 < ph <= 0.4 * a['h'] + 0.5, 'the panel is %.0f px tall, %.0f%% of the screen' % (ph, 100 * ph / a['h'])
+        assert a['panel']['bottom'] <= a['cell']['top'] and a['cell']['bottom'] <= a['h'], 'the tapped talent is not in view below the panel: %r' % a
+        tap_sweep(page, True, '390 px sweep')
+        assert not errors, '; '.join(errors)
+    check('builder panel at 390 px: above the trees, pinned under the nav, no tap moves a talent', phone)
+    context.close()
+
+    errors = []
+    context, page = open_page(browser, url, errors, viewport={'width': 1280, 'height': 900})
+
+    def desktop():
+        s = page.evaluate(PANEL_JS, None)
+        assert_eq(s['pos'], 'static', 'panel position at 1280 px')
+        assert s['before'] and s['panel']['bottom'] <= s['trees']['top'], 'the panel is above the trees at 1280 px: %r' % s
+        tap_sweep(page, False, '1280 px sweep')
+        assert not errors, '; '.join(errors)
+    check('builder panel at 1280 px: above the trees, not pinned, no click moves a talent', desktop)
+    context.close()
+
+
 # Late web fonts. A wide local font is served for every Google font face, a set delay after each is asked for, by the
 # local server. A real first visit meets the same reflow: on the live page the fonts swapped in about 0.9 s into the
 # load, during the deep-link scroll, and moved a #t4 target about 600 px off screen at 390 px wide.
@@ -631,6 +737,7 @@ def main():
             todo = base_run(browser, url)
             fixture_run(browser, url)
             phone_and_themes(browser, url)
+            builder_panel(browser, url)
             fresh_load(browser, url)
             deep_links(browser, url)
         finally:

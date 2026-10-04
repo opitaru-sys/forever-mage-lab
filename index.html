@@ -440,6 +440,23 @@ tr.top th{font-weight:700}
 .tal.locked .icw .ico{filter:grayscale(1) brightness(.75)}
 .tal.locked{opacity:.6}
 .binfo .top .ico{width:36px;height:36px}
+/* talent details (v1.3, as on the Warlock page): above the trees and the same height for every talent, so the tree
+   never moves under a tap. The minus and plus buttons sit top right, where internal scrolling cannot hide them. 224px
+   fits the longest text above 760px. */
+.binfo{grid-template-columns:minmax(0,1fr) auto;align-content:start;min-height:224px}
+.binfo>*{grid-column:1/-1}
+.binfo .top{grid-column:1}
+.binfo .btns{grid-column:2;grid-row:1;align-self:start}
+/* phones: pinned just under the section nav (its height plus its 2px border), at most 40% of the screen, scrolling inside
+   when a text is long; tree cells and tabs keep clear of it when keyboard focus scrolls them into view */
+@media (max-width:760px){
+  .panel.binfo{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 2px);z-index:10;min-height:0;height:min(40vh,300px);height:min(40svh,300px);overflow-y:auto;padding:12px 14px;gap:4px;box-shadow:0 10px 16px -10px rgba(0,0,0,.45)}
+  .binfo h3{font-size:17px}
+  .binfo .top .ico{width:30px;height:30px}
+  #bInfoNow{font-size:15.5px;line-height:1.45}
+  .binfo .note{font-size:13.5px;line-height:1.45}
+  .btabs button,.tal{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 14px + min(40vh,300px));scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--nav-h) + 14px + min(40svh,300px))}
+}
 .credit{font-size:13px;color:var(--muted)}
 
 /* phone leader strip */
@@ -1011,7 +1028,7 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
     // text slots, filled into elements with data-text. Supports **bold** and [label](#anchor or https://...). {name} is the class name.
     text: {
       title: 'Forever Mage Lab',
-      eyebrow: 'WoW: Forever · Mage · beta data · v1.2 · 2 Oct 2026',
+      eyebrow: 'WoW: Forever · Mage · beta data · v1.3 · 4 Oct 2026',
       lede: 'What to press, which talents to take and which race to play, at every level from 1 to 60. **The short answer:** level as Frost, and at 60 play Frost with Missile Barrage in groups, a close call over Fire.',
       trust: 'Built with Claude, with separate Claude sessions reviewing the models. Open source. [How it was checked](#method) · [What changed](#changelog)',
       navYou: 'Your {name}',
@@ -1050,6 +1067,7 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
         'The research, models and this page were built with Claude, Anthropic\'s AI model. Separate Claude sessions then reviewed the models from their own checks, and their fixes are in. The calculator and the level planner run JavaScript ports of the Python models that reproduce them exactly: 63 raid cases, 2425 raid option checks, 569 stat weight checks and 771 leveling cases.',
       ],
       changelog: [
+        '**v1.3, 4 Oct 2026.** The talent builder\'s description panel now sits above the trees, and on phones it stays pinned under the menu bar while you scroll the tree, so the talent you tap and its text are on screen together. Thanks to a reader on Reddit. Picking a talent no longer moves the tree. "Best rotation" is now "Best leveling rotation", with a note that the builder scores leveling, one mob at a time; for raids, see the spec cards and the raid calculator. No numbers changed.',
         '**v1.2, 2 Oct 2026.** Blizzard\'s 1 October beta notes. Combustion is back to 3 charges, so Fire with Arcane Blast drops to 503 dps and Frost with Missile Barrage now leads it by about 6% (5.7% in the dice). No boss partial resists and high gear no longer flip the group pick. Short fights now go to the sim\'s deep Fire build (under about 85 seconds in the dice, a near tie), not Fire with Arcane Blast, which never passes Frost in the dice. Ice Lance with no spell power scaling or Fingers of Frost not procing on bosses still put Fire with Arcane Blast first, by 1.6% over Arcane with Ignite. Blizzard says ranks far below your level lose spell power and proc chance, so the claim that low ranks may keep full strength is gone, test m13 is rewritten, and the calculator\'s low-rank switch is relabeled; by default this page never casts a lower rank from 20. Excavation Site: Wetlands is now 26 to 31. Hot Streak is now called Heating Up (old share links still work). The beta reaches 30, so seven more tests can be done now. A new test from a reader (m32): does Ice Lance shatter while a Frostbolt is still in the air?',
         '**v1.1, 1 Oct 2026.** A new test from a reader (m31): can a Frostbolt in flight share one Fingers of Frost charge with an Ice Lance? Deep links now stay on their target after the page finishes loading.',
         '**v1, 1 Oct 2026.** First release: a level planner with a talent order checked at every level, a talent builder that scores any leveling build, a raid calculator with stat weights and an item comparer, an AoE leveling check, and 30 in-game tests.',
@@ -1327,7 +1345,7 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
 <section id="builder" lang="en">
   <div class="wrap intro">
     <h2>Talent builder</h2>
-    <p>Build your own tree and see how fast it levels next to the page plan. Click to add a point. Shift-click or right-click removes one, or use the &#8722; and + under the tree.</p>
+    <p>Build your own tree and see how fast it levels next to the page plan. Click to add a point. Shift-click or right-click removes one, or use the &#8722; and + in the panel above the trees.</p>
   </div>
   <div class="wrap wide" style="display:flex;flex-direction:column;gap:16px">
     <div class="btop">
@@ -1346,24 +1364,25 @@ window.FML_TALENT_TEXT = {"WandSpecialization":["Increases your damage with Wand
         <div class="bspk"><b id="bSpk"></b><span id="bKph" class="note" style="font-size:15px"></span></div>
         <span class="note" id="bSplit"></span>
         <span class="bvs" id="bVs"></span>
-        <span><span class="label" style="color:var(--muted)">Best rotation</span><br><span id="bRot" style="font-weight:600"></span></span>
+        <span><span class="label" style="color:var(--muted)">Best leveling rotation</span><br><span id="bRot" style="font-weight:600"></span></span>
+        <p class="note" id="bScope">The builder scores leveling, one mob at a time. For raids, see the <a href="#specs">spec cards</a> and the <a href="#raid">raid calculator</a>.</p>
         <ul class="bnotes" id="bNotes"></ul>
         <div class="blink"><input type="text" id="bLink" readonly aria-label="Link to this build"><button type="button" id="bCopy">Copy link</button></div>
         <span class="sr-only" id="bSummary"></span>
       </div>
+    </div>
+    <div class="panel binfo" id="bInfo">
+      <div class="top"><img class="ico" id="bInfoIco" alt="" hidden><h3 id="bInfoName"></h3><span class="note" id="bInfoRank"></span><span id="bInfoTag"></span></div>
+      <p id="bInfoNow"></p>
+      <p class="note" id="bInfoNext"></p>
+      <p class="note" id="bInfoLock" style="color:var(--amber)"></p>
+      <div class="btns"><button type="button" id="bMinus" aria-label="Remove a point from the selected talent">&#8722;</button><button type="button" id="bPlus" aria-label="Add a point to the selected talent">+</button></div>
     </div>
     <div class="seg compact btabs" id="bTabs" role="group" aria-label="Talent tree"></div>
     <div class="btrees">
       <div class="btree t0" data-t="0"><h3 id="bTreeHead0"></h3><div class="bgrid" id="bTree0" role="group"></div></div>
       <div class="btree t1" data-t="1"><h3 id="bTreeHead1"></h3><div class="bgrid" id="bTree1" role="group"></div></div>
       <div class="btree t2" data-t="2"><h3 id="bTreeHead2"></h3><div class="bgrid" id="bTree2" role="group"></div></div>
-    </div>
-    <div class="panel binfo">
-      <div class="top"><img class="ico" id="bInfoIco" alt="" hidden><h3 id="bInfoName"></h3><span class="note" id="bInfoRank"></span><span id="bInfoTag"></span></div>
-      <p id="bInfoNow"></p>
-      <p class="note" id="bInfoNext"></p>
-      <p class="note" id="bInfoLock" style="color:var(--amber)"></p>
-      <div class="btns"><button type="button" id="bMinus" aria-label="Remove a point from the selected talent">&#8722;</button><button type="button" id="bPlus" aria-label="Add a point to the selected talent">+</button></div>
     </div>
     <div class="blegend"><span><i style="background:var(--tree0)"></i><i style="background:var(--tree1)"></i><i style="background:var(--tree2)"></i>Counts in the score (dot in the tree's color)</span><span><i style="box-shadow:inset 0 0 0 1.5px var(--muted)"></i>Not in the score</span></div>
   </div>
@@ -4338,6 +4357,16 @@ window.FML_ICONS = {"ability_mage_frostfirebolt": "data:image/jpeg;base64,/9j/4A
     renderInfo(); renderScore();
   }
   function markSel() { document.querySelectorAll('.tal').forEach(b => b.classList.toggle('sel', b.dataset.k === B.sel)); }
+  // A tap must not move the trees. The score panel above them can change height (a note appears, a line wraps), so
+  // after a render scroll by however far the trees moved, instantly (the page otherwise scrolls smoothly for links).
+  function holdStill(node, top0) {
+    const d = node.getBoundingClientRect().top - top0;
+    if (Math.abs(d) < 0.5) return;
+    const html = document.documentElement, was = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    window.scrollBy(0, d);
+    html.style.scrollBehavior = was;
+  }
   function step(x, dir) {
     if (dir > 0 && canAdd(x)) { B.ranks = Object.assign({}, B.ranks, { [x.k]: B.ranks[x.k] + 1 }); B.preset = null; }
     else if (dir < 0 && canRemove(x)) { B.ranks = Object.assign({}, B.ranks, { [x.k]: B.ranks[x.k] - 1 }); B.preset = null; }
@@ -4346,7 +4375,9 @@ window.FML_ICONS = {"ability_mage_frostfirebolt": "data:image/jpeg;base64,/9j/4A
       announce(x.n + ': ' + (dir > 0 ? core.lockReason(B.ranks, x.k, state.level, C.trees) || 'cannot add.' : 'cannot remove, other talents depend on it.'));
       return;
     }
+    const trees = document.querySelector('.btrees'), top0 = trees.getBoundingClientRect().top;
     saveB(); renderBuilder(); announce(x.n + ' ' + B.ranks[x.k] + ' of ' + x.m + '. ' + $('bSummary').textContent);
+    holdStill(trees, top0);
     const again = document.querySelector('.tal[data-k="' + x.k + '"]'); if (again) again.focus({ preventScroll: true });
   }
   const rankText = (x, rk) => { const t = C.talentText[x.k]; return t && t[rk - 1] ? t[rk - 1] : 'No rank text for rank ' + rk + '.'; };
@@ -4363,6 +4394,7 @@ window.FML_ICONS = {"ability_mage_frostfirebolt": "data:image/jpeg;base64,/9j/4A
     const why = core.lockReason(B.ranks, x.k, state.level, C.trees);
     $('bInfoLock').textContent = rk < x.m && why ? why : '';
     $('bMinus').disabled = !canRemove(x); $('bPlus').disabled = !canAdd(x);
+    $('bInfo').scrollTop = 0;   // long text scrolls inside the fixed-height panel: each render starts at the talent's name
   }
 
   // the leveling score (CONTRACTS section 4): seconds per kill including rest and walking.
